@@ -1,0 +1,14 @@
+{
+    "name": "efrane/phar-builder-bundle",
+    "description": "Symfony Bundle to turn (CLI) Applications into PHARs",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "eFrane",
+            "email": "efrane@meanderingsoul.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
