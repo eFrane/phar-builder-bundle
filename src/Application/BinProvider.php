@@ -10,19 +10,21 @@ use Exception;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Dotenv\Dotenv;
 
-class BinProvider
+final class BinProvider
 {
     /**
      * @var string
      */
-    private $kernelClass; // = PharKernel::class;
+    private $kernelClass;
     /**
      * @var string
      */
-    private $applicationClass; // = PharApplication::class;
+    private $applicationClass;
 
-    public function __construct(string $kernelClass, string $applicationClass)
-    {
+    public function __construct(
+        string $kernelClass = PharKernel::class,
+        string $applicationClass = PharApplication::class
+    ) {
         $this->kernelClass = $kernelClass;
         $this->applicationClass = $applicationClass;
     }
@@ -48,7 +50,7 @@ class BinProvider
 
         putenv('APP_ENV=prod');
 
-        (new Dotenv())->bootEnv(dirname(__DIR__, 2).'/.env');
+        (new Dotenv())->bootEnv(Util::pharRoot().'/.env');
 
         $kernel = new $this->kernelClass('prod', false);
         $application = new $this->applicationClass($kernel);

@@ -11,27 +11,27 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
+    # makes classes in the bundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    EFrane\PharTest\:
-        resource: '../src'
-        exclude:
-            - '../src/DependencyInjection/*'
-            - '../src/Entity/*'
-            - '*../src/Application/*'
-            - '../src/Tests/*'
+    EFrane\PharBuilder\:
+        resource: '../../'
 
-    EFrane\PharTest\Command\:
-        resource: '../src/Command/*'
+    EFrane\PharBuilder\Command\:
+        resource: '../../Command/*'
         tags: ['phar.command']
         lazy: true
 
-    EFrane\PharTest\Application\PharCommandLoader:
+    EFrane\PharBuilder\Development\Config\Config:
+        public: true # must be public as it cannot be injected into PharKernel before kernel boot
+        arguments:
+            $bundleConfiguration: []
+
+    EFrane\PharBuilder\Application\PharCommandLoader:
         lazy: true
         public: true # must be public as it cannot be injected into PharApplication before kernel boot
         arguments:
-            - !tagged_iterator phar.command
+            $commands: !tagged_iterator phar.command
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    Symfony\Component\DependencyInjection\ContainerInterface: ~
+    # Symfony\Component\DependencyInjection\ContainerInterface: ~

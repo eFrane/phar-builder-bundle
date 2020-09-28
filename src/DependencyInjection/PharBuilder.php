@@ -10,8 +10,8 @@ namespace EFrane\PharBuilder\DependencyInjection;
 use EFrane\PharBuilder\Application\PharKernel;
 use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
+use EFrane\PharBuilder\Development\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
-use RuntimeException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,10 +22,15 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\DependencyInjection\AddAnnotatedClassesToCachePass;
 use Symfony\Component\HttpKernel\DependencyInjection\MergeExtensionConfigurationPass;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class PharBuilder
 {
+    /**
+     * @var Config
+     */
+    private $config;
     /**
      * @var PharKernel
      */
@@ -35,37 +40,55 @@ class PharBuilder
      */
     private $debug;
 
-    public function build(string $kernelClass, string $environment, bool $debug): void
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    public function build(): void
     {
         if (Util::inPhar()) {
             throw PharBuildException::runningPhar();
         }
 
         /** @var KernelInterface|PharKernel $kernel */
-        $kernel = new $kernelClass($environment, $debug);
+        $kernelClass = $this->config->getPharKernel();
+        $kernel = new $kernelClass($this->config->build()->getEnvironment(), $this->config->build()->isDebug());
         $kernel->setInBuild(true);
         $kernel->boot();
 
-        $containerBuilder = $this->buildContainer();
+        $containerBuilder = $this->buildContainer($kernel);
 
-        $this->dumpContainer($containerBuilder, $this->kernel->getConfigCache($this->debug));
+        $this->dumpContainer($containerBuilder, $kernel->getConfigCache($this->config->build()->isDebug()));
     }
 
-    private function buildContainer(): ContainerBuilder
+    private function buildContainer(Kernel $kernel): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder();
 
-        $containerBuilder->addObjectResource($this->kernel);
+        $containerBuilder->addObjectResource($kernel);
 
-        $kernelParameters = $this->kernel->getKernelParameters();
+        // I know, dirty, some kernel methods really should be public methinks
+        $kernelReflection = new \ReflectionClass($kernel);
 
-        $kernelParameters['kernel.projectDir'] = '.';
+        $parametersMethod = $kernelReflection->getMethod('getKernelParameters');
+        $parametersMethod->setAccessible(true);
+        $kernelParameters = $parametersMethod->invoke($kernel);
+
+        // Inside the phar, the project dir is the root dir of the phar, which, in relative terms,
+        // is the current directory, since the bootstrap script determines the root
+        $kernelParameters['kernel.project_dir'] = '.';
         $containerBuilder->getParameterBag()->add($kernelParameters);
 
-        foreach ($this->kernel->getBundles() as $bundle) {
+        foreach ($kernel->getBundles() as $bundle) {
             $extension = $bundle->getContainerExtension();
+
             if ($extension instanceof Extension) {
                 $containerBuilder->registerExtension($extension);
+            }
+
+            if ($this->debug) {
+                $containerBuilder->addObjectResource($bundle);
             }
 
             $bundle->build($containerBuilder);
@@ -79,13 +102,18 @@ class PharBuilder
         $containerBuilder->getCompilerPassConfig()
             ->setMergePass(new MergeExtensionConfigurationPass($extensions));
 
-        $this->kernel->registerContainerConfiguration($this->kernel->getContainerLoader($containerBuilder));
+        $containerLoaderMethod = $kernelReflection->getMethod('getContainerLoader');
+        $containerLoaderMethod->setAccessible(true);
+        $containerLoader = $containerLoaderMethod->invoke($kernel, $containerBuilder);
+
+        $kernel->registerContainerConfiguration($containerLoader);
 
         $containerBuilder->addCompilerPass(
             new HideDefaultConsoleCommandsFromPharPass(),
             PassConfig::TYPE_BEFORE_OPTIMIZATION
         );
-        $containerBuilder->addCompilerPass(new AddAnnotatedClassesToCachePass($this->kernel));
+
+        $containerBuilder->addCompilerPass(new AddAnnotatedClassesToCachePass($kernel));
 
         $containerBuilder->compile(true);
 
@@ -100,9 +128,13 @@ class PharBuilder
             ->add(PhpDumper::class, [
                 'as_files' => true,
                 'debug' => $this->debug
-            ])
-            ->add(GraphvizDumper::class)
-            ->add(YamlDumper::class);
+            ]);
+
+        if ($this->config->build()->dumpContainerDebugInfo()) {
+            $dumper
+                ->add(GraphvizDumper::class)
+                ->add(YamlDumper::class);
+        }
 
         $compiledContainer = $dumper->dump();
 
@@ -112,7 +144,9 @@ class PharBuilder
             $fs->dumpFile($cache->getPath() . $filename, $content);
         }
 
-        $fs->dumpFile($cache->getPath() . 'container.dot', $compiledContainer[GraphvizDumper::class]);
-        $fs->dumpFile($cache->getPath() . 'container.yml', $compiledContainer[YamlDumper::class]);
+        if ($this->config->build()->dumpContainerDebugInfo()) {
+            $fs->dumpFile($cache->getPath() . 'container.dot', $compiledContainer[GraphvizDumper::class]);
+            $fs->dumpFile($cache->getPath() . 'container.yml', $compiledContainer[YamlDumper::class]);
+        }
     }
 }

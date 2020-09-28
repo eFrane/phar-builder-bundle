@@ -7,18 +7,24 @@
 namespace EFrane\PharBuilder\Application;
 
 
+use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
+use EFrane\PharBuilder\Exception\PharApplicationException;
 use RuntimeException;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\ConfigCache;
-use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use function is_dir;
 use function mkdir;
 use function sys_get_temp_dir;
 
 class PharKernel extends Kernel
 {
+    use MicroKernelTrait;
+
     const PHAR_CONTAINER_CACHE_DIR = 'phar_container/';
 
     /**
@@ -26,31 +32,29 @@ class PharKernel extends Kernel
      */
     private $inBuild = false;
 
-    /**
-     * Returns a loader for the container.
-     *
-     * @param ContainerInterface|ContainerBuilder $container
-     * @return DelegatingLoader The loader
-     */
-//    public function getContainerLoader(ContainerInterface $container)
-//    {
-//        $locator = new FileLocator($this);
-//        $resolver = new LoaderResolver([
-//            new XmlFileLoader($container, $locator),
-//            new YamlFileLoader($container, $locator),
-//            new IniFileLoader($container, $locator),
-//            new PhpFileLoader($container, $locator),
-//            new GlobFileLoader($container, $locator),
-//            new DirectoryLoader($container, $locator),
-//            new ClosureLoader($container),
-//        ]);
-//
-//        return new DelegatingLoader($resolver);
-//    }
-
-    public function getKernelParameters(): array
+    protected function configureContainer(ContainerConfigurator $container): void
     {
-        return parent::getKernelParameters();
+        $container->withPath($this->getProjectDir())->import('config/{packages}/*.yaml');
+        $container->withPath($this->getProjectDir())->import('config/{packages}/'.$this->environment.'/*.yaml');
+
+        if (is_file(\dirname(__DIR__).'/../config/services.yaml')) {
+            $container->import( '/../config/{services}.yaml');
+            $container->import( '/../config/{services}_'.$this->environment.'.yaml');
+        } elseif (is_file($path = \dirname(__DIR__).'/config/services.php')) {
+            (require $path)($container->withPath($path), $this);
+        }
+    }
+
+    public function configureRoutes(RoutingConfigurator $routes)
+    {
+        // Do nothing, there are no routes
+    }
+
+    protected function build(ContainerBuilder $containerBuilder)
+    {
+        if (!$this->isDebug()) {
+            $containerBuilder->addCompilerPass(new HideDefaultConsoleCommandsFromPharPass());
+        }
     }
 
     public function getCacheDir()
@@ -114,7 +118,7 @@ class PharKernel extends Kernel
         try {
             /** @noinspection PhpIncludeInspection */
             if (!is_file($cachePath) || !is_object($this->container = include $cachePath)) {
-                throw new RuntimeException("Failed to load container at {$cachePath}");
+                throw PharApplicationException::failedLoadingContainer($cachePath);
             }
 
             $this->container->set('kernel', $this);
@@ -148,9 +152,7 @@ class PharKernel extends Kernel
             $fs->mkdir($path);
         }
 
-        $cache = new ConfigCache($path, $debug);
-
-        return $cache;
+        return new ConfigCache($path, $debug);
     }
 
     /**

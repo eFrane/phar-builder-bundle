@@ -4,8 +4,10 @@
 namespace EFrane\PharBuilder\Application;
 
 
+use EFrane\PharBuilder\Exception\PharApplicationException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
+use function sprintf;
 
 /**
  * Application class supporting running in phar and outside
@@ -16,12 +18,11 @@ class PharApplication extends Application
 {
     private $commandsRegistered = false;
 
-    public function __construct(Kernel $kernel)
+    public function __construct(PharKernel $kernel)
     {
         parent::__construct($kernel);
 
-        // change name and version from framework bundle settings
-        $this->setName('test');
+        // change version from framework bundle settings
         $this->setVersion('@git-tag@');
         $this->setDefaultCommand('list');
 
@@ -42,6 +43,7 @@ class PharApplication extends Application
 
     public function registerCommands(): void
     {
+        // This is just to avoid registering commands while registering commands (register may be called multiple times)
         if ($this->commandsRegistered) {
             return;
         }
@@ -52,17 +54,18 @@ class PharApplication extends Application
 
         $container = $this->getKernel()->getContainer();
 
+        /** @var PharCommandLoader $commandLoader */
         $commandLoader = $container->get(PharCommandLoader::class);
 
-        if (isset($commandLoader)) {
-            foreach ($commandLoader->getCommands() as $command) {
-                $this->add($command);
-            }
+        if (!isset($commandLoader)) {
+            throw PharApplicationException::missingCommandLoader();
         }
+
+        $this->addCommands($commandLoader->getCommands());
     }
 
     public function getLongVersion(): string
     {
-        return \sprintf('%s @ %s', $this->getName(), $this->getVersion());
+        return sprintf('%s @ %s', $this->getName(), $this->getVersion());
     }
 }

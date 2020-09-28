@@ -8,6 +8,8 @@ namespace EFrane\PharBuilder\Development;
 
 
 use EFrane\PharBuilder\Application\PharKernel;
+use EFrane\PharBuilder\DependencyInjection\PharBuilder;
+use EFrane\PharBuilder\Development\Config\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,6 +19,16 @@ use Symfony\Component\Process\Process;
 class BuildCommand extends Command
 {
     protected static $defaultName = 'phar:build';
+    /**
+     * @var PharBuilder
+     */
+    private $builder;
+
+    public function __construct(PharBuilder $builder, string $name = null)
+    {
+        parent::__construct($name);
+        $this->builder = $builder;
+    }
 
     public function configure(): void
     {
@@ -77,6 +89,7 @@ class BuildCommand extends Command
     protected function buildContainer(OutputInterface $output): void
     {
         $output->writeln('Prebuilding Application Container');
-        PharKernel::prebuildContainer('prod', false);
+
+        $this->builder->build();
     }
 }
