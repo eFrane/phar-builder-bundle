@@ -1,7 +1,7 @@
 <?php
 
 
-namespace EFrane\PharBuilder\Development;
+namespace EFrane\PharBuilder\Development\Command;
 
 
 use Symfony\Component\Console\Command\Command;
