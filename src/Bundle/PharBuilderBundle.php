@@ -8,7 +8,9 @@ namespace EFrane\PharBuilder\Bundle;
 
 
 use EFrane\PharBuilder\DependencyInjection\PharBuilderExtension;
+use EFrane\PharBuilder\Exception\BundleSetupException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Twig\Error\LoaderError;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\FilesystemLoader;
 
@@ -19,6 +21,11 @@ class PharBuilderBundle extends Bundle
         $this->configureTwig();
     }
 
+    /**
+     * Add the template path for the bundle templates to the Twig environment
+     *
+     * @throws BundleSetupException if Twig cannot be configured
+     */
     private function configureTwig() {
         $bundleTemplatePath = $this->getPath().'/../Resources/templates';
         $bundleTemplateNamespace = 'PharBuilder';
@@ -28,19 +35,23 @@ class PharBuilderBundle extends Bundle
 
         $bundleTwigLoader = new FilesystemLoader();
 
-        $bundleTwigLoader->addPath($bundleTemplatePath, $bundleTemplateNamespace);
+        try {
+            $bundleTwigLoader->addPath($bundleTemplatePath, $bundleTemplateNamespace);
 
-        if ($originalLoader instanceof ChainLoader) {
-            $originalLoader->addLoader($bundleTwigLoader);
-        } elseif ($originalLoader instanceof FilesystemLoader) {
-            $originalLoader->addPath($bundleTemplatePath, $bundleTemplateNamespace);
-        } else {
-            $chainLoader = new ChainLoader();
+            if ($originalLoader instanceof ChainLoader) {
+                $originalLoader->addLoader($bundleTwigLoader);
+            } elseif ($originalLoader instanceof FilesystemLoader) {
+                $originalLoader->addPath($bundleTemplatePath, $bundleTemplateNamespace);
+            } else {
+                $chainLoader = new ChainLoader();
 
-            $chainLoader->addLoader($originalLoader);
-            $chainLoader->addLoader($bundleTwigLoader);
+                $chainLoader->addLoader($originalLoader);
+                $chainLoader->addLoader($bundleTwigLoader);
 
-            $twig->setLoader($chainLoader);
+                $twig->setLoader($chainLoader);
+            }
+        } catch (LoaderError $e) {
+            throw BundleSetupException::failedToConfigureTwig();
         }
     }
 
