@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 
 class BuildCommand extends Command
@@ -47,7 +48,10 @@ class BuildCommand extends Command
 
         $retVal = Command::SUCCESS;
 
+        $output = new SymfonyStyle($input, $output);
+
         if (!file_exists('box.json')) {
+            $output->error('Missing box.json, try running `bin/console phar:dump:box`');
             $output->writeln("Please make sure you're running bin/console from the repo root");
             return Command::FAILURE;
         }
