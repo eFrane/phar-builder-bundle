@@ -7,9 +7,7 @@
 namespace EFrane\PharBuilder\Development\Command;
 
 
-use EFrane\PharBuilder\Application\PharKernel;
 use EFrane\PharBuilder\DependencyInjection\PharBuilder;
-use EFrane\PharBuilder\Development\Config\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,7 +33,7 @@ class BuildCommand extends Command
         $this->setDescription('Build the phar');
 
         $this->addOption(
-            'only-container',
+            'container-only',
             'C',
             InputOption::VALUE_NONE,
             'Only build the application container'
@@ -57,7 +55,7 @@ class BuildCommand extends Command
         try {
             $this->buildContainer($output);
 
-            if (!$input->getOption('only-container')) {
+            if (!$input->getOption('container-only')) {
                 $this->buildPhar($output);
             }
         } catch (\Exception $e) {
