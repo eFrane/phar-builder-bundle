@@ -7,6 +7,7 @@
 namespace EFrane\PharBuilder\Development\Command;
 
 
+use EFrane\PharBuilder\Development\Config\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,11 +16,21 @@ use Twig\Environment;
 class DumpGitHubWorkflowCommand extends Command
 {
     public static $defaultName = 'phar:dump:github-workflow';
+    /**
+     * @var Environment
+     */
+    private $twig;
+    /**
+     * @var Config
+     */
+    private $config;
 
-    public function __construct(Environment $twigEnvironment, string $name = null)
+    public function __construct(Config $config, Environment $twig, string $name = null)
     {
-        dd($twigEnvironment);
         parent::__construct($name);
+
+        $this->config = $config;
+        $this->twig = $twig;
     }
 
 
@@ -30,7 +41,14 @@ class DumpGitHubWorkflowCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $workflowTemplate  = $this->twig->render(
+            '@PharBuilder/github-workflow.yml.twig',
+            [
+                'phar_name' => $this->config->build()->getOutputFilename()
+            ]
+        );
 
+        $output->writeln($workflowTemplate );
 
         return Command::SUCCESS;
     }

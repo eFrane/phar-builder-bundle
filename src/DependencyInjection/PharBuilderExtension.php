@@ -12,6 +12,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Twig\Environment;
 
 class PharBuilderExtension extends Extension
 {
@@ -30,6 +31,8 @@ class PharBuilderExtension extends Extension
         // inject parsed bundle config into Configuration object
         $configurationObjectDefinition = $container->getDefinition(Config::class);
         $configurationObjectDefinition->setArgument(0, $bundleConfiguration);
+
+        // $container->getDefinition(Environment::class)->addMethodCall('')
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container)
