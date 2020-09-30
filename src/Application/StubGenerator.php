@@ -50,7 +50,10 @@ final class StubGenerator
 Phar::mapPhar();
 require 'phar://'.__FILE__.'/vendor/autoload.php';
 
-\$bin = new EFrane\PharBuilder\Application\BinProvider($kernelClass::class, $applicationClass::class);
+\$bin = new EFrane\PharBuilder\Application\BinProvider(
+    $kernelClass::class, 
+    $applicationClass::class
+);
 
 return \$bin();
 
