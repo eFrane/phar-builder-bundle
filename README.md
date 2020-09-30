@@ -26,3 +26,10 @@ EFrane\PharBuilder\Bundle\PharBuilderBundle::class   => ['all' => true],
 
 Use `bin/console config:dump-reference phar_builder` to dump the reference configuration.
 Place your own in the default Symfony places or wherever you're loading configuration from.
+
+## Usage
+
+* Install Box (see `bin/console phar:setup-info` for assistance)
+* Configure at least an output name
+* Dump the box configuration with `bin/console phar:dump:box`
+* Build the phar with `bin/console phar:build`

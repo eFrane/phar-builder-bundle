@@ -53,6 +53,7 @@ class BoxConfigurator
     public function getDefaultConfiguration(): array
     {
         return [
+            'main'        => false,
             'base-path'   => $this->basePath,
             'output'      => $this->config->build()->getOutputPath().$this->config->build()->getOutputFilename(),
             'compression' => 'GZ',
