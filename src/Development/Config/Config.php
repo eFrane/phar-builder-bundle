@@ -18,6 +18,11 @@ use EFrane\PharBuilder\Exception\ConfigurationException;
 final class Config
 {
     /**
+     * @var string
+     */
+    protected $applicationClass;
+
+    /**
      * @var ConfigSectionInterface[]|array<string,ConfigSectionInterface>
      */
     private $configSections;
@@ -29,6 +34,7 @@ final class Config
 
     public function __construct(array $bundleConfiguration)
     {
+        $this->applicationClass = $bundleConfiguration['application_class'];
         $this->pharKernel = $bundleConfiguration['phar_kernel'];
 
         $sections = array_filter($bundleConfiguration, 'is_array');
@@ -76,5 +82,10 @@ final class Config
         }
 
         return $this->configSections[$section];
+    }
+
+    public function getApplicationClass()
+    {
+        return $this->applicationClass;
     }
 }

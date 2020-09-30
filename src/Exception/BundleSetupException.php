@@ -15,4 +15,9 @@ class BundleSetupException extends LogicException
     {
         return new self('Failed to configure Twig');
     }
+
+    public static function missingBox(): self
+    {
+        return new self('Missing Box, try running `composer bin box require --dev humbug/box`');
+    }
 }

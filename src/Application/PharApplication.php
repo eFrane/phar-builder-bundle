@@ -22,8 +22,6 @@ class PharApplication extends Application
     {
         parent::__construct($kernel);
 
-        // change version from framework bundle settings
-        $this->setVersion('@git-tag@');
         $this->setDefaultCommand('list');
 
         // reset input definition to remove framework bundle extras
@@ -62,10 +60,5 @@ class PharApplication extends Application
         }
 
         $this->addCommands($commandLoader->getCommands());
-    }
-
-    public function getLongVersion(): string
-    {
-        return sprintf('%s @ %s', $this->getName(), $this->getVersion());
     }
 }

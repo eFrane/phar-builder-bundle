@@ -7,9 +7,9 @@
 namespace EFrane\PharBuilder\DependencyInjection;
 
 
+use EFrane\PharBuilder\Application\PharApplication;
 use EFrane\PharBuilder\Application\PharKernel;
 use EFrane\PharBuilder\Development\Config\Build;
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -21,9 +21,14 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
+            ->scalarNode('application_class')
+            ->defaultValue(PharApplication::class)
+            ->info('The application class')
+            ->end()
             ->scalarNode('phar_kernel')
-                ->defaultValue(PharKernel::class)
-                ->end()
+            ->defaultValue(PharKernel::class)
+            ->info('The kernel used by the phar application')
+            ->end()
             ->end();
 
         $this->addBuildConfiguration($treeBuilder);
