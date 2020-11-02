@@ -47,12 +47,13 @@ final class Build implements ConfigSectionInterface
         $this->environment = $configArray['environment'];
         $this->includeDebugCommands = $configArray['include_debug_commands'];
         $this->outputPath = $configArray['output_path'];
+        $this->outputFilename = $configArray['output_filename'];
+        $this->tempPath = $configArray['temp_path'];
+
         if (!Util::endsWith($this->outputPath, DIRECTORY_SEPARATOR)) {
             $this->outputPath .= DIRECTORY_SEPARATOR;
         }
 
-        $this->outputFilename = $configArray['output_filename'];
-        $this->tempPath = $configArray['temp_path'];
         if (!Util::endsWith($this->tempPath, DIRECTORY_SEPARATOR)) {
             $this->tempPath .= DIRECTORY_SEPARATOR;
         }

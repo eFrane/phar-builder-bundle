@@ -7,7 +7,6 @@
 namespace EFrane\PharBuilder\Development\Config;
 
 
-use EFrane\PharBuilder\Command\InfoCommand;
 use EFrane\PharBuilder\Exception\ConfigurationException;
 
 /**
@@ -39,6 +38,7 @@ final class Config
 
         $sections = array_filter($bundleConfiguration, 'is_array');
 
+        $this->configSections = [];
         foreach ($sections as $sectionName => $sectionConfigArray) {
             $sectionConfigClass = __NAMESPACE__.'\\'.ucfirst($sectionName);
 
