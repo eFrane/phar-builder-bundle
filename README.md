@@ -19,7 +19,7 @@ composer require efrane/phar-builder-bundle
 In `config/bundles.php`:
 
 ```
-EFrane\PharBuilder\Bundle\PharBuilderBundle::class   => ['all' => true],
+EFrane\PharBuilder\Bundle\PharBuilderBundle::class => ['all' => true],
 ```
 
 ## Configuration
@@ -30,6 +30,6 @@ Place your own in the default Symfony places or wherever you're loading configur
 ## Usage
 
 * Install Box (see `bin/console phar:setup-info` for assistance)
-* Configure at least an output name
+* Configure at least output path and name
 * Dump the box configuration with `bin/console phar:dump:box`
 * Build the phar with `bin/console phar:build`
