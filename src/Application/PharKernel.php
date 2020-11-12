@@ -52,19 +52,19 @@ class PharKernel extends Kernel implements PharKernelInterface
         }
     }
 
-    public function configureRoutes(RoutingConfigurator $routes)
+    public function configureRoutes(RoutingConfigurator $routes): void
     {
         // Do nothing, there are no routes
     }
 
-    protected function build(ContainerBuilder $containerBuilder)
+    protected function build(ContainerBuilder $containerBuilder): void
     {
         if (!$this->isDebug()) {
             $containerBuilder->addCompilerPass(new HideDefaultConsoleCommandsFromPharPass());
         }
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         $runtimeDir = $this->prepareRuntimeDir();
 
@@ -82,7 +82,7 @@ class PharKernel extends Kernel implements PharKernelInterface
         return $runtimeDir;
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         $runtimeDir = $this->prepareRuntimeDir();
 
@@ -104,7 +104,7 @@ class PharKernel extends Kernel implements PharKernelInterface
         return $projectDir;
     }
 
-    protected function initializeContainer()
+    protected function initializeContainer(): void
     {
         if (Util::inPhar()) {
             $this->loadPrebuiltContainer();

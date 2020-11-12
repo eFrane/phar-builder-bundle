@@ -4,10 +4,8 @@
 namespace EFrane\PharBuilder\Application;
 
 
-use EFrane\PharBuilder\Exception\PharApplicationException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
-use function sprintf;
 
 /**
  * Application class supporting running in phar and outside
@@ -16,6 +14,9 @@ use function sprintf;
  */
 class PharApplication extends Application
 {
+    /**
+     * @var bool
+     */
     private $commandsRegistered = false;
 
     public function __construct(PharKernel $kernel)

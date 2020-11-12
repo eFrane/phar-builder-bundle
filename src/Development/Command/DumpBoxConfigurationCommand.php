@@ -31,7 +31,7 @@ class DumpBoxConfigurationCommand extends Command
         $this->configurator = $configurator;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setDescription('Dump the configuration for Box');
 

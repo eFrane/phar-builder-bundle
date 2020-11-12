@@ -16,7 +16,7 @@ class PharApplicationException extends RuntimeException
         return new self("Missing command loader");
     }
 
-    public static function failedLoadingContainer(string $cachePath)
+    public static function failedLoadingContainer(string $cachePath): self
     {
         return new self("Failed to load container at {$cachePath}");
     }

@@ -31,6 +31,10 @@ final class Config
      */
     private $pharKernel;
 
+    /**
+     * Config constructor.
+     * @param array<string,mixed> $bundleConfiguration
+     */
     public function __construct(array $bundleConfiguration)
     {
         $this->applicationClass = $bundleConfiguration['application_class'];
@@ -84,7 +88,7 @@ final class Config
         return $this->configSections[$section];
     }
 
-    public function getApplicationClass()
+    public function getApplicationClass(): string
     {
         return $this->applicationClass;
     }

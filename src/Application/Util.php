@@ -11,24 +11,27 @@ use Phar;
 
 final class Util
 {
-    public static function pharRoot()
+    public static function pharRoot(): string
     {
         return Phar::running(true);
     }
 
-    public static function phardd(...$vars)
+    /**
+     * @param mixed ...$vars
+     */
+    public static function phardd(...$vars): void
     {
         if (Util::inPhar()) {
             dd(...$vars);
         }
     }
 
-    public static function inPhar()
+    public static function inPhar(): bool
     {
         return '' !== Phar::running(false);
     }
 
-    public static function endsWith($haystack, $needle): bool
+    public static function endsWith(string $haystack, string $needle): bool
     {
         $length = strlen($needle);
 

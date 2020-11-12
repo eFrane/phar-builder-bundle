@@ -34,7 +34,7 @@ class DumpGitHubWorkflowCommand extends Command
     }
 
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Dump a GitHub Workflow to build the Phar on versioned releases.');
     }

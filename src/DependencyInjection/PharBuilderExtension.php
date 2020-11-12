@@ -8,19 +8,24 @@ namespace EFrane\PharBuilder\DependencyInjection;
 
 
 use EFrane\PharBuilder\Development\Config\Config;
+use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Twig\Environment;
 
 class PharBuilderExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * @param array<mixed,mixed> $configs
+     * @param ContainerBuilder   $container
+     * @throws Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config')
         );
 
         $loader->load('services.yaml');
@@ -31,11 +36,14 @@ class PharBuilderExtension extends Extension
         // inject parsed bundle config into Configuration object
         $configurationObjectDefinition = $container->getDefinition(Config::class);
         $configurationObjectDefinition->setArgument(0, $bundleConfiguration);
-
-        // $container->getDefinition(Environment::class)->addMethodCall('')
     }
 
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    /**
+     * @param array<mixed,mixed> $config
+     * @param ContainerBuilder   $container
+     * @return Configuration
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
         return new Configuration();
     }

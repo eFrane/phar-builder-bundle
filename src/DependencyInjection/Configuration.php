@@ -43,7 +43,7 @@ class Configuration implements ConfigurationInterface
      * @param TreeBuilder $treeBuilder
      * @see Build
      */
-    private function addBuildConfiguration(TreeBuilder $treeBuilder)
+    private function addBuildConfiguration(TreeBuilder $treeBuilder): void
     {
         $buildNodeChildren = $treeBuilder->getRootNode()
             ->children()

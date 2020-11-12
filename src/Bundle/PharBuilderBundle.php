@@ -16,7 +16,7 @@ use Twig\Loader\FilesystemLoader;
 
 class PharBuilderBundle extends Bundle
 {
-    public function boot()
+    public function boot(): void
     {
         $this->configureTwig();
     }
@@ -26,7 +26,8 @@ class PharBuilderBundle extends Bundle
      *
      * @throws BundleSetupException if Twig cannot be configured
      */
-    private function configureTwig() {
+    private function configureTwig(): void
+    {
         $bundleTemplatePath = $this->getPath().'/../Resources/templates';
         $bundleTemplateNamespace = 'PharBuilder';
 

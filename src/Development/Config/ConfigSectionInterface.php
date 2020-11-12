@@ -9,5 +9,8 @@ namespace EFrane\PharBuilder\Development\Config;
 
 interface ConfigSectionInterface
 {
+    /**
+     * @param array<string,mixed> $configArray
+     */
     public function setConfigFromArray(array $configArray): void;
 }

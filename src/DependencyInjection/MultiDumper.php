@@ -31,6 +31,11 @@ class MultiDumper implements DumperInterface
         $this->dumpers = [];
     }
 
+    /**
+     * @param string $dumper
+     * @param array<string,mixed>  $options
+     * @return $this
+     */
     public function add(string $dumper, array $options = []): self
     {
         $this->dumpers[] = compact('dumper', 'options');
@@ -39,14 +44,14 @@ class MultiDumper implements DumperInterface
     }
 
     /**
-     * @param array $options
-     * @return array
+     * @param array<string,mixed> $options
+     * @return array<string,string|array<string,string>>
      */
     public function dump(array $options = []): array
     {
         $result = [];
 
-        array_map(function (array $dumper) {
+        array_map(function (array $dumper)  use ($result) {
             $dumperInstance = new $dumper['dumper']($this->containerBuilder);
             $result[$dumper['dumper']] = $dumperInstance->dump($dumper['options']);
         }, $this->dumpers);

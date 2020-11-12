@@ -11,7 +11,7 @@ use RuntimeException;
 
 class ConfigurationException extends RuntimeException
 {
-    public static function configSectionNotFound($section): self
+    public static function configSectionNotFound(string $section): self
     {
         throw new self("Config section `{$section}` not found");
     }

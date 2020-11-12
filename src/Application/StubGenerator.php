@@ -41,7 +41,7 @@ final class StubGenerator
         return $this->getShellExecutionCommand().$code;
     }
 
-    private function getBinCode()
+    private function getBinCode(): string
     {
         $kernelClass = $this->config->getPharKernel();
         $applicationClass = $this->config->getApplicationClass();
@@ -61,7 +61,7 @@ return \$bin();
 BIN_CODE;
     }
 
-    private function getShellExecutionCommand()
+    private function getShellExecutionCommand(): string
     {
         return "#!/usr/bin/env php\n";
     }

@@ -15,10 +15,15 @@ use EFrane\PharBuilder\Development\Config\Config;
 class PharCommandLoader
 {
     /**
-     * @var array|PharCommand[]
+     * @var array<int,PharCommand>|PharCommand[]
      */
     private $commands;
 
+    /**
+     * PharCommandLoader constructor.
+     * @param Config   $config
+     * @param iterable<PharCommand> $commands
+     */
     public function __construct(Config $config, iterable $commands)
     {
         $this->commands = [];

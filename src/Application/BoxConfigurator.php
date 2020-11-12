@@ -56,6 +56,9 @@ class BoxConfigurator
         $this->dumpStub();
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function getDefaultConfiguration(): array
     {
         return [
@@ -122,7 +125,7 @@ class BoxConfigurator
         return $tempConfig;
     }
 
-    private function dumpStub()
+    private function dumpStub(): void
     {
         $stubCode = $this->stubGenerator->generate();
 
