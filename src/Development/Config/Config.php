@@ -62,11 +62,11 @@ final class Config
     /**
      * Generic call method to allow access to config sections.
      *
-     * @param       $section
-     * @param array $args
+     * @param string $section The config section to be accessed
+     * @param array<int,mixed> $args The arguments passed to __call, will be ignored
      * @return ConfigSectionInterface|mixed
      */
-    public function __call($section, array $args)
+    public function __call(string $section, array $args)
     {
         // fall through for global config parameters
         if (method_exists($this, $section)) {

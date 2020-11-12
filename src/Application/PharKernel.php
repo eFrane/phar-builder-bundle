@@ -21,7 +21,7 @@ use function is_dir;
 use function mkdir;
 use function sys_get_temp_dir;
 
-class PharKernel extends Kernel
+class PharKernel extends Kernel implements PharKernelInterface
 {
     use MicroKernelTrait;
 

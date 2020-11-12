@@ -19,9 +19,15 @@ class BoxConfigurator
     protected $configPath;
 
     /**
+     * @var string
+     */
+    protected $basePath;
+
+    /**
      * @var Config
      */
     private $config;
+
     /**
      * @var StubGenerator
      */

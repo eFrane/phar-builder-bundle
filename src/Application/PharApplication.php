@@ -55,10 +55,6 @@ class PharApplication extends Application
         /** @var PharCommandLoader $commandLoader */
         $commandLoader = $container->get(PharCommandLoader::class);
 
-        if (!isset($commandLoader)) {
-            throw PharApplicationException::missingCommandLoader();
-        }
-
         $this->addCommands($commandLoader->getCommands());
     }
 }

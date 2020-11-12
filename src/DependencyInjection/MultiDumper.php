@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Dumper\DumperInterface;
 class MultiDumper implements DumperInterface
 {
     /**
-     * @var array<string>|string[]
+     * @var array<int,array<string,mixed>>|int[]
      */
     private $dumpers;
     /**
@@ -46,10 +46,10 @@ class MultiDumper implements DumperInterface
     {
         $result = [];
 
-        foreach ($this->dumpers as $dumper) {
+        array_map(function (array $dumper) {
             $dumperInstance = new $dumper['dumper']($this->containerBuilder);
             $result[$dumper['dumper']] = $dumperInstance->dump($dumper['options']);
-        }
+        }, $this->dumpers);
 
         return $result;
     }

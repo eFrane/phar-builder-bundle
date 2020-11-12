@@ -8,6 +8,7 @@ namespace EFrane\PharBuilder\DependencyInjection;
 
 
 use EFrane\PharBuilder\Application\PharKernel;
+use EFrane\PharBuilder\Application\PharKernelInterface;
 use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
 use EFrane\PharBuilder\Development\Config\Config;
@@ -51,8 +52,8 @@ class PharBuilder
             throw PharBuildException::runningPhar();
         }
 
-        /** @var KernelInterface|PharKernel $kernel */
         $kernelClass = $this->config->getPharKernel();
+        /** @var PharKernelInterface $kernel */
         $kernel = new $kernelClass($this->config->build()->getEnvironment(), $this->config->build()->isDebug());
         $kernel->setInBuild(true);
         $kernel->boot();
@@ -62,7 +63,7 @@ class PharBuilder
         $this->dumpContainer($containerBuilder, $kernel->getConfigCache($this->config->build()->isDebug()));
     }
 
-    private function buildContainer(Kernel $kernel): ContainerBuilder
+    private function buildContainer(PharKernelInterface $kernel): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder();
 
@@ -113,6 +114,7 @@ class PharBuilder
             PassConfig::TYPE_BEFORE_OPTIMIZATION
         );
 
+        /** @var Kernel $kernel */
         $containerBuilder->addCompilerPass(new AddAnnotatedClassesToCachePass($kernel));
 
         $containerBuilder->compile(true);
