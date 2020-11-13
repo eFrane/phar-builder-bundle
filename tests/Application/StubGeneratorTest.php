@@ -20,15 +20,11 @@ class StubGeneratorTest extends TestCase
         );
     }
 
-    public function testInstance(): void
-    {
-        self::assertInstanceOf(StubGenerator::class, $this->sut);
-    }
-
-    public function testGenerate(): void
+    public function testGeneratesValidPhp(): void
     {
         $res = $this->sut->generate();
 
+        self::assertInstanceOf(StubGenerator::class, $this->sut);
         self::assertIsString($res);
         self::assertIsValidPHP($res);
     }
