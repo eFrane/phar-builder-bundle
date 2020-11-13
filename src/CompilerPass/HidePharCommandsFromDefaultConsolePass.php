@@ -18,8 +18,7 @@ class HidePharCommandsFromDefaultConsolePass implements CompilerPassInterface
         $pharCommands = $container->findTaggedServiceIds('phar.command');
 
         foreach (array_keys($pharCommands) as $pharCommand) {
-            $commandDefinition = $container->findDefinition($pharCommand);
-            $commandDefinition->clearTag('console.command');
+            $container->removeDefinition($pharCommand);
         }
     }
 }
