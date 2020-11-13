@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EFrane\PharBuilder\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

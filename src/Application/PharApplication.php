@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EFrane\PharBuilder\Application;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
