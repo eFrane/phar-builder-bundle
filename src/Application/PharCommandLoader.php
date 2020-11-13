@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Application;
 
-use EFrane\PharBuilder\Command\DebugCommand;
+use EFrane\PharBuilder\Command\DebugCommandInterface;
 use EFrane\PharBuilder\Command\PharCommand;
 use EFrane\PharBuilder\Development\Config\Config;
 
@@ -28,7 +28,7 @@ class PharCommandLoader
         $this->commands = [];
 
         foreach ($commands as $command) {
-            if (!$config->build()->includeDebugCommands() && $command instanceof DebugCommand) {
+            if (!$config->build()->includeDebugCommands() && $command instanceof DebugCommandInterface) {
                 // Skip debug commands
                 continue;
             }

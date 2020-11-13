@@ -16,6 +16,6 @@ namespace EFrane\PharBuilder\Command;
  *
  * This interface helps identifying these commands in the loader and requires no methods for this task.
  */
-interface DebugCommand
+interface DebugCommandInterface
 {
 }

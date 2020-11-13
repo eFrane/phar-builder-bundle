@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class InfoCommand.
  */
-class InfoCommand extends PharCommand implements DebugCommand
+class InfoCommand extends PharCommand implements DebugCommandInterface
 {
     protected static $defaultName = '_phar-debug:info';
 
