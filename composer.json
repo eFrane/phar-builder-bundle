@@ -11,7 +11,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "EFrane\\PharBuilder\\": "src/"
+            "EFrane\\PharBuilder\\": "src/",
+            "EFrane\\PharBuilder\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable",

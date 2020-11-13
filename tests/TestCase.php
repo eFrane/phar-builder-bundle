@@ -8,5 +8,4 @@ namespace EFrane\PharBuilder\Tests;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-
 }
