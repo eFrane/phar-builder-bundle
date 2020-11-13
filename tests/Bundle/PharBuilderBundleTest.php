@@ -16,7 +16,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 
 class PharBuilderBundleTest extends BaseBundleTestCase
 {
-    public function testBundleWithDefaultConfiguration()
+    public function testBundleWithDefaultConfiguration(): void
     {
         $kernel = $this->getBootedKernel('minimal_config');
 
