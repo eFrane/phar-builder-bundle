@@ -14,9 +14,10 @@ class StubGeneratorTest extends TestCase
 
     public function setUp(): void
     {
-        $config = $this->getTestConfig();
-
-        $this->sut = new StubGenerator($config);
+        $this->sut = new StubGenerator(
+            $this->getTestConfig(),
+            $this->getTwig()
+        );
     }
 
     public function testInstance(): void

@@ -27,7 +27,6 @@
         "symfony/process": "^5.1",
         "symfony/twig-bundle": "^5.1",
         "twig/twig": "^2.4|^3.0",
-        "nette/php-generator": "^3.4",
         "phpunit/phpunit": "^9.4"
     },
     "require-dev": {
