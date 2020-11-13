@@ -7,12 +7,9 @@
 namespace EFrane\PharBuilder\Tests\CompilerPass;
 
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
-class HideDefaultConsoleCommandsFromPharPassTest extends AbstractCompilerPassTestCase
+class HideDefaultConsoleCommandsFromPharPassTest extends CommandHidingTestCase
 {
     protected function registerCompilerPass(ContainerBuilder $container): void
     {
@@ -21,20 +18,33 @@ class HideDefaultConsoleCommandsFromPharPassTest extends AbstractCompilerPassTes
 
     public function testAreCommandsRemoved(): void
     {
-        $testCommand = new class() extends Command {
-            protected static $defaultName = 'pharbuilder:command:for:testing';
-        };
+        $definition = $this->getDefaultCommandDefinition();
 
-        $testClassName = get_class($testCommand);
-        $definition = new Definition($testClassName);
-        $definition->addTag('console.command');
+        $this->container->addDefinitions(['testCommand' => $definition]);
 
-        $this->container->addDefinitions(['testcommand' => $definition]);
-
-        $this->assertContainerBuilderHasService('testcommand');
+        self::assertContainerBuilderHasService('testCommand');
 
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('testcommand');
+        self::assertContainerBuilderNotHasService('testCommand');
+    }
+
+    public function testKeepsPharCommands(): void
+    {
+        $defaultCommandDefinition = $this->getDefaultCommandDefinition();
+        $pharCommandDefinition = $this->getPharCommandDefinition();
+
+        $this->container->addDefinitions([
+            'defaultCommand' => $defaultCommandDefinition,
+            'pharCommand'    => $pharCommandDefinition,
+        ]);
+
+        self::assertContainerBuilderHasService('defaultCommand');
+        self::assertContainerBuilderHasService('pharCommand');
+
+        $this->compile();
+
+        self::assertContainerBuilderNotHasService('defaultCommand');
+        self::assertContainerBuilderHasService('pharCommand');
     }
 }

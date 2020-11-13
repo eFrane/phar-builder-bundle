@@ -6,33 +6,22 @@
 
 namespace EFrane\PharBuilder\Tests\CompilerPass;
 
-use EFrane\PharBuilder\Command\PharCommand;
 use EFrane\PharBuilder\CompilerPass\HidePharCommandsFromDefaultConsolePass;
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
-class HidePharCommandsFromDefaultConsolePassTest extends AbstractCompilerPassTestCase
+class HidePharCommandsFromDefaultConsolePassTest extends CommandHidingTestCase
 {
     public function testAreCommandsRemoved(): void
     {
-        $testCommand = new class() extends PharCommand {
-            protected static $defaultName = 'pharbuilder:command:for:testing';
-        };
+        $definition = $this->getPharCommandDefinition();
 
-        $testClassName = get_class($testCommand);
-        $definition = new Definition($testClassName);
+        $this->container->addDefinitions(['pharCommand' => $definition]);
 
-        $definition->addTag('console.command');
-        $definition->addTag('phar.command');
-
-        $this->container->addDefinitions(['testcommand' => $definition]);
-
-        $this->assertContainerBuilderHasService('testcommand');
+        self::assertContainerBuilderHasService('pharCommand');
 
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('testcommand');
+        self::assertContainerBuilderNotHasService('pharCommand');
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
