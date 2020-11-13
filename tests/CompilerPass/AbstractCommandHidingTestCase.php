@@ -13,7 +13,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Definition;
 
-abstract class CommandHidingTestCase extends AbstractCompilerPassTestCase
+abstract class AbstractCommandHidingTestCase extends AbstractCompilerPassTestCase
 {
     protected function getDefaultCommandDefinition(): Definition
     {

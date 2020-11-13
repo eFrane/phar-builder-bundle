@@ -9,7 +9,7 @@ namespace EFrane\PharBuilder\Tests\CompilerPass;
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class HideDefaultConsoleCommandsFromPharPassTest extends CommandHidingTestCase
+class HideDefaultConsoleCommandsFromPharPassTest extends AbstractCommandHidingTestCase
 {
     protected function registerCompilerPass(ContainerBuilder $container): void
     {
