@@ -1,7 +1,8 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in('src');
+    ->in('src')
+    ->in('tests');
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
