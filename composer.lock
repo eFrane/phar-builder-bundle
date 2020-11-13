@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1c48522daabbcfbc7827bb13118e56b",
+    "content-hash": "09a3c7498411ad41d829defc95ec0cf9",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -4921,6 +4921,52 @@
                 "source": "https://github.com/SymfonyTest/SymfonyDependencyInjectionTest/tree/4.2.0"
             },
             "time": "2020-10-08T15:50:06+00:00"
+        },
+        {
+            "name": "nyholm/symfony-bundle-test",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SymfonyTest/symfony-bundle-test.git",
+                "reference": "9d01e001821250dc2f6f6b148479f9c2fbc622dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SymfonyTest/symfony-bundle-test/zipball/9d01e001821250dc2f6f6b148479f9c2fbc622dd",
+                "reference": "9d01e001821250dc2f6f6b148479f9c2fbc622dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0",
+                "symfony/dependency-injection": "^3.4 || ^4.3 || ^5.0",
+                "symfony/framework-bundle": "^3.4 || ^4.3 || ^5.0",
+                "symfony/http-kernel": "^3.4 || ^4.3 || ^5.0",
+                "symfony/yaml": "^3.4 || ^4.3 || ^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.36 || ^5.5 || ^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nyholm\\BundleTest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/SymfonyTest/symfony-bundle-test/issues",
+                "source": "https://github.com/SymfonyTest/symfony-bundle-test/tree/master"
+            },
+            "time": "2019-12-07T14:06:46+00:00"
         },
         {
             "name": "php-cs-fixer/diff",

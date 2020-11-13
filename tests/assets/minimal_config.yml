@@ -1,0 +1,3 @@
+phar_builder:
+  build:
+    output_filename: test.phar
