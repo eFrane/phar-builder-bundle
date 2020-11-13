@@ -31,6 +31,7 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.54",
-        "friendsofphp/php-cs-fixer": "^2.16"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.2"
     }
 }

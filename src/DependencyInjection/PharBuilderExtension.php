@@ -36,7 +36,7 @@ class PharBuilderExtension extends Extension
 
         // inject parsed bundle config into Configuration object
         $configurationObjectDefinition = $container->getDefinition(Config::class);
-        $configurationObjectDefinition->setArgument(0, $bundleConfiguration);
+        $configurationObjectDefinition->setArgument('$bundleConfiguration', $bundleConfiguration);
     }
 
     /**
