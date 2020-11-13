@@ -6,9 +6,10 @@
 
 namespace EFrane\PharBuilder\Application;
 
-
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
 use EFrane\PharBuilder\Exception\PharApplicationException;
+use function is_dir;
+use function mkdir;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\ConfigCache;
@@ -17,8 +18,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
-use function is_dir;
-use function mkdir;
 use function sys_get_temp_dir;
 
 class PharKernel extends Kernel implements PharKernelInterface
@@ -38,15 +37,15 @@ class PharKernel extends Kernel implements PharKernelInterface
         $container->withPath($this->getProjectDir())->import('config/{packages}/'.$this->environment.'/*.yaml');
 
         if (is_file($this->getProjectDir().'/config/services.yaml')) {
-            $container->withPath($this->getProjectDir())->import( 'config/{services}.yaml');
-            $container->withPath($this->getProjectDir())->import( 'config/{services}_'.$this->environment.'.yaml');
+            $container->withPath($this->getProjectDir())->import('config/{services}.yaml');
+            $container->withPath($this->getProjectDir())->import('config/{services}_'.$this->environment.'.yaml');
         } elseif (is_file($path = \dirname(__DIR__).'/config/services.php')) {
             (require $path)($container->withPath($path), $this);
         }
 
         if (is_file(\dirname(__DIR__).'/../config/services.yaml')) {
-            $container->import( '/../config/{services}.yaml');
-            $container->import( '/../config/{services}_'.$this->environment.'.yaml');
+            $container->import('/../config/{services}.yaml');
+            $container->import('/../config/{services}_'.$this->environment.'.yaml');
         } elseif (is_file($path = \dirname(__DIR__).'/config/services.php')) {
             (require $path)($container->withPath($path), $this);
         }
@@ -123,7 +122,7 @@ class PharKernel extends Kernel implements PharKernelInterface
         $errorLevel = error_reporting(E_ALL ^ E_WARNING);
 
         try {
-            /** @noinspection PhpIncludeInspection */
+            /* @noinspection PhpIncludeInspection */
             if (!is_file($cachePath) || !is_object($this->container = include $cachePath)) {
                 throw PharApplicationException::failedLoadingContainer($cachePath);
             }
@@ -137,10 +136,6 @@ class PharKernel extends Kernel implements PharKernelInterface
         }
     }
 
-    /**
-     * @param bool $debug
-     * @return ConfigCache
-     */
     public function getConfigCache(bool $debug): ConfigCache
     {
         $path = 'build'.DIRECTORY_SEPARATOR.self::PHAR_CONTAINER_CACHE_DIR;
@@ -164,17 +159,11 @@ class PharKernel extends Kernel implements PharKernelInterface
         return new ConfigCache($path, $debug);
     }
 
-    /**
-     * @return bool
-     */
     public function isInBuild(): bool
     {
         return $this->inBuild;
     }
 
-    /**
-     * @param bool $inBuild
-     */
     public function setInBuild(bool $inBuild): void
     {
         $this->inBuild = $inBuild;

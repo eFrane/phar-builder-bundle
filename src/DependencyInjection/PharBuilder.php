@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\DependencyInjection;
 
-
 use EFrane\PharBuilder\Application\PharKernel;
 use EFrane\PharBuilder\Application\PharKernelInterface;
 use EFrane\PharBuilder\Application\Util;
@@ -24,7 +23,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\DependencyInjection\AddAnnotatedClassesToCachePass;
 use Symfony\Component\HttpKernel\DependencyInjection\MergeExtensionConfigurationPass;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class PharBuilder
 {
@@ -114,7 +112,7 @@ class PharBuilder
             PassConfig::TYPE_BEFORE_OPTIMIZATION
         );
 
-        /** @var Kernel $kernel */
+        /* @var Kernel $kernel */
         $containerBuilder->addCompilerPass(new AddAnnotatedClassesToCachePass($kernel));
 
         $containerBuilder->compile(true);
@@ -129,7 +127,7 @@ class PharBuilder
         $dumper
             ->add(PhpDumper::class, [
                 'as_files' => true,
-                'debug' => $this->debug
+                'debug'    => $this->debug,
             ]);
 
         if ($this->config->build()->dumpContainerDebugInfo()) {
@@ -145,7 +143,7 @@ class PharBuilder
         /** @var array<string,string> $phpDump */
         $phpDump = $compiledContainer[PhpDumper::class];
         foreach ($phpDump as $filename => $content) {
-            $fs->dumpFile($cache->getPath() . $filename, $content);
+            $fs->dumpFile($cache->getPath().$filename, $content);
         }
 
         if ($this->config->build()->dumpContainerDebugInfo()) {
@@ -154,8 +152,8 @@ class PharBuilder
             /** @var string $yamlDump */
             $yamlDump = $compiledContainer[YamlDumper::class];
 
-            $fs->dumpFile($cache->getPath() . 'container.dot', $graphVizDump);
-            $fs->dumpFile($cache->getPath() . 'container.yml', $yamlDump);
+            $fs->dumpFile($cache->getPath().'container.dot', $graphVizDump);
+            $fs->dumpFile($cache->getPath().'container.yml', $yamlDump);
         }
     }
 }

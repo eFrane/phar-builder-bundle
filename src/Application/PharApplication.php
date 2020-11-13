@@ -1,16 +1,12 @@
 <?php
 
-
 namespace EFrane\PharBuilder\Application;
-
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Application class supporting running in phar and outside
- *
- * @package App
+ * Application class supporting running in phar and outside.
  */
 class PharApplication extends Application
 {

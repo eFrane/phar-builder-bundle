@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Development\Config;
 
-
 interface ConfigSectionInterface
 {
     /**

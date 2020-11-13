@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Development\Config;
 
-
 use EFrane\PharBuilder\Application\Util;
 
 final class Build implements ConfigSectionInterface
@@ -59,9 +58,6 @@ final class Build implements ConfigSectionInterface
         }
     }
 
-    /**
-     * @return string
-     */
     public function getEnvironment(): string
     {
         return $this->environment;
@@ -72,41 +68,26 @@ final class Build implements ConfigSectionInterface
         return $this->debug;
     }
 
-    /**
-     * @return bool
-     */
     public function dumpContainerDebugInfo(): bool
     {
         return $this->dumpContainerDebugInfo;
     }
 
-    /**
-     * @return bool
-     */
     public function includeDebugCommands(): bool
     {
         return $this->includeDebugCommands;
     }
 
-    /**
-     * @return string
-     */
     public function getTempPath(): string
     {
         return $this->tempPath;
     }
 
-    /**
-     * @return string
-     */
     public function getOutputPath(): string
     {
         return $this->outputPath;
     }
 
-    /**
-     * @return string
-     */
     public function getOutputFilename(): string
     {
         return $this->outputFilename;

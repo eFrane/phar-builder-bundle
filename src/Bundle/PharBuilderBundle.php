@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Bundle;
 
-
 use EFrane\PharBuilder\DependencyInjection\PharBuilderExtension;
 use EFrane\PharBuilder\Exception\BundleSetupException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -23,7 +22,7 @@ class PharBuilderBundle extends Bundle
     }
 
     /**
-     * Add the template path for the bundle templates to the Twig environment
+     * Add the template path for the bundle templates to the Twig environment.
      *
      * @throws BundleSetupException if Twig cannot be configured
      */

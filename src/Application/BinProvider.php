@@ -39,12 +39,13 @@ final class BinProvider
 
         $input = new ArgvInput();
 
-        $workingDirectory = (string)$input->getParameterOption(['--cwd', '-C'], getcwd(), true);
+        $workingDirectory = (string) $input->getParameterOption(['--cwd', '-C'], getcwd(), true);
 
         if (is_dir($workingDirectory)) {
             chdir($workingDirectory);
         } else {
             echo 'Error: Requested working directory '.$workingDirectory.' does not exist'.PHP_EOL;
+
             return 1;
         }
 

@@ -29,6 +29,7 @@
         "nette/php-generator": "^3.4"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.12.54"
+        "phpstan/phpstan": "^0.12.54",
+        "friendsofphp/php-cs-fixer": "^2.16"
     }
 }

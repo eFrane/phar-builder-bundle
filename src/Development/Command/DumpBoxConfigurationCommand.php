@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Development\Command;
 
-
 use EFrane\PharBuilder\Application\BoxConfigurator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

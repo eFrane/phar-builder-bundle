@@ -1,16 +1,13 @@
 <?php
 
-
 namespace EFrane\PharBuilder\Application;
-
 
 use EFrane\PharBuilder\Command\DebugCommand;
 use EFrane\PharBuilder\Command\PharCommand;
 use EFrane\PharBuilder\Development\Config\Config;
 
 /**
- * Class CommandLoader
- * @package EFrane\PharBuilder\Util
+ * Class CommandLoader.
  */
 class PharCommandLoader
 {
@@ -21,7 +18,7 @@ class PharCommandLoader
 
     /**
      * PharCommandLoader constructor.
-     * @param Config   $config
+     *
      * @param iterable<PharCommand> $commands
      */
     public function __construct(Config $config, iterable $commands)

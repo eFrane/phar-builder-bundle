@@ -1,18 +1,13 @@
 <?php
 
-
 namespace EFrane\PharBuilder\Command;
 
-
-use EFrane\PharBuilder\Util\Path;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\ErrorHandler\Debug;
 
 /**
- * Class InfoCommand
- * @package App
+ * Class InfoCommand.
  */
 class InfoCommand extends PharCommand implements DebugCommand
 {

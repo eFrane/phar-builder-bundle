@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\DependencyInjection;
 
-
 use EFrane\PharBuilder\Development\Config\Config;
 use Exception;
 use Symfony\Component\Config\FileLocator;
@@ -18,14 +17,14 @@ class PharBuilderExtension extends Extension
 {
     /**
      * @param array<mixed,mixed> $configs
-     * @param ContainerBuilder   $container
+     *
      * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
+            new FileLocator(__DIR__.'/../Resources/config')
         );
 
         $loader->load('services.yaml');
@@ -40,8 +39,6 @@ class PharBuilderExtension extends Extension
 
     /**
      * @param array<mixed,mixed> $config
-     * @param ContainerBuilder   $container
-     * @return Configuration
      */
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {

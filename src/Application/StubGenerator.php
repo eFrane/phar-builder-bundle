@@ -6,13 +6,12 @@
 
 namespace EFrane\PharBuilder\Application;
 
-
 use EFrane\PharBuilder\Development\Config\Config;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
 
 /**
- * Generate a Phar stub invoking the Symfony Console Application with the correct config
+ * Generate a Phar stub invoking the Symfony Console Application with the correct config.
  */
 final class StubGenerator
 {

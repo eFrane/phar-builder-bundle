@@ -6,10 +6,8 @@
 
 namespace EFrane\PharBuilder\Command;
 
-
 use Symfony\Component\Console\Command\Command;
 
 abstract class PharCommand extends Command
 {
-
 }

@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Development\Command;
 
-
 use EFrane\PharBuilder\Application\BoxConfigurator;
 use EFrane\PharBuilder\DependencyInjection\PharBuilder;
 use Symfony\Component\Console\Command\Command;
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 class BuildCommand extends Command
@@ -85,9 +83,6 @@ class BuildCommand extends Command
         return $retVal;
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     protected function buildPhar(OutputInterface $output): void
     {
         $output->writeln('Running vendor/bin/box compile');
@@ -110,9 +105,6 @@ class BuildCommand extends Command
         unlink($runtimeConfig);
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     protected function buildContainer(OutputInterface $output): void
     {
         $output->writeln('Prebuilding Application Container');

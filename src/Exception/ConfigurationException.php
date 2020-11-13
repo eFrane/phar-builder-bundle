@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Exception;
 
-
 use RuntimeException;
 
 class ConfigurationException extends RuntimeException

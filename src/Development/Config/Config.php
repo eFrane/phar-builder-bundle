@@ -6,11 +6,10 @@
 
 namespace EFrane\PharBuilder\Development\Config;
 
-
 use EFrane\PharBuilder\Exception\ConfigurationException;
 
 /**
- * Class Config
+ * Class Config.
  *
  * @method Build build()
  */
@@ -33,6 +32,7 @@ final class Config
 
     /**
      * Config constructor.
+     *
      * @param array<string,mixed> $bundleConfiguration
      */
     public function __construct(array $bundleConfiguration)
@@ -66,8 +66,9 @@ final class Config
     /**
      * Generic call method to allow access to config sections.
      *
-     * @param string $section The config section to be accessed
-     * @param array<int,mixed> $args The arguments passed to __call, will be ignored
+     * @param string           $section The config section to be accessed
+     * @param array<int,mixed> $args    The arguments passed to __call, will be ignored
+     *
      * @return ConfigSectionInterface|mixed
      */
     public function __call(string $section, array $args)

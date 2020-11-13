@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EFrane\PharBuilder\Development\Command;
-
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,11 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 /**
- * Class TestCommand
+ * Class TestCommand.
  *
  * Command to test the phar with different php versions
- *
- * @package EFrane\PharBuilder\Command
  */
 class TestCommand extends Command
 {
@@ -43,7 +39,7 @@ class TestCommand extends Command
             '-it',
             sprintf('-v%s/build:/build', \getcwd()),
             sprintf('php:%s-cli-alpine', $phpVersion),
-            '/build/test.phar'
+            '/build/test.phar',
         ];
 
         $process = new Process($cmd);

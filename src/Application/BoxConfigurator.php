@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Application;
 
-
 use EFrane\PharBuilder\Development\Config\Config;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -106,9 +105,7 @@ class BoxConfigurator
     }
 
     /**
-     * Merge user and system configuration for runtime
-     *
-     * @return string
+     * Merge user and system configuration for runtime.
      */
     public function createRuntimeConfig(): string
     {
@@ -139,9 +136,6 @@ class BoxConfigurator
         file_put_contents($this->getStubPath(), $stubCode);
     }
 
-    /**
-     * @return string
-     */
     private function getStubPath(): string
     {
         return $this->config->build()->getTempPath().'stub.php';
@@ -150,7 +144,8 @@ class BoxConfigurator
     /**
      * @return array<string,mixed>
      */
-    private function loadConfig(string $path): array {
+    private function loadConfig(string $path): array
+    {
         if (!file_exists($path)) {
             return [];
         }

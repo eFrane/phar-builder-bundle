@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Exception;
 
-
 use LogicException;
 
 class BundleSetupException extends LogicException

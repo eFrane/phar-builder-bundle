@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Exception;
 
-
 use RuntimeException;
 
 class PharBuildException extends RuntimeException

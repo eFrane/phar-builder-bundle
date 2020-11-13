@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Application;
 
-
 use Phar;
 
 final class Util

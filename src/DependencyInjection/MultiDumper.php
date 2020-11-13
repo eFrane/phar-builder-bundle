@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\DependencyInjection;
 
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\DumperInterface;
 
@@ -23,7 +22,6 @@ class MultiDumper implements DumperInterface
 
     /**
      * MultiDumper constructor.
-     * @param ContainerBuilder $containerBuilder
      */
     public function __construct(ContainerBuilder $containerBuilder)
     {
@@ -32,8 +30,8 @@ class MultiDumper implements DumperInterface
     }
 
     /**
-     * @param string $dumper
-     * @param array<string,mixed>  $options
+     * @param array<string,mixed> $options
+     *
      * @return $this
      */
     public function add(string $dumper, array $options = []): self
@@ -45,13 +43,14 @@ class MultiDumper implements DumperInterface
 
     /**
      * @param array<string,mixed> $options
+     *
      * @return array<string,string|array<string,string>>
      */
     public function dump(array $options = []): array
     {
         $result = [];
 
-        array_map(function (array $dumper)  use ($result) {
+        array_map(function (array $dumper) use ($result) {
             $dumperInstance = new $dumper['dumper']($this->containerBuilder);
             $result[$dumper['dumper']] = $dumperInstance->dump($dumper['options']);
         }, $this->dumpers);
