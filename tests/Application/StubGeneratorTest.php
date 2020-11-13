@@ -23,4 +23,12 @@ class StubGeneratorTest extends TestCase
     {
         self::assertInstanceOf(StubGenerator::class, $this->sut);
     }
+
+    public function testGenerate(): void
+    {
+        $res = $this->sut->generate();
+
+        self::assertIsString($res);
+        self::assertIsValidPHP($res);
+    }
 }
