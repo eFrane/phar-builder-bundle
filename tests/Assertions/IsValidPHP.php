@@ -22,7 +22,9 @@ final class IsValidPHP extends Constraint
         $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
 
         try {
-            $parser->parse($other);
+            if (null === $parser->parse($other)) {
+                return false;
+            }
 
             return true;
         } catch (Exception $e) {
