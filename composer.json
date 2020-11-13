@@ -27,10 +27,10 @@
         "symfony/process": "^5.1",
         "symfony/twig-bundle": "^5.1",
         "twig/twig": "^2.4|^3.0",
-        "phpunit/phpunit": "^9.4"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.54",
+        "phpunit/phpunit": "^9.4",
         "friendsofphp/php-cs-fixer": "^2.16",
         "matthiasnoback/symfony-dependency-injection-test": "^4.2",
         "nyholm/symfony-bundle-test": "^1.6"
