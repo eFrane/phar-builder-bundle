@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Tests\Bundle;
 
-
 use EFrane\PharBuilder\Application\PharCommandLoader;
 use EFrane\PharBuilder\Bundle\PharBuilderBundle;
 use Nyholm\BundleTest\AppKernel;
