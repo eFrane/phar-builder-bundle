@@ -152,8 +152,10 @@ class PharKernel extends Kernel implements PharKernelInterface
         if ($this->isInBuild()) {
             // reset pre-built container during build
             $fs = new Filesystem();
-            if ($fs->exists($path)) {
-                $fs->remove(glob($path));
+            $files = glob($path);
+
+            if (false !== $files) {
+                $fs->remove($files);
             }
 
             $fs->mkdir($path);

@@ -8,6 +8,7 @@ namespace EFrane\PharBuilder\Application;
 
 
 use EFrane\PharBuilder\Development\Config\Config;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -98,10 +99,10 @@ class BoxConfigurator
             return true;
         }
 
-        $existingConfig = json_decode(file_get_contents($this->configPath), true);
-        $compareArr = array_diff_key($this->getDefaultConfiguration(), $existingConfig);
+        $currentConfig = $this->loadConfig($this->configPath);
+        $compareArr = array_diff_key($this->getDefaultConfiguration(), $currentConfig);
 
-        return count($compareArr) === count($existingConfig);
+        return count($compareArr) === count($currentConfig);
     }
 
     /**
@@ -113,14 +114,20 @@ class BoxConfigurator
     {
         $fs = new Filesystem();
 
-        $boxConfig = json_decode(file_get_contents('box.json.dist'), true);
+        $boxConfig = $this->loadConfig('box.dist.json');
         if ($fs->exists('box.json')) {
-            $userBoxConfig = json_decode(file_get_contents('box.json'), true);
+            $userBoxConfig = $this->loadConfig('box.json');
             $boxConfig = array_merge($boxConfig, $userBoxConfig);
         }
 
         $tempConfig = $fs->tempnam(sys_get_temp_dir(), 'box.json');
-        $fs->dumpFile($tempConfig, json_encode($boxConfig, JSON_PRETTY_PRINT));
+        $json = json_encode($boxConfig, JSON_PRETTY_PRINT);
+
+        if (false === $json) {
+            throw new RuntimeException('Failed to dump config json');
+        }
+
+        $fs->dumpFile($tempConfig, $json);
 
         return $tempConfig;
     }
@@ -138,5 +145,22 @@ class BoxConfigurator
     private function getStubPath(): string
     {
         return $this->config->build()->getTempPath().'stub.php';
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    private function loadConfig(string $path): array {
+        if (!file_exists($path)) {
+            return [];
+        }
+
+        $config = file_get_contents($path);
+
+        if (false === $config) {
+            return [];
+        }
+
+        return json_decode($config, true);
     }
 }

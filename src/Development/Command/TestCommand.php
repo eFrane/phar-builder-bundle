@@ -34,13 +34,15 @@ class TestCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $phpVersion = strval($input->getArgument('php_version'));
+
         $cmd = [
             'docker',
             'run',
             '--rm',
             '-it',
             sprintf('-v%s/build:/build', \getcwd()),
-            sprintf('php:%s-cli-alpine', $input->getArgument('php_version')),
+            sprintf('php:%s-cli-alpine', $phpVersion),
             '/build/test.phar'
         ];
 
@@ -50,6 +52,6 @@ class TestCommand extends Command
 
         $process->run();
 
-        return $process->getExitCode();
+        return is_int($process->getExitCode()) ? $process->getExitCode() : self::FAILURE;
     }
 }

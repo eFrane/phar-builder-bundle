@@ -142,13 +142,20 @@ class PharBuilder
 
         $fs = new Filesystem();
 
-        foreach ($compiledContainer[PhpDumper::class] as $filename => $content) {
+        /** @var array<string,string> $phpDump */
+        $phpDump = $compiledContainer[PhpDumper::class];
+        foreach ($phpDump as $filename => $content) {
             $fs->dumpFile($cache->getPath() . $filename, $content);
         }
 
         if ($this->config->build()->dumpContainerDebugInfo()) {
-            $fs->dumpFile($cache->getPath() . 'container.dot', $compiledContainer[GraphvizDumper::class]);
-            $fs->dumpFile($cache->getPath() . 'container.yml', $compiledContainer[YamlDumper::class]);
+            /** @var string $graphVizDump */
+            $graphVizDump = $compiledContainer[GraphvizDumper::class];
+            /** @var string $yamlDump */
+            $yamlDump = $compiledContainer[YamlDumper::class];
+
+            $fs->dumpFile($cache->getPath() . 'container.dot', $graphVizDump);
+            $fs->dumpFile($cache->getPath() . 'container.yml', $yamlDump);
         }
     }
 }
