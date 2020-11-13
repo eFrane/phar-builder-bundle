@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Tests\CompilerPass;
 
-
 use EFrane\PharBuilder\Command\PharCommand;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\Console\Command\Command;
