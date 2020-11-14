@@ -16,17 +16,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     use CustomAssertionsTrait;
 
     /**
-     * Build a dummy configuration for test purposes.
-     */
-    protected function getTestConfig(): Config
-    {
-        return new Config([
-            'application_class' => 'TestApp\ApplicationClass',
-            'phar_kernel'       => 'TestApp\PharKernel',
-        ]);
-    }
-
-    /**
      * Manually configure the Twig root for tests.
      */
     protected function getTwig(): Environment
@@ -39,5 +28,18 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
 
         return new Environment($loader);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getPropertyValue(object $object, string $propertyName)
+    {
+        $reflectionClass = new \ReflectionClass($object);
+
+        $reflectionProperty = $reflectionClass->getProperty($propertyName);
+        $reflectionProperty->setAccessible(true);
+
+        return $reflectionProperty->getValue($object);
     }
 }

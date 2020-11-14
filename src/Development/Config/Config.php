@@ -15,7 +15,7 @@ use EFrane\PharBuilder\Exception\ConfigurationException;
  *
  * @method Build build()
  */
-final class Config
+final class Config implements ConfigSectionInterface
 {
     /**
      * @var string
@@ -28,23 +28,28 @@ final class Config
     private $configSections;
 
     /**
+     * @var array<int,class-string>|string[]
+     */
+    private $availableConfigSections;
+
+    /**
      * @var string
      */
     private $pharKernel;
 
-    /**
-     * Config constructor.
-     *
-     * @param array<string,mixed> $bundleConfiguration
-     */
-    public function __construct(array $bundleConfiguration)
+    public function __construct()
     {
-        $this->applicationClass = $bundleConfiguration['application_class'];
-        $this->pharKernel = $bundleConfiguration['phar_kernel'];
-
-        $sections = array_filter($bundleConfiguration, 'is_array');
-
+        $this->availableConfigSections = [];
         $this->configSections = [];
+    }
+
+    public function setConfigFromArray(array $configArray): void
+    {
+        $this->applicationClass = $configArray['application_class'];
+        $this->pharKernel = $configArray['phar_kernel'];
+
+        $sections = array_filter($configArray, 'is_array');
+
         foreach ($sections as $sectionName => $sectionConfigArray) {
             $sectionConfigClass = __NAMESPACE__.'\\'.ucfirst($sectionName);
 

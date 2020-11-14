@@ -23,8 +23,6 @@ services:
 
     EFrane\PharBuilder\Development\Config\Config:
         public: true # must be public as it cannot be injected into PharKernel before kernel boot
-        arguments:
-            $bundleConfiguration: []
 
     EFrane\PharBuilder\Application\PharCommandLoader:
         lazy: true

@@ -29,7 +29,6 @@ class PharBuilderExtensionTest extends AbstractExtensionTestCase
 
         $configDefinition = $this->container->getDefinition(Config::class);
 
-        self::assertCount(1, $configDefinition->getArguments());
-        self::assertArrayHasKey('$bundleConfiguration', $configDefinition->getArguments());
+        self::assertCount(1, $configDefinition->getMethodCalls());
     }
 }
