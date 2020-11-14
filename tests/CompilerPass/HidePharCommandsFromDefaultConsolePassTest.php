@@ -24,6 +24,25 @@ class HidePharCommandsFromDefaultConsolePassTest extends AbstractCommandHidingTe
         self::assertContainerBuilderNotHasService('pharCommand');
     }
 
+    public function testKeepsDefaultCommands(): void
+    {
+        $defaultCommandDefinition = $this->getDefaultCommandDefinition();
+        $pharCommandDefinition = $this->getPharCommandDefinition();
+
+        $this->container->addDefinitions([
+            'defaultCommand' => $defaultCommandDefinition,
+            'pharCommand'    => $pharCommandDefinition,
+        ]);
+
+        self::assertContainerBuilderHasService('defaultCommand');
+        self::assertContainerBuilderHasService('pharCommand');
+
+        $this->compile();
+
+        self::assertContainerBuilderHasService('defaultCommand');
+        self::assertContainerBuilderNotHasService('pharCommand');
+    }
+
     protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new HidePharCommandsFromDefaultConsolePass());
