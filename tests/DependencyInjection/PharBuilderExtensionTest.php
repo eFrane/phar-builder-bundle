@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Tests\DependencyInjection;
 
+use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\DependencyInjection\PharBuilderExtension;
-use EFrane\PharBuilder\Development\Config\Config;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 class PharBuilderExtensionTest extends AbstractExtensionTestCase
@@ -29,6 +29,6 @@ class PharBuilderExtensionTest extends AbstractExtensionTestCase
 
         $configDefinition = $this->container->getDefinition(Config::class);
 
-        self::assertCount(1, $configDefinition->getMethodCalls());
+        self::assertCount(2, $configDefinition->getMethodCalls());
     }
 }

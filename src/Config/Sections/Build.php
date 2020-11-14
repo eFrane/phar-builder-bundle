@@ -6,9 +6,10 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\Development\Config;
+namespace EFrane\PharBuilder\Config\Sections;
 
 use EFrane\PharBuilder\Application\Util;
+use EFrane\PharBuilder\Config\ConfigSectionInterface;
 
 final class Build implements ConfigSectionInterface
 {
@@ -58,6 +59,11 @@ final class Build implements ConfigSectionInterface
         if (!Util::endsWith($this->tempPath, DIRECTORY_SEPARATOR)) {
             $this->tempPath .= DIRECTORY_SEPARATOR;
         }
+    }
+
+    public function getSectionName(): string
+    {
+        return 'build';
     }
 
     public function getEnvironment(): string

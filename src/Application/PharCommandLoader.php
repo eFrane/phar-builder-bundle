@@ -6,7 +6,7 @@ namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Command\DebugCommandInterface;
 use EFrane\PharBuilder\Command\PharCommand;
-use EFrane\PharBuilder\Development\Config\Config;
+use EFrane\PharBuilder\Config\Config;
 
 /**
  * Class CommandLoader.

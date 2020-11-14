@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Application;
 
-use EFrane\PharBuilder\Development\Config\Config;
+use EFrane\PharBuilder\Config\Config;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;

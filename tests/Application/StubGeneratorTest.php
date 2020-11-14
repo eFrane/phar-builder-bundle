@@ -3,7 +3,7 @@
 namespace EFrane\PharBuilder\Tests\Application;
 
 use EFrane\PharBuilder\Application\StubGenerator;
-use EFrane\PharBuilder\Development\Config\Config;
+use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Tests\TestCase;
 
 class StubGeneratorTest extends TestCase

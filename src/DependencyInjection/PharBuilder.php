@@ -12,7 +12,7 @@ use EFrane\PharBuilder\Application\PharKernel;
 use EFrane\PharBuilder\Application\PharKernelInterface;
 use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
-use EFrane\PharBuilder\Development\Config\Config;
+use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\DependencyInjection;
 
-use EFrane\PharBuilder\Development\Config\Config;
+use EFrane\PharBuilder\Config\Config;
 use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

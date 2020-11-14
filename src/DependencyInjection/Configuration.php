@@ -10,7 +10,7 @@ namespace EFrane\PharBuilder\DependencyInjection;
 
 use EFrane\PharBuilder\Application\PharApplication;
 use EFrane\PharBuilder\Application\PharKernel;
-use EFrane\PharBuilder\Development\Config\Build;
+use EFrane\PharBuilder\Config\Sections\Build;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 

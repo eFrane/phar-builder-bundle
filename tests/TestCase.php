@@ -6,7 +6,6 @@
 
 namespace EFrane\PharBuilder\Tests;
 
-use EFrane\PharBuilder\Development\Config\Config;
 use EFrane\PharBuilder\Tests\Assertions\CustomAssertionsTrait;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;

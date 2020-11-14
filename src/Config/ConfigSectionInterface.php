@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\Development\Config;
+namespace EFrane\PharBuilder\Config;
 
 interface ConfigSectionInterface
 {
@@ -14,4 +14,6 @@ interface ConfigSectionInterface
      * @param array<string,mixed> $configArray
      */
     public function setConfigFromArray(array $configArray): void;
+
+    public function getSectionName(): string;
 }
