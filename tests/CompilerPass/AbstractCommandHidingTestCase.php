@@ -31,7 +31,7 @@ abstract class AbstractCommandHidingTestCase extends AbstractCompilerPassTestCas
     protected function getPharCommandDefinition(): Definition
     {
         $testCommand = new class() extends PharCommand {
-            protected static $defaultName = 'pharb:command:for:testing';
+            protected static $defaultName = 'phar:command:for:testing';
         };
 
         $testClassName = get_class($testCommand);
