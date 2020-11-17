@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/eFrane/phar-builder-bundle.svg?branch=master)](https://travis-ci.com/eFrane/phar-builder-bundle)
+
 # Phar Builder Bundle for Symfony
 
 > Utils to make creating (CLI) Phars with Symfony easy.
