@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Config;
 
 use EFrane\PharBuilder\Config\Sections\Build;
+use EFrane\PharBuilder\Config\Sections\Dependencies;
 use EFrane\PharBuilder\Exception\ConfigurationException;
 
 /**
  * Class Config.
  *
- * @method Build build()
+ * @method Build        build()
+ * @method Dependencies dependencies()
  */
 final class Config implements ConfigSectionInterface, ConfigSectionContainerInterface
 {

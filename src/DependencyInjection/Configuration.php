@@ -11,6 +11,10 @@ namespace EFrane\PharBuilder\DependencyInjection;
 use EFrane\PharBuilder\Application\PharApplication;
 use EFrane\PharBuilder\Application\PharKernel;
 use EFrane\PharBuilder\Config\Sections\Build;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -20,19 +24,22 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('phar_builder');
 
-        $treeBuilder->getRootNode()
-            ->children()
-            ->scalarNode('application_class')
-            ->defaultValue(PharApplication::class)
-            ->info('The application class')
-            ->end()
-            ->scalarNode('phar_kernel')
-            ->defaultValue(PharKernel::class)
-            ->info('The kernel used by the phar application')
-            ->end()
-            ->end();
+        /** @var ArrayNodeDefinition $rootNode */
+        $rootNode = $treeBuilder->getRootNode();
+        $children = $rootNode->children();
 
-        $this->addBuildConfiguration($treeBuilder);
+        $applicationClassDefinition = (new ScalarNodeDefinition('application_class'))
+            ->defaultValue(PharApplication::class)
+            ->info('The application class');
+        $children->append($applicationClassDefinition);
+
+        $pharKernelDefinition = (new ScalarNodeDefinition('phar_kernel'))
+            ->defaultValue(PharKernel::class)
+            ->info('The kernel used by the phar application');
+        $children->append($pharKernelDefinition);
+
+        $children->append($this->getBuildConfiguration());
+        $children->append($this->getDependenciesConfiguration());
 
         return $treeBuilder;
     }
@@ -40,40 +47,71 @@ class Configuration implements ConfigurationInterface
     /**
      * @see Build
      */
-    private function addBuildConfiguration(TreeBuilder $treeBuilder): void
+    private function getBuildConfiguration(): NodeDefinition
     {
-        $buildNodeChildren = $treeBuilder->getRootNode()
-            ->children()
-            ->arrayNode('build')
-            ->children();
+        $build = $this->createSection('build');
 
-        $buildNodeChildren
+        $children = $build->children();
+
+        $children
             ->booleanNode('dump_container_debug_info')
             ->info('Will dump additional container variants in Yaml and Graphviz to help with debugging')
             ->defaultFalse()
-            ->end()
+            ->end();
+
+        $children
             ->booleanNode('include_debug_commands')
             ->defaultFalse()
-            ->end()
+            ->end();
+
+        $children
             ->scalarNode('temp_path')
             ->defaultValue('%kernel.project_dir%/var/phar')
-            ->end()
+            ->end();
+
+        $children
             ->scalarNode('output_path')
             ->info('The resulting phar will be stored at this path')
             ->defaultValue('%kernel.project_dir%')
-            ->end()
+            ->end();
+
+        $children
             ->scalarNode('output_filename')
             ->info('The resulting phar will have this filename (does not have to end with .phar)')
             ->cannotBeEmpty()
-            ->end()
+            ->end();
+
+        $children
             ->scalarNode('environment')
             ->info('The application environment for the phar build')
             ->defaultValue('prod')
-            ->end()
+            ->end();
+
+        $children
             ->booleanNode('debug')
             ->defaultFalse()
             ->end();
 
-        $buildNodeChildren->end();
+        return $build;
+    }
+
+    private function getDependenciesConfiguration(): NodeDefinition
+    {
+        $dependencies = $this->createSection('dependencies');
+
+        $children = $dependencies->children();
+
+        $children
+            ->scalarNode('storage_dir')
+            ->info('The location where depedencies like humbug/box are saved to')
+            ->defaultValue($_SERVER['HOME'].'.phar-builder')
+            ->end();
+
+        return $dependencies;
+    }
+
+    private function createSection(string $name): ArrayNodeDefinition
+    {
+        return (new NodeBuilder())->arrayNode($name);
     }
 }

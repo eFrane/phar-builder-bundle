@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * @copyright 2020
+ * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
+ */
+
+namespace EFrane\PharBuilder\Tests\Development\Dependencies;
+
+use EFrane\PharBuilder\Development\Dependencies\Release;
+use EFrane\PharBuilder\Development\Dependencies\VersionDeterminator;
+use EFrane\PharBuilder\Tests\TestCase;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
+
+class VersionDeterminatorTest extends TestCase
+{
+    /**
+     * @var VersionDeterminator
+     */
+    private $sut;
+
+    public function setUp(): void
+    {
+        $data = json_encode([
+            json_decode($this->getAsset('ghrelease.json')),
+        ], JSON_THROW_ON_ERROR);
+
+        $mockGHResponse = new MockResponse($data);
+
+        $client = new MockHttpClient([$mockGHResponse]);
+
+        $this->sut = new VersionDeterminator($client);
+    }
+
+    public function testGetLatestRelease(): void
+    {
+        $latestRelease = $this->sut->getLatestRelease('humbug', 'box');
+        self::assertInstanceOf(Release::class, $latestRelease);
+    }
+}
