@@ -6,13 +6,11 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\DependencyInjection;
+namespace EFrane\PharBuilder\Application;
 
-use EFrane\PharBuilder\Application\PharKernel;
-use EFrane\PharBuilder\Application\PharKernelInterface;
-use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
 use EFrane\PharBuilder\Config\Config;
+use EFrane\PharBuilder\DependencyInjection\MultiDumper;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -26,7 +24,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\AddAnnotatedClassesToCacheP
 use Symfony\Component\HttpKernel\DependencyInjection\MergeExtensionConfigurationPass;
 use Symfony\Component\HttpKernel\Kernel;
 
-class PharBuilder
+class PharContainerBuilder
 {
     /**
      * @var Config

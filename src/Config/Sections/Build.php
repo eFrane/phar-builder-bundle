@@ -16,31 +16,31 @@ final class Build implements ConfigSectionInterface
     /**
      * @var string
      */
-    protected $environment;
+    private $environment;
     /**
      * @var bool
      */
-    protected $debug;
+    private $debug;
     /**
      * @var bool
      */
-    protected $dumpContainerDebugInfo;
+    private $dumpContainerDebugInfo;
     /**
      * @var bool
      */
-    protected $includeDebugCommands;
+    private $includeDebugCommands;
     /**
      * @var string
      */
-    protected $tempPath;
+    private $tempPath;
     /**
      * @var string
      */
-    protected $outputPath;
+    private $outputPath;
     /**
      * @var string
      */
-    protected $outputFilename;
+    private $outputFilename;
 
     public function setConfigFromArray(array $configArray): void
     {

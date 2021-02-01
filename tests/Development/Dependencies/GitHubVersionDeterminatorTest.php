@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Tests\Development\Dependencies;
 
+use EFrane\PharBuilder\Development\Dependencies\GitHubVersionDeterminator;
 use EFrane\PharBuilder\Development\Dependencies\Release;
-use EFrane\PharBuilder\Development\Dependencies\VersionDeterminator;
 use EFrane\PharBuilder\Tests\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-class VersionDeterminatorTest extends TestCase
+class GitHubVersionDeterminatorTest extends TestCase
 {
     /**
-     * @var VersionDeterminator
+     * @var GitHubVersionDeterminator
      */
     private $sut;
 
@@ -31,12 +31,12 @@ class VersionDeterminatorTest extends TestCase
 
         $client = new MockHttpClient([$mockGHResponse]);
 
-        $this->sut = new VersionDeterminator($client);
+        $this->sut = new GitHubVersionDeterminator($client);
     }
 
     public function testGetLatestRelease(): void
     {
-        $latestRelease = $this->sut->getLatestRelease('humbug', 'box');
+        $latestRelease = $this->sut->getLatestRelease('floo/flarb');
         self::assertInstanceOf(Release::class, $latestRelease);
     }
 }

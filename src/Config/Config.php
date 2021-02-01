@@ -23,7 +23,7 @@ final class Config implements ConfigSectionInterface, ConfigSectionContainerInte
     /**
      * @var string
      */
-    protected $applicationClass;
+    private $applicationClass;
 
     /**
      * @var ConfigSectionInterface[]|array<string,ConfigSectionInterface>

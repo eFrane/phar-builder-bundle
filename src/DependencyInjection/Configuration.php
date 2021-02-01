@@ -56,41 +56,34 @@ class Configuration implements ConfigurationInterface
         $children
             ->booleanNode('dump_container_debug_info')
             ->info('Will dump additional container variants in Yaml and Graphviz to help with debugging')
-            ->defaultFalse()
-            ->end();
+            ->defaultFalse();
 
         $children
             ->booleanNode('include_debug_commands')
-            ->defaultFalse()
-            ->end();
+            ->defaultFalse();
 
         $children
             ->scalarNode('temp_path')
-            ->defaultValue('%kernel.project_dir%/var/phar')
-            ->end();
+            ->defaultValue('%kernel.project_dir%/var/phar');
 
         $children
             ->scalarNode('output_path')
             ->info('The resulting phar will be stored at this path')
-            ->defaultValue('%kernel.project_dir%')
-            ->end();
+            ->defaultValue('%kernel.project_dir%');
 
         $children
             ->scalarNode('output_filename')
             ->info('The resulting phar will have this filename (does not have to end with .phar)')
-            ->cannotBeEmpty()
-            ->end();
+            ->cannotBeEmpty();
 
         $children
             ->scalarNode('environment')
             ->info('The application environment for the phar build')
-            ->defaultValue('prod')
-            ->end();
+            ->defaultValue('prod');
 
         $children
             ->booleanNode('debug')
-            ->defaultFalse()
-            ->end();
+            ->defaultFalse();
 
         return $build;
     }
@@ -104,8 +97,43 @@ class Configuration implements ConfigurationInterface
         $children
             ->scalarNode('storage_dir')
             ->info('The location where depedencies like humbug/box are saved to')
-            ->defaultValue($_SERVER['HOME'].'.phar-builder')
-            ->end();
+            ->defaultValue($_SERVER['HOME'].'.phar-builder');
+
+        $versions = $children
+            ->arrayNode('versions')
+            ->info('List of packages and their required / supported versions')
+            ->useAttributeAsKey('name')
+            ->addDefaultChildrenIfNoneSet([
+                [
+                    'name'    => 'box-project/box',
+                    'version' => '~3.9.1',
+                ],
+                [
+                    'name'    => 'humbug/php-scoper',
+                    'version' => '0.13.*',
+                ],
+            ])
+            ->arrayPrototype()
+            ->children();
+
+        $versions->scalarNode('vendor')
+            ->info('Package vendor')
+            ->cannotBeEmpty();
+
+        $versions->scalarNode('name')
+            ->info('Package name')
+            ->cannotBeEmpty();
+
+        $versions->scalarNode('version')
+            ->info('Valid semver version')
+            ->cannotBeEmpty()
+            ->validate()
+            ->ifTrue(static function ($value) {
+                $semverRegex = '/\s?((((\d+|\*)\.){1,3})(-[\da-z]+)?(?!.+-.+)|([\^~=](?!.+-.+))((\d+\.){1,3})(-[\da-z]+)?|(((\d+\.){1,3})(-[\da-z]+))?(\s+-?\s+)((\d+\.){1,3}(-[\da-z]+)?))\s?/i';
+
+                return is_string($value) && false !== preg_match($semverRegex, $value);
+            })
+            ->then(static function ($value) { return $value; });
 
         return $dependencies;
     }

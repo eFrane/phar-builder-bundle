@@ -7,4 +7,4 @@ parameters:
     -
         message: "#^Parameter \\#1 \\$kernel of class Symfony\\\\Component\\\\HttpKernel\\\\DependencyInjection\\\\AddAnnotatedClassesToCachePass constructor expects Symfony\\\\Component\\\\HttpKernel\\\\Kernel, EFrane\\\\PharBuilder\\\\Application\\\\PharKernelInterface given\\.$#"
         count: 1
-        path: src/DependencyInjection/PharBuilder.php
+        path: src/Application/PharContainerBuilder.php

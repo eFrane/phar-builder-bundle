@@ -15,11 +15,17 @@ final class Dependencies implements ConfigSectionInterface
     /**
      * @var string
      */
-    protected $storageDir;
+    private $storageDir;
+
+    /**
+     * @var array<string,array<string,string>>
+     */
+    private $versions;
 
     public function setConfigFromArray(array $configArray): void
     {
         $this->storageDir = $configArray['storage_dir'];
+        $this->versions = $configArray['versions'];
     }
 
     public function getSectionName(): string
@@ -30,5 +36,13 @@ final class Dependencies implements ConfigSectionInterface
     public function getStorageDir(): string
     {
         return $this->storageDir;
+    }
+
+    /**
+     * @return array<string,array<string,string>>
+     */
+    public function getVersions(): array
+    {
+        return $this->versions;
     }
 }

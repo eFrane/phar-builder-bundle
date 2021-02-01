@@ -27,6 +27,13 @@ class DownloaderTest extends TestCase
             'phar_kernel'       => 'TestApp\PharKernel',
             'dependencies'      => [
                 'storage_dir' => $tempDir,
+                'versions'    => [
+                    'flarb' => [
+                        'vendor'  => 'floo',
+                        'name'    => 'flarb',
+                        'version' => '^3.0',
+                    ],
+                ],
             ],
         ];
 
@@ -36,9 +43,10 @@ class DownloaderTest extends TestCase
 
         $httpClient = new MockHttpClient(new MockResponse('http_client_response'));
 
-        $release = new Release([
-            'name'   => 'TestRelease',
-            'assets' => [
+        $release = new Release('floo/flarb', [
+            'name'     => 'TestRelease',
+            'tag_name' => '3.0',
+            'assets'   => [
                 [
                     'name'                 => uniqid('DownloadableAsset', false),
                     'browser_download_url' => 'http://i.am.not.a.real.domain',

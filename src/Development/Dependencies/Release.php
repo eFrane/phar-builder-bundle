@@ -16,20 +16,28 @@ class Release
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $version;
+
+    /**
      * @var array<int,DownloadUrl>
      */
     protected $downloadUrls;
 
     /**
+     * @var string
+     */
+    private $vendor;
+
+    /**
      * @param array<string,mixed> $releaseInformation
      */
-    public function __construct(array $releaseInformation)
+    public function __construct(string $name, array $releaseInformation)
     {
-        if (!array_key_exists('name', $releaseInformation)) {
-            throw DependencyException::missingDataField('name');
-        }
+        $this->name = $name;
 
-        $this->name = $releaseInformation['name'];
+        $this->version = $releaseInformation['tag_name'];
 
         if (!array_key_exists('assets', $releaseInformation) || 0 === count($releaseInformation['assets'])) {
             throw DependencyException::missingAssets();
@@ -60,5 +68,10 @@ class Release
     public function getDownloadUrls(): array
     {
         return $this->downloadUrls;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
     }
 }

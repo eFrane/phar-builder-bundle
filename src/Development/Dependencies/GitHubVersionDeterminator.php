@@ -18,7 +18,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * Fetches the latest GitHub Release of a given dependency.
  */
-class VersionDeterminator
+class GitHubVersionDeterminator
 {
     /**
      * @var HttpClientInterface
@@ -31,16 +31,15 @@ class VersionDeterminator
     }
 
     /**
-     * @param string $owner      A GitHub username
-     * @param string $repository A public GitHub repository name under $owner
+     * @param string $repository A public GitHub repository name as `vendor/repo`
      */
-    public function getLatestRelease(string $owner, string $repository): Release
+    public function getLatestRelease(string $repository): Release
     {
-        $releases = $this->getReleases($owner, $repository);
+        $releases = $this->getReleases($repository);
 
         // TODO: throw exception if release count is < 1
 
-        return new Release($releases[0]);
+        return new Release($repository, $releases[0]);
     }
 
     /**
@@ -51,9 +50,9 @@ class VersionDeterminator
      *
      * @return array<int,array<string,mixed>>
      */
-    private function getReleases(string $owner, string $repository): array
+    private function getReleases(string $repository): array
     {
-        $url = sprintf('https://api.github.com/repos/%s/%s/releases', $owner, $repository);
+        $url = sprintf('https://api.github.com/repos/%s/releases', $repository);
         $response = $this->makeGitHubRequest($url);
 
         return json_decode($response->getContent(false), true);
