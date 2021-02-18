@@ -34,7 +34,7 @@ class PharBuilderBundle extends Bundle
         $bundleTemplateNamespace = 'PharBuilder';
 
         /** @var Environment $twig */
-        $twig = $this->container->get('twig');
+        $twig = $this->container->get(Environment::class);
         $originalLoader = $twig->getLoader();
 
         $bundleTwigLoader = new FilesystemLoader();
