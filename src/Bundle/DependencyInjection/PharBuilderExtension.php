@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\DependencyInjection;
+namespace EFrane\PharBuilder\Bundle\DependencyInjection;
 
 use EFrane\PharBuilder\Config\Config;
 use Exception;
@@ -26,7 +26,7 @@ class PharBuilderExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__.'/../../Resources/config')
         );
 
         $loader->load('services.yaml');

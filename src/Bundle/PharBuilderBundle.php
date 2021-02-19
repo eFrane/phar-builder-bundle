@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Bundle;
 
-use EFrane\PharBuilder\DependencyInjection\PharBuilderExtension;
+use EFrane\PharBuilder\Bundle\DependencyInjection\PharBuilderExtension;
 use EFrane\PharBuilder\Exception\BundleSetupException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Twig\Environment;
@@ -34,7 +34,7 @@ class PharBuilderBundle extends Bundle
         $bundleTemplateNamespace = 'PharBuilder';
 
         /** @var Environment $twig */
-        $twig = $this->container->get(Environment::class);
+        $twig = $this->container->get('twig');
         $originalLoader = $twig->getLoader();
 
         $bundleTwigLoader = new FilesystemLoader();

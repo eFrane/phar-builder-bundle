@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Application;
 
-use EFrane\PharBuilder\CompilerPass\HideDefaultConsoleCommandsFromPharPass;
+use EFrane\PharBuilder\Bundle\DependencyInjection\Compiler\HideDefaultConsoleCommandsFromPharPass;
 use EFrane\PharBuilder\Exception\PharApplicationException;
 use function is_dir;
 use function mkdir;

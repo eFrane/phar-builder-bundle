@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\DependencyInjection;
+namespace EFrane\PharBuilder\Bundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\DumperInterface;

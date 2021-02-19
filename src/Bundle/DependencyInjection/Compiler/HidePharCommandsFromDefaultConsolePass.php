@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EFrane\PharBuilder\CompilerPass;
+namespace EFrane\PharBuilder\Bundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
