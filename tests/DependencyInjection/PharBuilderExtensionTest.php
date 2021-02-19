@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Tests\DependencyInjection;
 
-use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Bundle\DependencyInjection\PharBuilderExtension;
+use EFrane\PharBuilder\Config\Config;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 class PharBuilderExtensionTest extends AbstractExtensionTestCase

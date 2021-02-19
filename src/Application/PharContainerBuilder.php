@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Bundle\DependencyInjection\Compiler\HideDefaultConsoleCommandsFromPharPass;
-use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Bundle\DependencyInjection\MultiDumper;
+use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
