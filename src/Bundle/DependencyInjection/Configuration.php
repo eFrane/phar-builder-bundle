@@ -102,6 +102,7 @@ class Configuration implements ConfigurationInterface
         $versions = $children
             ->arrayNode('versions')
             ->info('List of packages and their required / supported versions')
+            ->cannotBeOverwritten(true)
             ->useAttributeAsKey('name')
             ->addDefaultChildrenIfNoneSet([
                 [
