@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - '**.php'
-      - '.php_cs'
+      - 'phpunit.xml'
 
 jobs:
   phpunit7_4:
