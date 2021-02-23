@@ -24,6 +24,6 @@ class ConfigurationException extends RuntimeException
 
     public static function missingConfigurationValue(string $valueName): self
     {
-        throw new self("Required configuration value {$valueName} missing.");
+        throw new self("Required configuration value {$valueName} is missing.");
     }
 }

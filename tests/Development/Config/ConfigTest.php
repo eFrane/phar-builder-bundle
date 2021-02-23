@@ -93,7 +93,7 @@ class ConfigTest extends TestCase
         ]);
 
         $this->expectException(ConfigurationException::class);
-        $this->expectExceptionMessage('Required configuration value build.output_filename missing');
+        $this->expectExceptionMessage('Required configuration value build.output_filename is missing');
 
         $config->setConfigFromArray($defaultConfig);
     }
