@@ -92,8 +92,8 @@ class ConfigTest extends TestCase
             new Dependencies(),
         ]);
 
-        $this->expectError();
-        $this->expectErrorMessage('Undefined array key "output_filename"');
+        $this->expectException(ConfigurationException::class);
+        $this->expectExceptionMessage('Required configuration value build.output_filename missing');
 
         $config->setConfigFromArray($defaultConfig);
     }

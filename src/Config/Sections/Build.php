@@ -10,6 +10,7 @@ namespace EFrane\PharBuilder\Config\Sections;
 
 use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\Config\ConfigSectionInterface;
+use EFrane\PharBuilder\Exception\ConfigurationException;
 
 final class Build implements ConfigSectionInterface
 {
@@ -44,6 +45,10 @@ final class Build implements ConfigSectionInterface
 
     public function setConfigFromArray(array $configArray): void
     {
+        if (!array_key_exists('output_filename', $configArray)) {
+            throw ConfigurationException::missingConfigurationValue('build.output_filename');
+        }
+
         $this->debug = $configArray['debug'];
         $this->dumpContainerDebugInfo = $configArray['dump_container_debug_info'];
         $this->environment = $configArray['environment'];

@@ -21,4 +21,9 @@ class ConfigurationException extends RuntimeException
     {
         throw new self('Must not pass arguments to sections');
     }
+
+    public static function missingConfigurationValue(string $valueName): self
+    {
+        throw new self("Required configuration value {$valueName} missing.");
+    }
 }

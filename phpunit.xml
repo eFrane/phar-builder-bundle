@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="tests/bootstrap.php" defaultTestSuite="Unit Tests" verbose="true">
+<phpunit
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+  bootstrap="tests/bootstrap.php"
+  defaultTestSuite="Unit Tests"
+  verbose="true"
+  convertErrorsToExceptions="true"
+>
   <coverage includeUncoveredFiles="true">
     <include>
       <directory>./</directory>
