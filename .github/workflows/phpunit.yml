@@ -1,4 +1,4 @@
-name: Format (PHP)
+name: Tests (PHP)
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - '.php_cs'
 
 jobs:
-  php-cs-fixer:
+  phpunit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
