@@ -38,12 +38,4 @@ class PharBuilderExtension extends Extension
         $configurationObjectDefinition = $container->getDefinition(Config::class);
         $configurationObjectDefinition->addMethodCall('setConfigFromArray', [$bundleConfiguration]);
     }
-
-    /**
-     * @param array<mixed,mixed> $config
-     */
-    public function getConfiguration(array $config, ContainerBuilder $container): Configuration
-    {
-        return new Configuration();
-    }
 }

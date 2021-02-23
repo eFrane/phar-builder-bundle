@@ -8,10 +8,14 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Tests\Development\Config;
 
+use EFrane\PharBuilder\Bundle\DependencyInjection\Configuration;
 use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Config\ConfigSectionInterface;
+use EFrane\PharBuilder\Config\Sections\Build;
+use EFrane\PharBuilder\Config\Sections\Dependencies;
 use EFrane\PharBuilder\Exception\ConfigurationException;
 use EFrane\PharBuilder\Tests\TestCase;
+use Symfony\Component\Config\Definition\Processor;
 
 class ConfigTest extends TestCase
 {
@@ -75,6 +79,45 @@ class ConfigTest extends TestCase
         $config->setConfigFromArray($configData);
     }
 
+    /**
+     * The default configuration without any changes has missing values.
+     */
+    public function testFailsLoadingDefaultConfiguration(): void
+    {
+        $defaultConfig = $this->getMergedConfigurationData();
+
+        $config = new Config();
+        $config->registerSections([
+            new Build(),
+            new Dependencies(),
+        ]);
+
+        $this->expectError();
+        $this->expectErrorMessage('Undefined array key "output_filename"');
+
+        $config->setConfigFromArray($defaultConfig);
+    }
+
+    /**
+     * @after testFailsLoadingDefaultConfiguration
+     */
+    public function testLoadsMinimalWorkingConfiguration(): void
+    {
+        $defaultConfig = $this->getMergedConfigurationData([
+            'phar_builder' => ['build' => ['output_filename' => 'outputfile']],
+        ]);
+
+        $config = new Config();
+        $config->registerSections([
+            new Build(),
+            new Dependencies(),
+        ]);
+
+        $config->setConfigFromArray($defaultConfig);
+
+        self::assertEquals('outputfile', $config->build()->getOutputFilename());
+    }
+
     private function getTestSection(): ConfigSectionInterface
     {
         return new class() implements ConfigSectionInterface {
@@ -114,5 +157,19 @@ class ConfigTest extends TestCase
             'application_class' => 'Phar\Application',
             'phar_kernel'       => 'Kernel\Class',
         ];
+    }
+
+    /**
+     * @param array<string,mixed> $testConfiguration
+     *
+     * @return array<string,mixed>
+     */
+    private function getMergedConfigurationData(array $testConfiguration = []): array
+    {
+        $configuration = new Configuration();
+        $processor = new Processor();
+        $config = $processor->processConfiguration($configuration, $testConfiguration);
+
+        return $config;
     }
 }

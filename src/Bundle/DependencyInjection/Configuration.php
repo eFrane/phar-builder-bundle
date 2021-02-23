@@ -49,7 +49,8 @@ class Configuration implements ConfigurationInterface
      */
     private function getBuildConfiguration(): NodeDefinition
     {
-        $build = $this->createSection('build');
+        $build = $this->createSection('build')
+            ->addDefaultsIfNotSet();
 
         $children = $build->children();
 
@@ -90,30 +91,36 @@ class Configuration implements ConfigurationInterface
 
     private function getDependenciesConfiguration(): NodeDefinition
     {
-        $dependencies = $this->createSection('dependencies');
+        $dependencies = $this->createSection('dependencies')
+            ->cannotBeOverwritten(true)
+            ->addDefaultsIfNotSet();
 
         $children = $dependencies->children();
 
         $children
             ->scalarNode('storage_dir')
             ->info('The location where depedencies like humbug/box are saved to')
-            ->defaultValue($_SERVER['HOME'].'.phar-builder');
+            ->defaultValue($_SERVER['HOME'].'/.phar-builder');
 
         $versions = $children
             ->arrayNode('versions')
             ->info('List of packages and their required / supported versions')
             ->cannotBeOverwritten(true)
             ->useAttributeAsKey('name')
-            ->addDefaultChildrenIfNoneSet([
+            ->defaultValue(
                 [
-                    'name'    => 'box-project/box',
-                    'version' => '~3.9.1',
-                ],
-                [
-                    'name'    => 'humbug/php-scoper',
-                    'version' => '0.13.*',
-                ],
-            ])
+                    'box'        => [
+                        'vendor'  => 'box-project',
+                        'name'    => 'box',
+                        'version' => '~3.9.1',
+                    ],
+                    'php-scoper' => [
+                            'vendor'  => 'humbug',
+                            'name'    => 'php-scoper',
+                            'version' => '0.13.*',
+                        ],
+                ]
+            )
             ->arrayPrototype()
             ->children();
 
@@ -129,12 +136,18 @@ class Configuration implements ConfigurationInterface
             ->info('Valid semver version')
             ->cannotBeEmpty()
             ->validate()
-            ->ifTrue(static function ($value) {
-                $semverRegex = '/\s?((((\d+|\*)\.){1,3})(-[\da-z]+)?(?!.+-.+)|([\^~=](?!.+-.+))((\d+\.){1,3})(-[\da-z]+)?|(((\d+\.){1,3})(-[\da-z]+))?(\s+-?\s+)((\d+\.){1,3}(-[\da-z]+)?))\s?/i';
+            ->ifTrue(
+                static function ($value) {
+                    $semverRegex = '/\s?((((\d+|\*)\.){1,3})(-[\da-z]+)?(?!.+-.+)|([\^~=](?!.+-.+))((\d+\.){1,3})(-[\da-z]+)?|(((\d+\.){1,3})(-[\da-z]+))?(\s+-?\s+)((\d+\.){1,3}(-[\da-z]+)?))\s?/i';
 
-                return is_string($value) && false !== preg_match($semverRegex, $value);
-            })
-            ->then(static function ($value) { return $value; });
+                    return is_string($value) && false !== preg_match($semverRegex, $value);
+                }
+            )
+            ->then(
+                static function ($value) {
+                    return $value;
+                }
+            );
 
         return $dependencies;
     }
