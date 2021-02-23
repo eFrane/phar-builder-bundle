@@ -4,7 +4,7 @@
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\Tests\CompilerPass;
+namespace EFrane\PharBuilder\Tests\Bundle\DependencyInjection\Compiler;
 
 use EFrane\PharBuilder\Bundle\DependencyInjection\Compiler\HideDefaultConsoleCommandsFromPharPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,10 +34,12 @@ class HideDefaultConsoleCommandsFromPharPassTest extends AbstractCommandHidingTe
         $defaultCommandDefinition = $this->getDefaultCommandDefinition();
         $pharCommandDefinition = $this->getPharCommandDefinition();
 
-        $this->container->addDefinitions([
-            'defaultCommand' => $defaultCommandDefinition,
-            'pharCommand'    => $pharCommandDefinition,
-        ]);
+        $this->container->addDefinitions(
+            [
+                'defaultCommand' => $defaultCommandDefinition,
+                'pharCommand'    => $pharCommandDefinition,
+            ]
+        );
 
         self::assertContainerBuilderHasService('defaultCommand');
         self::assertContainerBuilderHasService('pharCommand');

@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\Tests\DependencyInjection;
+namespace EFrane\PharBuilder\Tests\Bundle\DependencyInjection;
 
 use EFrane\PharBuilder\Bundle\DependencyInjection\PharBuilderExtension;
 use EFrane\PharBuilder\Config\Config;

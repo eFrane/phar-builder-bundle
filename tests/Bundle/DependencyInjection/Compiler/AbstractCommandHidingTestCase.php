@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author Stefan "eFrane" Graupner <stefan.graupner@gmail.com>
  */
 
-namespace EFrane\PharBuilder\Tests\CompilerPass;
+namespace EFrane\PharBuilder\Tests\Bundle\DependencyInjection\Compiler;
 
 use EFrane\PharBuilder\Command\PharCommand;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
