@@ -10,6 +10,7 @@ namespace EFrane\PharBuilder\Tests\Development\Dependencies;
 
 use EFrane\PharBuilder\Development\Dependencies\GitHubVersionDeterminator;
 use EFrane\PharBuilder\Development\Dependencies\Release;
+use EFrane\PharBuilder\Exception\ConfigurationException;
 use EFrane\PharBuilder\Tests\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -38,5 +39,12 @@ class GitHubVersionDeterminatorTest extends TestCase
     {
         $latestRelease = $this->sut->getLatestRelease('floo/flarb');
         self::assertInstanceOf(Release::class, $latestRelease);
+    }
+
+    public function testThrowsOnInvalidRepositoryName(): void
+    {
+        $this->expectException(ConfigurationException::class);
+
+        $this->sut->getLatestRelease('foo');
     }
 }

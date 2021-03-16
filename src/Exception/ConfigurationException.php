@@ -26,4 +26,9 @@ class ConfigurationException extends RuntimeException
     {
         throw new self("Required configuration value {$valueName} is missing.");
     }
+
+    public static function invalidRepositoryName(string $repositoryName): self
+    {
+        throw new self("Repository name {$repositoryName} is invalid.");
+    }
 }

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Development\Dependencies;
 
+use EFrane\PharBuilder\Exception\ConfigurationException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -35,6 +36,8 @@ class GitHubVersionDeterminator
      */
     public function getLatestRelease(string $repository): Release
     {
+        $this->validateRepositoryNameFormat($repository);
+
         $releases = $this->getReleases($repository);
 
         // TODO: throw exception if release count is < 1
@@ -65,5 +68,12 @@ class GitHubVersionDeterminator
                 'Accept' => 'application/vnd.github.v3+json',
             ],
         ]);
+    }
+
+    private function validateRepositoryNameFormat(string $repositoryName)
+    {
+        if (0 === preg_match('/[[:alpha:]]+?\/[[:alpha:]]+?/i', $repositoryName)) {
+            throw ConfigurationException::invalidRepositoryName($repositoryName);
+        }
     }
 }
