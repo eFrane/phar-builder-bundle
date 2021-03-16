@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Development\Dependencies;
 
-use EFrane\PharBuilder\Exception\ConfigurationException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;

@@ -10,7 +10,6 @@ namespace EFrane\PharBuilder\Tests\Development\Dependencies;
 
 use EFrane\PharBuilder\Development\Dependencies\GitHubVersionDeterminator;
 use EFrane\PharBuilder\Development\Dependencies\Release;
-use EFrane\PharBuilder\Exception\ConfigurationException;
 use EFrane\PharBuilder\Tests\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
