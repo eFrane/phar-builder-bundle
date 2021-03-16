@@ -32,17 +32,16 @@ class GitHubVersionDeterminator
     }
 
     /**
-     * @param string $repository A public GitHub repository name as `vendor/repo`
+     * @param string $vendor A public GitHub username
+     * @param string name A repository of that user
      */
-    public function getLatestRelease(string $repository): Release
+    public function getLatestRelease(string $vendor, string $name): Release
     {
-        $this->validateRepositoryNameFormat($repository);
-
-        $releases = $this->getReleases($repository);
+        $releases = $this->getReleases($vendor, $name);
 
         // TODO: throw exception if release count is < 1
 
-        return new Release($repository, $releases[0]);
+        return new Release($vendor, $name, $releases[0]);
     }
 
     /**
@@ -53,9 +52,9 @@ class GitHubVersionDeterminator
      *
      * @return array<int,array<string,mixed>>
      */
-    private function getReleases(string $repository): array
+    private function getReleases(string $vendor, string $name): array
     {
-        $url = sprintf('https://api.github.com/repos/%s/releases', $repository);
+        $url = sprintf('https://api.github.com/repos/%s/%s/releases', $vendor, $name);
         $response = $this->makeGitHubRequest($url);
 
         return json_decode($response->getContent(false), true);
@@ -68,12 +67,5 @@ class GitHubVersionDeterminator
                 'Accept' => 'application/vnd.github.v3+json',
             ],
         ]);
-    }
-
-    private function validateRepositoryNameFormat(string $repositoryName)
-    {
-        if (0 === preg_match('/[[:alpha:]]+?\/[[:alpha:]]+?/i', $repositoryName)) {
-            throw ConfigurationException::invalidRepositoryName($repositoryName);
-        }
     }
 }

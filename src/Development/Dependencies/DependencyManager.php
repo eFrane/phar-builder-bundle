@@ -82,9 +82,7 @@ class DependencyManager
              * @param array<string,string> $version
              */
             function (array $version) {
-                return $this->versionDeterminator->getLatestRelease(
-                    $version['name']
-                );
+                return $this->versionDeterminator->getLatestRelease($version['vendor'], $version['name']);
             },
             $this->config->dependencies()->getVersions()
         ));

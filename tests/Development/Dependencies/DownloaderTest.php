@@ -43,7 +43,7 @@ class DownloaderTest extends TestCase
 
         $httpClient = new MockHttpClient(new MockResponse('http_client_response'));
 
-        $release = new Release('floo/flarb', [
+        $release = new Release('floo', 'flarb', [
             'name'     => 'TestRelease',
             'tag_name' => '3.0',
             'assets'   => [

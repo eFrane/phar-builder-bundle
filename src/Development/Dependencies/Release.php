@@ -33,9 +33,10 @@ class Release
     /**
      * @param array<string,mixed> $releaseInformation
      */
-    public function __construct(string $name, array $releaseInformation)
+    public function __construct(string $vendor, string $name, array $releaseInformation)
     {
         $this->name = $name;
+        $this->vendor = $vendor;
 
         $this->version = $releaseInformation['tag_name'];
 
@@ -73,5 +74,10 @@ class Release
     public function getVersion(): string
     {
         return $this->version;
+    }
+
+    public function getVendor(): string
+    {
+        return $this->vendor;
     }
 }

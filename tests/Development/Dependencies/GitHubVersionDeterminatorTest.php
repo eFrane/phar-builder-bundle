@@ -37,14 +37,7 @@ class GitHubVersionDeterminatorTest extends TestCase
 
     public function testGetLatestRelease(): void
     {
-        $latestRelease = $this->sut->getLatestRelease('floo/flarb');
+        $latestRelease = $this->sut->getLatestRelease('floo', 'flarb');
         self::assertInstanceOf(Release::class, $latestRelease);
-    }
-
-    public function testThrowsOnInvalidRepositoryName(): void
-    {
-        $this->expectException(ConfigurationException::class);
-
-        $this->sut->getLatestRelease('foo');
     }
 }
