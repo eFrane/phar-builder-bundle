@@ -50,7 +50,7 @@ class BoxConfigurator
 
     public function getBoxPharPath(): string
     {
-        return $this->config->dependencies()->getStorageDir() . DIRECTORY_SEPARATOR . 'box.phar';
+        return $this->config->dependencies()->getStorageDir().DIRECTORY_SEPARATOR.'box.phar';
     }
 
     public function dumpConfiguration(): void
