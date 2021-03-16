@@ -45,7 +45,7 @@ class PharBuilder
             $output->writeln('<warning>Box configuration has diverged from the recommended defaults, consider running phar:dump:box again.</warning>');
         }
 
-        $output->writeln('Running vendor/bin/box compile');
+        $output->writeln('Running box compile');
 
         $runtimeConfig = $this->configurator->createRuntimeConfig();
 
