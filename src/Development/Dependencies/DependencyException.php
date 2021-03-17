@@ -21,4 +21,9 @@ class DependencyException extends RuntimeException
     {
         return new self('Missing assets');
     }
+
+    public static function noValidRelease(string $vendor, string $name): self
+    {
+        return new self("Tried the latest releases of '{$vendor}/{$name}' and found no valid release");
+    }
 }

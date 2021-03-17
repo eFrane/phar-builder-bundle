@@ -1,0 +1,16 @@
+{
+  "url": "https://api.github.com/repos/floo/flarb/releases/33204918",
+  "assets_url": "https://api.github.com/repos/floo/flarb/releases/33204918/assets",
+  "upload_url": "https://uploads.github.com/repos/floo/flarb/releases/33204918/assets{?name,label}",
+  "html_url": "https://github.com/floo/flarb/releases/tag/3.9.1",
+  "tag_name": "3.9.1",
+  "target_commitish": "master",
+  "name": "3.9.1",
+  "draft": false,
+  "prerelease": false,
+  "created_at": "2020-09-29T20:14:44Z",
+  "published_at": "2020-10-29T08:55:35Z",
+  "assets": [  ],
+  "tarball_url": "https://api.github.com/repos/floo/flarb/tarball/3.9.1",
+  "zipball_url": "https://api.github.com/repos/floo/flarb/zipball/3.9.1"
+}

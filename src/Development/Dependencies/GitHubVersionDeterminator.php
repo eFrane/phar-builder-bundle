@@ -32,15 +32,30 @@ class GitHubVersionDeterminator
 
     /**
      * @param string $vendor A public GitHub username
-     * @param string name A repository of that user
+     * @param string $name   A repository of that user
      */
-    public function getLatestRelease(string $vendor, string $name): Release
+    public function getLatestReleaseWithPublishedAssets(string $vendor, string $name, int $retryCount = 3): Release
     {
+        $release = null;
         $releases = $this->getReleases($vendor, $name);
+        $retryCount = (count($releases) < $retryCount) ? count($releases) - 1 : $retryCount;
 
-        // TODO: throw exception if release count is < 1
+        foreach ($releases as $i => $releaseInformation) {
+            try {
+                $release = new Release($vendor, $name, $releaseInformation);
+                break;
+            } catch (DependencyException $exception) {
+                if ($i >= $retryCount) {
+                    throw DependencyException::noValidRelease($vendor, $name);
+                }
+            }
+        }
 
-        return new Release($vendor, $name, $releases[0]);
+        if (null === $release) {
+            throw DependencyException::noValidRelease($vendor, $name);
+        }
+
+        return $release;
     }
 
     /**

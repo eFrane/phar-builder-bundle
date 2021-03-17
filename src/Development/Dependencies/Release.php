@@ -32,6 +32,7 @@ class Release
 
     /**
      * @param array<string,mixed> $releaseInformation
+     * @phpstan-return Release
      */
     public function __construct(string $vendor, string $name, array $releaseInformation)
     {
