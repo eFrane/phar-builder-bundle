@@ -58,10 +58,6 @@ class BoxConfigurator
         $configuration = $this->getDefaultConfiguration();
         $configurationJson = json_encode($configuration, JSON_PRETTY_PRINT);
 
-        if (!is_writable($this->configPath)) {
-            mkdir($this->configPath, 0755, true);
-        }
-
         file_put_contents($this->configPath, $configurationJson);
 
         $this->dumpStub();
