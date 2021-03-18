@@ -34,7 +34,8 @@
         "symfony/twig-bundle": "^5.1",
         "twig/twig": "^2.4|^3.0",
         "symfony/http-client": "^5.1",
-        "phar-io/version": "^3.0"
+        "phar-io/version": "^3.0",
+        "composer/semver": "^3.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.54",
