@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Config\Config;
-use phpDocumentor\Reflection\Types\True_;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
