@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Config\Config;
+use phpDocumentor\Reflection\Types\True_;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -57,6 +58,10 @@ class BoxConfigurator
     {
         $configuration = $this->getDefaultConfiguration();
         $configurationJson = json_encode($configuration, JSON_PRETTY_PRINT);
+
+        if (!is_writable($this->configPath)) {
+            mkdir($this->configPath, 0755, true);
+        }
 
         file_put_contents($this->configPath, $configurationJson);
 
