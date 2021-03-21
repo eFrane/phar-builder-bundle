@@ -91,18 +91,31 @@ final class Build implements ConfigSectionInterface
         return $this->includeDebugCommands;
     }
 
-    public function getTempPath(): string
+    public function getTempPath(string $appendPath = ''): string
     {
-        return $this->tempPath;
+        return $this->buildPath($this->tempPath, $appendPath);
     }
 
-    public function getOutputPath(): string
+    public function getOutputPath(string $appendPath = ''): string
     {
-        return $this->outputPath;
+        return $this->buildPath($this->outputPath, $appendPath);
     }
 
     public function getOutputFilename(): string
     {
         return $this->outputFilename;
+    }
+
+    private function buildPath(string $basePath, string $appendPath): string
+    {
+        if (DIRECTORY_SEPARATOR === $basePath[-1]) {
+            $basePath = substr($basePath, 0, -1);
+        }
+
+        if (DIRECTORY_SEPARATOR === $appendPath[0]) {
+            $appendPath = substr($appendPath, 1);
+        }
+
+        return sprintf('%s%s%s', $basePath, DIRECTORY_SEPARATOR, $appendPath);
     }
 }

@@ -71,9 +71,9 @@ class BoxConfigurator
         return [
             'main'        => false,
             'base-path'   => $this->basePath,
-            'output'      => $this->config->build()->getOutputPath().$this->config->build()->getOutputFilename(),
+            'output'      => $this->config->build()->getOutputPath($this->config->build()->getOutputFilename()),
             'compression' => 'GZ',
-            'stub'        => $this->config->build()->getTempPath().'stub.php',
+            'stub'        => $this->config->build()->getTempPath('stub.php'),
             'finder'      => [
                 [
                     'exclude'        => [
