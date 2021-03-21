@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Application;
 
+use EFrane\PharBuilder\Development\Process\BoxProcessProvider;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
@@ -25,10 +26,15 @@ class PharBuilder
      * @var BoxConfigurator
      */
     private $configurator;
+    /**
+     * @var BoxProcessProvider
+     */
+    private $boxProcessProvider;
 
-    public function __construct(BoxConfigurator $configurator, PharContainerBuilder $containerBuilder)
+    public function __construct(BoxConfigurator $configurator, BoxProcessProvider $boxProcessProvider, PharContainerBuilder $containerBuilder)
     {
         $this->configurator = $configurator;
+        $this->boxProcessProvider = $boxProcessProvider;
         $this->containerBuilder = $containerBuilder;
     }
 
@@ -49,7 +55,7 @@ class PharBuilder
 
         $runtimeConfig = $this->configurator->createRuntimeConfig();
 
-        $buildProcess = new Process(
+        $buildProcess = $this->boxProcessProvider->provide(
             [
                 'vendor/bin/box',
                 'compile',
