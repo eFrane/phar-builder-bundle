@@ -10,10 +10,13 @@ namespace EFrane\PharBuilder\Config\Sections;
 
 use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\Config\ConfigSectionInterface;
+use EFrane\PharBuilder\Config\Helper\HandlesCombinedPaths;
 use EFrane\PharBuilder\Exception\ConfigurationException;
 
 final class Build implements ConfigSectionInterface
 {
+    use HandlesCombinedPaths;
+
     /**
      * @var string
      */
@@ -104,18 +107,5 @@ final class Build implements ConfigSectionInterface
     public function getOutputFilename(): string
     {
         return $this->outputFilename;
-    }
-
-    private function buildPath(string $basePath, string $appendPath): string
-    {
-        if (DIRECTORY_SEPARATOR === $basePath[-1]) {
-            $basePath = substr($basePath, 0, -1);
-        }
-
-        if (DIRECTORY_SEPARATOR === $appendPath[0]) {
-            $appendPath = substr($appendPath, 1);
-        }
-
-        return sprintf('%s%s%s', $basePath, DIRECTORY_SEPARATOR, $appendPath);
     }
 }

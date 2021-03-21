@@ -9,9 +9,12 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Config\Sections;
 
 use EFrane\PharBuilder\Config\ConfigSectionInterface;
+use EFrane\PharBuilder\Config\Helper\HandlesCombinedPaths;
 
 final class Dependencies implements ConfigSectionInterface
 {
+    use HandlesCombinedPaths;
+
     /**
      * @var string
      */
@@ -33,9 +36,9 @@ final class Dependencies implements ConfigSectionInterface
         return 'dependencies';
     }
 
-    public function getStorageDir(): string
+    public function getStorageDir(string $appendPath = ''): string
     {
-        return $this->storageDir;
+        return $this->buildPath($this->storageDir, $appendPath);
     }
 
     /**
