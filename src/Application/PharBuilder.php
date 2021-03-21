@@ -10,7 +10,6 @@ namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Development\Process\BoxProcessProvider;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 /**
  * Manages refreshing the phar container and building the phar.

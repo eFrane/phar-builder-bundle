@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EFrane\PharBuilder\Config\Helper;
-
 
 trait HandlesCombinedPaths
 {

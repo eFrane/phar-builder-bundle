@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EFrane\PharBuilder\Development\Process;
-
 
 use Symfony\Component\Process\Process;
 
