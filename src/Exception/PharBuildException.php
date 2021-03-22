@@ -16,4 +16,9 @@ class PharBuildException extends RuntimeException
     {
         throw new self('Cannot prebuild container in running phar');
     }
+
+    public static function cannotDetermineBoxVersion(): self
+    {
+        throw new self('Cannot determine Box version');
+    }
 }

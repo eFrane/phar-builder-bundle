@@ -3,6 +3,7 @@
 namespace EFrane\PharBuilder\Development\Process;
 
 use EFrane\PharBuilder\Config\Config;
+use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -40,5 +41,21 @@ final class BoxProcessProvider implements ProcessProvider
             'php',
             sprintf($this->config->dependencies()->getStorageDir('box.phar')),
         ];
+    }
+
+    public function getVersion(): string
+    {
+        $process = $this->provide(['--version']);
+        $process->enableOutput();
+        $process->mustRun();
+
+        $output = $process->getOutput();
+        preg_match('/((\d+\.){2}\d+)(@[a-z0-9]{4,32})?/', $output, $matches);
+
+        if (4 !== count($matches)) {
+            throw PharBuildException::cannotDetermineBoxVersion();
+        }
+
+        return $matches[0];
     }
 }

@@ -10,6 +10,8 @@ namespace EFrane\PharBuilder\Development\Dependencies;
 
 use Composer\Semver\Comparator;
 use EFrane\PharBuilder\Config\Config;
+use EFrane\PharBuilder\Development\Process\BoxProcessProvider;
+use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DependencyManager
@@ -28,9 +30,14 @@ class DependencyManager
      * @var GitHubVersionDeterminator
      */
     private $versionDeterminator;
+    /**
+     * @var BoxProcessProvider
+     */
+    private $boxProcessProvider;
 
-    public function __construct(Config $config, Downloader $downloader, GitHubVersionDeterminator $versionDeterminator)
+    public function __construct(BoxProcessProvider $boxProcessProvider, Config $config, Downloader $downloader, GitHubVersionDeterminator $versionDeterminator)
     {
+        $this->boxProcessProvider = $boxProcessProvider;
         $this->config = $config;
         $this->downloader = $downloader;
         $this->versionDeterminator = $versionDeterminator;
@@ -106,7 +113,14 @@ class DependencyManager
 
         $hasNewerVersion = Comparator::lessThanOrEqualTo($requiredVersion, $latestRelease->getVersion());
 
-        // TODO: check the actually installed version somehow
+        try {
+            $currentVersion = $this->boxProcessProvider->getVersion();
+
+            $hasNewerVersion = Comparator::lessThan($currentVersion, $requiredVersion);
+        } catch (PharBuildException $e) {
+            // This is fine, it's highly likely that box just isn't installed yet
+        }
+
         return $hasNewerVersion;
     }
 }

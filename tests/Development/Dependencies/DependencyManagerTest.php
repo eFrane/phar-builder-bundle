@@ -14,6 +14,7 @@ use EFrane\PharBuilder\Development\Dependencies\DependencyManager;
 use EFrane\PharBuilder\Development\Dependencies\Downloader;
 use EFrane\PharBuilder\Development\Dependencies\GitHubVersionDeterminator;
 use EFrane\PharBuilder\Development\Dependencies\Release;
+use EFrane\PharBuilder\Development\Process\BoxProcessProvider;
 use EFrane\PharBuilder\Tests\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -67,7 +68,7 @@ class DependencyManagerTest extends TestCase
 
         $versionDeterminator = new GitHubVersionDeterminator($versionDeterminatorHttpClient);
 
-        $this->sut = new DependencyManager($config, $downloader, $versionDeterminator);
+        $this->sut = new DependencyManager(new BoxProcessProvider($config), $config, $downloader, $versionDeterminator);
     }
 
 //    public function testUpdateDependenciesIfNecessary(): void
