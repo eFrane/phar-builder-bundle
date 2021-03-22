@@ -56,7 +56,6 @@ class PharBuilder
 
         $buildProcess = $this->boxProcessProvider->provide(
             [
-                'vendor/bin/box',
                 'compile',
                 '-c',
                 $runtimeConfig,
