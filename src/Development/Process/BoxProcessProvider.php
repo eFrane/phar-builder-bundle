@@ -15,7 +15,7 @@ final class BoxProcessProvider implements ProcessProvider
      */
     private $config;
 
-    private function __construct(Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }

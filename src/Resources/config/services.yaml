@@ -9,6 +9,12 @@ services:
     EFrane\PharBuilder\:
         resource: '../../'
 
+    EFrane\PharBuilder\Application\PharCommandLoader:
+        lazy: true
+        public: true # must be public as it cannot be injected into PharApplication before kernel boot
+        arguments:
+            $commands: !tagged_iterator phar.command
+
     EFrane\PharBuilder\Command\:
         resource: '../../Command/*'
         tags: ['phar.command']
@@ -24,8 +30,5 @@ services:
         tags:
             - 'phar_builder.config.section'
 
-    EFrane\PharBuilder\Application\PharCommandLoader:
+    EFrane\PharBuilder\Development\Process\BoxProcessProvider:
         lazy: true
-        public: true # must be public as it cannot be injected into PharApplication before kernel boot
-        arguments:
-            $commands: !tagged_iterator phar.command
