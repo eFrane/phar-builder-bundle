@@ -113,12 +113,14 @@ class DependencyManager
 
         $hasNewerVersion = Comparator::lessThanOrEqualTo($requiredVersion, $latestRelease->getVersion());
 
-        try {
-            $currentVersion = $this->boxProcessProvider->getVersion();
+        if ('box' === $latestRelease->getName()) {
+            try {
+                $currentVersion = $this->boxProcessProvider->getVersion();
 
-            $hasNewerVersion = Comparator::lessThan($currentVersion, $requiredVersion);
-        } catch (PharBuildException $e) {
-            // This is fine, it's highly likely that box just isn't installed yet
+                $hasNewerVersion = Comparator::lessThan($currentVersion, $requiredVersion);
+            } catch (PharBuildException $e) {
+                // This is fine, it's highly likely that box just isn't installed yet
+            }
         }
 
         return $hasNewerVersion;
