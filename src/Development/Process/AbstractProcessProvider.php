@@ -6,41 +6,32 @@ use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Process\Process;
 
-/**
- * Build a command for Box with the correct location.
- */
-final class BoxProcessProvider implements ProcessProvider
+abstract class AbstractProcessProvider implements ProcessProviderInterface
 {
     /**
      * @var Config
      */
-    private $config;
+    protected $config;
 
     public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @return array<int,string>
+     */
+    abstract protected function getToolCommand(): array;
+
     public function provide(array $processArguments): Process
     {
-        $command = array_merge($this->getBoxCommand(), $processArguments);
+        $command = array_merge($this->getToolCommand(), $processArguments);
 
         $process = new Process($command);
 
         $process->setTimeout(0);
 
         return $process;
-    }
-
-    /**
-     * @return array<int,string>
-     */
-    private function getBoxCommand(): array
-    {
-        return [
-            'php',
-            sprintf($this->config->dependencies()->getStorageDir('box.phar')),
-        ];
     }
 
     public function getVersion(): string
