@@ -52,7 +52,7 @@ class DependencyManager
             return;
         }
 
-        $this->tryWriteln("Updating {$count} dependencies", $output);
+        $this->tryWriteln(sprintf('Updating %d dependenc%s', $count, (1 < $count || 0 == $count) ? 'ies' : 'y'), $output);
 
         foreach ($dependenciesToUpdate as $dependencyToUpdate) {
             $this->tryWriteln('Updating '.$dependencyToUpdate->getName(), $output);

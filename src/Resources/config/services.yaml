@@ -32,3 +32,9 @@ services:
 
     EFrane\PharBuilder\Development\Process\BoxProcessProvider:
         lazy: true
+
+    EFrane\PharBuilder\Development\Process\IdentifiableProcessProvider: ~
+
+    EFrane\PharBuilder\Development\Process\ProcessSelector:
+        arguments:
+            $providers: !tagged_iterator 'phar_builder.process_provider'
