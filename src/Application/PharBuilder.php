@@ -62,7 +62,6 @@ class PharBuilder
             ]
         );
 
-        $buildProcess->setTimeout(0);
         $buildProcess->setTty(true);
         $buildProcess->mustRun();
 

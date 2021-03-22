@@ -24,7 +24,11 @@ final class BoxProcessProvider implements ProcessProvider
     {
         $command = array_merge($this->getBoxCommand(), $processArguments);
 
-        return new Process($command);
+        $process = new Process($command);
+
+        $process->setTimeout(0);
+
+        return $process;
     }
 
     /**
