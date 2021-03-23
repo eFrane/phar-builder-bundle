@@ -52,10 +52,10 @@ class MultiDumper implements DumperInterface
     {
         $result = [];
 
-        array_map(function (array $dumper) use ($result) {
+        foreach ($this->dumpers as $dumper) {
             $dumperInstance = new $dumper['dumper']($this->containerBuilder);
             $result[$dumper['dumper']] = $dumperInstance->dump($dumper['options']);
-        }, $this->dumpers);
+        }
 
         return $result;
     }
