@@ -30,10 +30,7 @@ class PharContainerBuilder
      * @var Config
      */
     private $config;
-    /**
-     * @var PharKernel
-     */
-    private $kernel;
+
     /**
      * @var bool
      */
@@ -42,6 +39,7 @@ class PharContainerBuilder
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->debug = $config->build()->isDebug();
     }
 
     public function build(): void
@@ -58,7 +56,9 @@ class PharContainerBuilder
 
         $containerBuilder = $this->buildContainer($kernel);
 
-        $this->dumpContainer($containerBuilder, $kernel->getConfigCache($this->config->build()->isDebug()));
+        $configCache = new ConfigCache($this->config->build()->getTempPath().PharKernel::PHAR_CONTAINER_CACHE_DIR, $this->debug);
+
+        $this->dumpContainer($containerBuilder, $configCache);
     }
 
     private function buildContainer(PharKernelInterface $kernel): ContainerBuilder

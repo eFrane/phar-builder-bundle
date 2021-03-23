@@ -48,11 +48,6 @@ class BoxConfigurator
         return $this->configPath;
     }
 
-    public function getBoxPharPath(): string
-    {
-        return $this->config->dependencies()->getStorageDir().DIRECTORY_SEPARATOR.'box.phar';
-    }
-
     public function dumpConfiguration(): void
     {
         $configuration = $this->getDefaultConfiguration();
@@ -93,6 +88,9 @@ class BoxConfigurator
                         'scoper.inc.php',
                     ],
                     'followLinks'    => true,
+                    'include' => [
+                        $this->config->build()->getTempPath()
+                    ]
                 ],
             ],
             'chmod'       => '0750',
@@ -124,16 +122,17 @@ class BoxConfigurator
             $boxConfig = array_merge($boxConfig, $userBoxConfig);
         }
 
-        $tempConfig = $fs->tempnam(sys_get_temp_dir(), 'box.json');
         $json = json_encode($boxConfig, JSON_PRETTY_PRINT);
 
         if (false === $json) {
             throw new RuntimeException('Failed to dump config json');
         }
 
-        $fs->dumpFile($tempConfig, $json);
+        $runtimeBoxJson = $this->config->build()->getTempPath('box.json');
 
-        return $tempConfig;
+        $fs->dumpFile($runtimeBoxJson, $json);
+
+        return $runtimeBoxJson;
     }
 
     private function dumpStub(): void

@@ -26,7 +26,7 @@ class PharKernel extends Kernel implements PharKernelInterface
 {
     use MicroKernelTrait;
 
-    const PHAR_CONTAINER_CACHE_DIR = 'phar_container/';
+    public const PHAR_CONTAINER_CACHE_DIR = 'phar_container/';
 
     /**
      * @var bool Is the Phar currently being built
@@ -140,11 +140,7 @@ class PharKernel extends Kernel implements PharKernelInterface
 
     public function getConfigCache(bool $debug): ConfigCache
     {
-        $path = 'build'.DIRECTORY_SEPARATOR.self::PHAR_CONTAINER_CACHE_DIR;
-
-        if (Util::inPhar()) {
-            $path = Util::pharRoot().DIRECTORY_SEPARATOR.$path;
-        }
+        $path = Util::pharRoot().DIRECTORY_SEPARATOR.self::PHAR_CONTAINER_CACHE_DIR;
 
         if ($this->isInBuild()) {
             // reset pre-built container during build
