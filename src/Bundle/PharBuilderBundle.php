@@ -25,7 +25,7 @@ class PharBuilderBundle extends Bundle
         $this->configureTwig();
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->registerForAutoconfiguration(IdentifiableProcessProviderInterface::class)
             ->addTag('phar_builder.process_provider');
