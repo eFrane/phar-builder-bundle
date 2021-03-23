@@ -115,10 +115,10 @@ class Configuration implements ConfigurationInterface
                         'version' => '~3.9.1',
                     ],
                     'php-scoper' => [
-                            'vendor'  => 'humbug',
-                            'name'    => 'php-scoper',
-                            'version' => '0.13.*',
-                        ],
+                        'vendor'  => 'humbug',
+                        'name'    => 'php-scoper',
+                        'version' => '0.14.*',
+                    ],
                 ]
             )
             ->arrayPrototype()
