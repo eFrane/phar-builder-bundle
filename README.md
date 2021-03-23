@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/eFrane/phar-builder-bundle.svg?branch=master)](https://travis-ci.com/eFrane/phar-builder-bundle)
+[![Tests (PHP)](https://github.com/eFrane/phar-builder-bundle/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/eFrane/phar-builder-bundle/actions/workflows/phpunit.yml)
 
 # Phar Builder Bundle for Symfony
 
