@@ -88,9 +88,9 @@ class BoxConfigurator
                         'scoper.inc.php',
                     ],
                     'followLinks'    => true,
-                    'include' => [
-                        $this->config->build()->getTempPath()
-                    ]
+                    'include'        => [
+                        $this->config->build()->getTempPath(),
+                    ],
                 ],
             ],
             'chmod'       => '0750',

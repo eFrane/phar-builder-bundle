@@ -12,8 +12,6 @@ use EFrane\PharBuilder\Application\BoxConfigurator;
 use EFrane\PharBuilder\Application\PharBuilder;
 use EFrane\PharBuilder\Development\Dependencies\DependencyManager;
 use Exception;
-use PHPStan\Command\Output;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
