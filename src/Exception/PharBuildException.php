@@ -21,4 +21,9 @@ class PharBuildException extends RuntimeException
     {
         throw new self('Cannot determine Box version');
     }
+
+    public static function unknownToolProcessName(string $name): self
+    {
+        throw new self("Unknown process tool: {$name}.");
+    }
 }
