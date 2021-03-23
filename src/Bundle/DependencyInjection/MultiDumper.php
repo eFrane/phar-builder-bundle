@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Dumper\DumperInterface;
 class MultiDumper implements DumperInterface
 {
     /**
-     * @var array<int,array<string,mixed>>|int[]
+     * @var array<int,array<string,mixed>>
      */
     private $dumpers;
     /**
