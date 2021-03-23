@@ -10,7 +10,7 @@ namespace EFrane\PharBuilder\Development\Dependencies;
 
 use Composer\Semver\Comparator;
 use EFrane\PharBuilder\Config\Config;
-use EFrane\PharBuilder\Development\Process\BoxProcessProvider;
+use EFrane\PharBuilder\Development\Process\ProcessSelector;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,15 +31,15 @@ class DependencyManager
      */
     private $versionDeterminator;
     /**
-     * @var BoxProcessProvider
+     * @var ProcessSelector
      */
-    private $boxProcessProvider;
+    private $processSelector;
 
-    public function __construct(BoxProcessProvider $boxProcessProvider, Config $config, Downloader $downloader, GitHubVersionDeterminator $versionDeterminator)
+    public function __construct(Config $config, Downloader $downloader, GitHubVersionDeterminator $versionDeterminator, ProcessSelector $processSelector)
     {
-        $this->boxProcessProvider = $boxProcessProvider;
         $this->config = $config;
         $this->downloader = $downloader;
+        $this->processSelector = $processSelector;
         $this->versionDeterminator = $versionDeterminator;
     }
 
@@ -113,14 +113,14 @@ class DependencyManager
 
         $hasNewerVersion = Comparator::lessThanOrEqualTo($requiredVersion, $latestRelease->getVersion());
 
-        if ('box' === $latestRelease->getName()) {
-            try {
-                $currentVersion = $this->boxProcessProvider->getVersion();
+        try {
+            $processProvider = $this->processSelector->get($latestRelease->getName());
+            $currentVersion = $processProvider->getVersion();
 
-                $hasNewerVersion = Comparator::lessThan($currentVersion, $requiredVersion);
-            } catch (PharBuildException $e) {
-                // This is fine, it's highly likely that box just isn't installed yet
-            }
+            $hasNewerVersion = Comparator::greaterThan($latestRelease->getVersion(), $currentVersion);
+        } catch (PharBuildException $e) {
+            // This is fine, it's highly likely that box just isn't installed yet
+            throw $e;
         }
 
         return $hasNewerVersion;

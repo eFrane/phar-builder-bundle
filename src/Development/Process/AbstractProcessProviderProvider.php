@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EFrane\PharBuilder\Development\Process;
 
 use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Process\Process;
 
-abstract class AbstractProcessProvider implements ProcessProviderInterface
+abstract class AbstractProcessProviderProvider implements IdentifiableProcessProviderInterface
 {
     /**
      * @var Config
@@ -43,10 +45,11 @@ abstract class AbstractProcessProvider implements ProcessProviderInterface
         $output = $process->getOutput();
         preg_match('/((\d+\.){2}\d+)(@[a-z0-9]{4,32})?/', $output, $matches);
 
-        if (4 !== count($matches)) {
+        if (2 > count($matches)) {
+            // no version string could be extracted from the output
             throw PharBuildException::cannotDetermineBoxVersion();
         }
 
-        return $matches[0];
+        return $matches[1];
     }
 }

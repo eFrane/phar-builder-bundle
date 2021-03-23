@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Bundle;
 
 use EFrane\PharBuilder\Bundle\DependencyInjection\PharBuilderExtension;
+use EFrane\PharBuilder\Development\Process\IdentifiableProcessProviderInterface;
 use EFrane\PharBuilder\Exception\BundleSetupException;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -21,6 +23,12 @@ class PharBuilderBundle extends Bundle
     public function boot(): void
     {
         $this->configureTwig();
+    }
+
+    public function build(ContainerBuilder $container)
+    {
+        $container->registerForAutoconfiguration(IdentifiableProcessProviderInterface::class)
+            ->addTag('phar_builder.process_provider');
     }
 
     /**
