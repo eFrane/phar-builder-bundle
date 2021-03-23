@@ -120,7 +120,6 @@ class DependencyManager
             $hasNewerVersion = Comparator::greaterThan($latestRelease->getVersion(), $currentVersion);
         } catch (PharBuildException $e) {
             // This is fine, it's highly likely that box just isn't installed yet
-            throw $e;
         }
 
         return $hasNewerVersion;
