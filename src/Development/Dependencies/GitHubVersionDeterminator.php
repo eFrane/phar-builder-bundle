@@ -37,7 +37,13 @@ class GitHubVersionDeterminator
     public function getLatestReleaseWithPublishedAssets(string $vendor, string $name, int $retryCount = 3): Release
     {
         $release = null;
-        $releases = $this->getReleases($vendor, $name);
+
+        try {
+            $releases = $this->getReleases($vendor, $name);
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            $releases = [];
+        }
+
         $retryCount = (count($releases) < $retryCount) ? count($releases) - 1 : $retryCount;
 
         foreach ($releases as $i => $releaseInformation) {
