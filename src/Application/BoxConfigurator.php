@@ -118,7 +118,7 @@ class BoxConfigurator
     {
         $fs = new Filesystem();
 
-        $boxConfig = $this->loadConfig('box.dist.json');
+        $boxConfig = $this->loadConfig($this->configPath);
         if ($fs->exists('box.json')) {
             $userBoxConfig = $this->loadConfig('box.json');
             $boxConfig = array_merge($boxConfig, $userBoxConfig);
