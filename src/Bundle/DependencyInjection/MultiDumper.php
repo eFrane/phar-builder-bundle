@@ -46,7 +46,7 @@ class MultiDumper implements DumperInterface
     /**
      * @param array<string,mixed> $options
      *
-     * @return array<string,string|array<string,string>>
+     * @return array<int,string|mixed>
      */
     public function dump(array $options = []): array
     {
