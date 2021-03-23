@@ -11,6 +11,7 @@ namespace EFrane\PharBuilder\Development\Command;
 use EFrane\PharBuilder\Development\Dependencies\DependencyManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -29,10 +30,19 @@ abstract class DependenciesUpdatingCommand extends Command
         $this->dependencyManager = $dependencyManager;
 
         parent::__construct($name);
+
+        $this->addOption(
+            '--no-update-dependencies',
+            '',
+            InputOption::VALUE_NONE,
+            'Disable the auto-update of external bundle dependencies'
+        );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->dependencyManager->updateDependenciesIfNecessary($output);
+        if (!$input->getOption('no-update-dependencies')) {
+            $this->dependencyManager->updateDependenciesIfNecessary($output);
+        }
     }
 }
