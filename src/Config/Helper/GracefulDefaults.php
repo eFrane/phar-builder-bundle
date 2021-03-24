@@ -10,7 +10,7 @@ trait GracefulDefaults
      * Gracefully default if a non-required option is missing.
      *
      * @param array<string,mixed> $options
-     * @param mixed $default
+     * @param mixed               $default
      *
      * @return mixed
      */
@@ -23,7 +23,7 @@ trait GracefulDefaults
      * Gracefully fail with a helpful error message if a required option is not configured.
      *
      * @param array<string,mixed> $options
-     * @param string $qualifier if the option is in a section, it may be given here
+     * @param string              $qualifier if the option is in a section, it may be given here
      *
      * @return mixed
      */
