@@ -4,6 +4,7 @@ namespace EFrane\PharBuilder\Tests\Application;
 
 use EFrane\PharBuilder\Application\StubGenerator;
 use EFrane\PharBuilder\Config\Config;
+use EFrane\PharBuilder\Config\Sections\Build;
 use EFrane\PharBuilder\Tests\TestCase;
 
 class StubGeneratorTest extends TestCase
@@ -37,11 +38,15 @@ class StubGeneratorTest extends TestCase
     protected function getTestConfig(): Config
     {
         $config = new Config();
+        $config->registerSection(new Build());
 
-        $config->setConfigFromArray([
-            'application_class' => 'TestApp\ApplicationClass',
-            'phar_kernel'       => 'TestApp\PharKernel',
-        ]);
+        $config->setConfigFromArray(
+            [
+                'application_class' => 'TestApp\ApplicationClass',
+                'phar_kernel'       => 'TestApp\PharKernel',
+                'build'             => ['output_filename' => 'foo', 'output_path' => 'foo', 'temp_path' => 'foo'],
+            ]
+        );
 
         return $config;
     }
