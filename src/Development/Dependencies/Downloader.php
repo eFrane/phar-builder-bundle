@@ -43,6 +43,7 @@ class Downloader
             $data = $response->getContent(false);
 
             file_put_contents($filename, $data);
+            chmod($filename, 0755);
         }
     }
 
