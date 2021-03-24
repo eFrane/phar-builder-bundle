@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Config\Config;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Environment;
 
 /**
@@ -43,7 +42,10 @@ final class StubGenerator
     public function generate(): string
     {
         $containerPath = $this->config->build()->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);
-        $containerPath = substr($containerPath, strlen($this->projectDir) + 1);
+
+        if (0 === strpos($containerPath, $this->projectDir)) {
+            $containerPath = substr($containerPath, strlen($this->projectDir) + 1);
+        }
 
         return $this->twig->render('@PharBuilder/stub.php.twig', [
             'containerPath'    => $containerPath,
