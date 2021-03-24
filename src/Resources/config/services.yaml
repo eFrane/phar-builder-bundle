@@ -15,6 +15,10 @@ services:
         arguments:
             $commands: !tagged_iterator phar.command
 
+    EFrane\PharBuilder\Application\StubGenerator:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     EFrane\PharBuilder\Command\:
         resource: '../../Command/*'
         tags: ['phar.command']

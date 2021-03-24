@@ -22,11 +22,17 @@ final class BinProvider
      * @var string
      */
     private $applicationClass;
+    /**
+     * @var string
+     */
+    private $containerPath;
 
     public function __construct(
+        string $containerPath,
         string $kernelClass = PharKernel::class,
         string $applicationClass = PharApplication::class
     ) {
+        $this->containerPath = $containerPath;
         $this->kernelClass = $kernelClass;
         $this->applicationClass = $applicationClass;
     }
@@ -55,7 +61,7 @@ final class BinProvider
 
         (new Dotenv())->bootEnv(Util::pharRoot().'/.env');
 
-        $kernel = new $this->kernelClass('prod', false);
+        $kernel = new $this->kernelClass($this->containerPath, 'prod', false);
         $application = new $this->applicationClass($kernel);
 
         try {

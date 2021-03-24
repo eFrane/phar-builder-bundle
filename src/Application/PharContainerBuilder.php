@@ -49,14 +49,15 @@ class PharContainerBuilder
         }
 
         $kernelClass = $this->config->getPharKernel();
+        $containerPath = $this->config->build()->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);
         /** @var PharKernelInterface $kernel */
-        $kernel = new $kernelClass($this->config->build()->getEnvironment(), $this->config->build()->isDebug());
+        $kernel = new $kernelClass($containerPath, $this->config->build()->getEnvironment(), $this->config->build()->isDebug());
         $kernel->setInBuild(true);
         $kernel->boot();
 
         $containerBuilder = $this->buildContainer($kernel);
 
-        $configCache = new ConfigCache($this->config->build()->getTempPath().PharKernel::PHAR_CONTAINER_CACHE_DIR, $this->debug);
+        $configCache = new ConfigCache($containerPath, $this->debug);
 
         $this->dumpContainer($containerBuilder, $configCache);
     }

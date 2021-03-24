@@ -90,7 +90,7 @@ class BoxConfigurator
                     'followLinks'    => true,
                 ],
                 [
-                    'in' => $this->config->build()->getTempPath()
+                    'in' => $this->config->build()->getTempPath(),
                 ],
             ],
             'chmod'       => '0750',

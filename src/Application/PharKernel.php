@@ -29,9 +29,21 @@ class PharKernel extends Kernel implements PharKernelInterface
     public const PHAR_CONTAINER_CACHE_DIR = 'phar_container/';
 
     /**
+     * @var string Path to the ConfigCache of the compiled container
+     */
+    private $containerPath;
+
+    /**
      * @var bool Is the Phar currently being built
      */
     private $inBuild = false;
+
+    public function __construct(string $containerPath, string $environment, bool $debug)
+    {
+        parent::__construct($environment, $debug);
+
+        $this->containerPath = $containerPath;
+    }
 
     protected function configureContainer(ContainerConfigurator $container): void
     {
@@ -140,7 +152,7 @@ class PharKernel extends Kernel implements PharKernelInterface
 
     public function getConfigCache(bool $debug): ConfigCache
     {
-        $path = Util::pharRoot().DIRECTORY_SEPARATOR.self::PHAR_CONTAINER_CACHE_DIR;
+        $path = Util::pharRoot().DIRECTORY_SEPARATOR.$this->containerPath;
 
         if ($this->isInBuild()) {
             // reset pre-built container during build
