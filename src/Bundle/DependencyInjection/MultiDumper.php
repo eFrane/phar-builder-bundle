@@ -46,15 +46,18 @@ class MultiDumper implements DumperInterface
     /**
      * @param array<string,mixed> $options
      *
-     * @return array<int,string|mixed>
+     * @return array<string,string|mixed>
      */
     public function dump(array $options = []): array
     {
         $result = [];
 
         foreach ($this->dumpers as $dumper) {
-            $dumperInstance = new $dumper['dumper']($this->containerBuilder);
-            $result[$dumper['dumper']] = $dumperInstance->dump($dumper['options']);
+            /** @var string $dumperClass */
+            $dumperClass = $dumper['dumper'];
+
+            $dumperInstance = new $dumperClass($this->containerBuilder);
+            $result[$dumperClass] = $dumperInstance->dump($dumper['options']);
         }
 
         return $result;
