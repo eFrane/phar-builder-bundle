@@ -9,10 +9,12 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Config\Sections;
 
 use EFrane\PharBuilder\Config\ConfigSectionInterface;
+use EFrane\PharBuilder\Config\Helper\GracefulDefaults;
 use EFrane\PharBuilder\Config\Helper\HandlesCombinedPaths;
 
 final class Dependencies implements ConfigSectionInterface
 {
+    use GracefulDefaults;
     use HandlesCombinedPaths;
 
     /**
@@ -27,8 +29,8 @@ final class Dependencies implements ConfigSectionInterface
 
     public function setConfigFromArray(array $configArray): void
     {
-        $this->storageDir = $configArray['storage_dir'];
-        $this->versions = $configArray['versions'];
+        $this->storageDir = $this->required($configArray, 'storage_dir', 'dependencies');
+        $this->versions = $this->required($configArray, 'versions', 'dependencies');
     }
 
     public function getSectionName(): string

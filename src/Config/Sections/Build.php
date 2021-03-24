@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Config\Sections;
 
-use EFrane\PharBuilder\Application\Util;
 use EFrane\PharBuilder\Config\ConfigSectionInterface;
+use EFrane\PharBuilder\Config\Helper\GracefulDefaults;
 use EFrane\PharBuilder\Config\Helper\HandlesCombinedPaths;
-use EFrane\PharBuilder\Exception\ConfigurationException;
 
 final class Build implements ConfigSectionInterface
 {
+    use GracefulDefaults;
     use HandlesCombinedPaths;
 
     /**
@@ -48,25 +48,13 @@ final class Build implements ConfigSectionInterface
 
     public function setConfigFromArray(array $configArray): void
     {
-        if (!array_key_exists('output_filename', $configArray)) {
-            throw ConfigurationException::missingConfigurationValue('build.output_filename');
-        }
-
-        $this->debug = $configArray['debug'];
-        $this->dumpContainerDebugInfo = $configArray['dump_container_debug_info'];
-        $this->environment = $configArray['environment'];
-        $this->includeDebugCommands = $configArray['include_debug_commands'];
-        $this->outputPath = $configArray['output_path'];
-        $this->outputFilename = $configArray['output_filename'];
-        $this->tempPath = $configArray['temp_path'];
-
-        if (!Util::endsWith($this->outputPath, DIRECTORY_SEPARATOR)) {
-            $this->outputPath .= DIRECTORY_SEPARATOR;
-        }
-
-        if (!Util::endsWith($this->tempPath, DIRECTORY_SEPARATOR)) {
-            $this->tempPath .= DIRECTORY_SEPARATOR;
-        }
+        $this->debug = $this->default($configArray, 'debug', false);
+        $this->dumpContainerDebugInfo = $this->default($configArray, 'dump_contaienr_debug_info', false);
+        $this->environment = $this->default($configArray, 'environment', 'prod');
+        $this->includeDebugCommands = $this->default($configArray, 'include_debug_commands', false);
+        $this->outputPath = $this->required($configArray, 'output_path', 'build');
+        $this->outputFilename = $this->required($configArray, 'output_filename', 'build');
+        $this->tempPath = $this->required($configArray, 'temp_path', 'build');
     }
 
     public function getSectionName(): string

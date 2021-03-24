@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Config;
 
+use EFrane\PharBuilder\Config\Helper\GracefulDefaults;
 use EFrane\PharBuilder\Config\Sections\Build;
 use EFrane\PharBuilder\Config\Sections\Dependencies;
 use EFrane\PharBuilder\Exception\ConfigurationException;
@@ -20,6 +21,8 @@ use EFrane\PharBuilder\Exception\ConfigurationException;
  */
 final class Config implements ConfigSectionInterface, ConfigSectionContainerInterface
 {
+    use GracefulDefaults;
+
     /**
      * @var string
      */
@@ -45,8 +48,8 @@ final class Config implements ConfigSectionInterface, ConfigSectionContainerInte
 
     public function setConfigFromArray(array $configArray): void
     {
-        $this->applicationClass = $configArray['application_class'];
-        $this->pharKernel = $configArray['phar_kernel'];
+        $this->applicationClass = $this->required($configArray, 'application_class');
+        $this->pharKernel = $this->required($configArray, 'phar_kernel');
 
         $sectionConfig = array_filter($configArray, 'is_array');
 
