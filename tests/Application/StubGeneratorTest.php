@@ -18,7 +18,6 @@ class StubGeneratorTest extends TestCase
     {
         $this->sut = new StubGenerator(
             $this->getTestConfig(),
-            $this->getTwig(),
             'pro/ject/dir'
         );
     }

@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Config\Config;
-use Twig\Environment;
 
 /**
  * Generate a Phar stub invoking the Symfony Console Application with the correct config.
@@ -26,15 +25,9 @@ final class StubGenerator
      */
     private $projectDir;
 
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    public function __construct(Config $config, Environment $twig, string $projectDir)
+    public function __construct(Config $config, string $projectDir)
     {
         $this->config = $config;
-        $this->twig = $twig;
 
         $this->projectDir = $projectDir;
     }
@@ -47,10 +40,24 @@ final class StubGenerator
             $containerPath = substr($containerPath, strlen($this->projectDir) + 1);
         }
 
-        return $this->twig->render('@PharBuilder/stub.php.twig', [
-            'containerPath'    => $containerPath,
-            'kernelClass'      => $this->config->getPharKernel(),
-            'applicationClass' => $this->config->getApplicationClass(),
-        ]);
+        return <<<STUB
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+# This stub was generated with efrane/phar-builder-bundle
+
+Phar::mapPhar();
+require 'phar://'.__FILE__.'/vendor/autoload.php';
+
+\$bin = new EFrane\PharBuilder\Application\BinProvider(
+    '{$containerPath}',
+    {$this->config->getPharKernel()}::class,
+    {$this->config->getApplicationClass()}::class
+);
+
+\$bin();
+
+__HALT_COMPILER();
+STUB;
     }
 }
