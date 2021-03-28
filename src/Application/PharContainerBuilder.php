@@ -10,6 +10,7 @@ namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Bundle\DependencyInjection\Compiler\HideDefaultConsoleCommandsFromPharPass;
 use EFrane\PharBuilder\Bundle\DependencyInjection\MultiDumper;
+use EFrane\PharBuilder\Command\PharCommandInterface;
 use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Config\ConfigCache;
@@ -51,7 +52,7 @@ class PharContainerBuilder
         $kernelClass = $this->config->getPharKernel();
         $containerPath = $this->config->build()->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);
         /** @var PharKernelInterface $kernel */
-        $kernel = new $kernelClass($containerPath, $this->config->build()->getEnvironment(), $this->config->build()->isDebug());
+        $kernel = new $kernelClass($containerPath, $this->config->build()->getEnvironment(), $this->debug);
         $kernel->setInBuild(true);
         $kernel->boot();
 
@@ -112,6 +113,9 @@ class PharContainerBuilder
             new HideDefaultConsoleCommandsFromPharPass(),
             PassConfig::TYPE_BEFORE_OPTIMIZATION
         );
+
+        $containerBuilder->registerForAutoconfiguration(PharCommandInterface::class)
+            ->addTag('phar.command');
 
         /* @var Kernel $kernel */
         $containerBuilder->addCompilerPass(new AddAnnotatedClassesToCachePass($kernel));

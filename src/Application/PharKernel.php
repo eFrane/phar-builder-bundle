@@ -71,16 +71,6 @@ class PharKernel extends Kernel implements PharKernelInterface
         // Do nothing, there are no routes
     }
 
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->registerForAutoconfiguration(PharCommandInterface::class)
-            ->addTag('phar.command');
-
-        if (!$this->isDebug()) {
-            $containerBuilder->addCompilerPass(new HideDefaultConsoleCommandsFromPharPass());
-        }
-    }
-
     public function getCacheDir(): string
     {
         $runtimeDir = $this->prepareRuntimeDir();
