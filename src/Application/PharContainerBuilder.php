@@ -60,6 +60,7 @@ class PharContainerBuilder
 
         $configCache = new ConfigCache($containerPath, $this->debug);
 
+        $this->removeOldContainers($configCache);
         $this->dumpContainer($containerBuilder, $configCache);
     }
 
@@ -159,6 +160,20 @@ class PharContainerBuilder
 
             $fs->dumpFile($cache->getPath().'container.dot', $graphVizDump);
             $fs->dumpFile($cache->getPath().'container.yml', $yamlDump);
+        }
+    }
+
+    /**
+     * Unlike a normal Symfony application, Phars are always replaced as a whole,
+     * therefore there is no need to keep any previously built Containers around
+     * when a new one is built as they would just bloat the Phar without ever
+     * being accessed.
+     */
+    private function removeOldContainers(ConfigCache $configCache): void
+    {
+        $fs = new Filesystem();
+        foreach (glob($configCache->getPath().'Container*') as $oldContainer) {
+            $fs->remove($oldContainer);
         }
     }
 }
