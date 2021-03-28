@@ -8,7 +8,7 @@ use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
 use Symfony\Component\Process\Process;
 
-abstract class AbstractProcessProviderProvider implements IdentifiableProcessProviderInterface
+abstract class AbstractProcessProvider implements IdentifiableProcessProviderInterface
 {
     /**
      * @var Config

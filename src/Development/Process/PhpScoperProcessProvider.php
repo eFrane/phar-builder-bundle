@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Development\Process;
 
-final class PhpScoperProcessProvider extends AbstractProcessProviderProvider implements ProcessProviderInterface
+final class PhpScoperProcessProvider extends AbstractProcessProvider implements ProcessProviderInterface
 {
     public function getName(): string
     {

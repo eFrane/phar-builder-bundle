@@ -5,7 +5,7 @@ namespace EFrane\PharBuilder\Development\Process;
 /**
  * Build a command for Box with the correct location.
  */
-final class BoxProcessProvider extends AbstractProcessProviderProvider implements ProcessProviderInterface
+final class BoxProcessProvider extends AbstractProcessProvider implements ProcessProviderInterface
 {
     public function getName(): string
     {
