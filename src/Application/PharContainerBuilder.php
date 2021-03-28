@@ -172,7 +172,13 @@ class PharContainerBuilder
     private function removeOldContainers(ConfigCache $configCache): void
     {
         $fs = new Filesystem();
-        foreach (glob($configCache->getPath().'Container*') as $oldContainer) {
+
+        $oldContainers = glob($configCache->getPath().'Container*');
+        if (!is_array($oldContainers)) {
+            $oldContainers = [];
+        }
+
+        foreach ($oldContainers as $oldContainer) {
             $fs->remove($oldContainer);
         }
     }
