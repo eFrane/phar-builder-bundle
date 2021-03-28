@@ -6,6 +6,7 @@ namespace EFrane\PharBuilder\Development\Process;
 
 use EFrane\PharBuilder\Config\Config;
 use EFrane\PharBuilder\Exception\PharBuildException;
+use Symfony\Component\Process\Exception\ExceptionInterface;
 use Symfony\Component\Process\Process;
 
 abstract class AbstractProcessProvider implements IdentifiableProcessProviderInterface
@@ -40,7 +41,12 @@ abstract class AbstractProcessProvider implements IdentifiableProcessProviderInt
     {
         $process = $this->provide(['--version']);
         $process->enableOutput();
-        $process->mustRun();
+
+        try {
+            $process->mustRun();
+        } catch (ExceptionInterface $e) {
+            throw PharBuildException::cannotDetermineBoxVersion();
+        }
 
         $output = $process->getOutput();
         preg_match('/((\d+\.){2}\d+)(@[a-z0-9]{4,32})?/', $output, $matches);
