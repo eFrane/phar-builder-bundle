@@ -19,11 +19,6 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
-    EFrane\PharBuilder\Command\:
-        resource: '../../Command/*'
-        tags: ['phar.command']
-        lazy: true
-
     EFrane\PharBuilder\Config\Config:
         public: true # must be public as it cannot be injected into PharKernel before kernel boot
         calls:

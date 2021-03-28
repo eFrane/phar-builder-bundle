@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Bundle\DependencyInjection\Compiler\HideDefaultConsoleCommandsFromPharPass;
+use EFrane\PharBuilder\Command\PharCommandInterface;
 use EFrane\PharBuilder\Exception\PharApplicationException;
 use function is_dir;
 use function mkdir;
@@ -72,6 +73,9 @@ class PharKernel extends Kernel implements PharKernelInterface
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
+        $containerBuilder->registerForAutoconfiguration(PharCommandInterface::class)
+            ->addTag('phar.command');
+
         if (!$this->isDebug()) {
             $containerBuilder->addCompilerPass(new HideDefaultConsoleCommandsFromPharPass());
         }
