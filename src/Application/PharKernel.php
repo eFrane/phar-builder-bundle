@@ -8,15 +8,12 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Application;
 
-use EFrane\PharBuilder\Bundle\DependencyInjection\Compiler\HideDefaultConsoleCommandsFromPharPass;
-use EFrane\PharBuilder\Command\PharCommandInterface;
 use EFrane\PharBuilder\Exception\PharApplicationException;
 use function is_dir;
 use function mkdir;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\ConfigCache;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
