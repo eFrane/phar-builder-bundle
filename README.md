@@ -23,13 +23,6 @@ In `config/bundles.php`:
 EFrane\PharBuilder\Bundle\PharBuilderBundle::class => ['all' => true],
 ```
 
-## Configuration
+## Documentation
 
-Use `bin/console config:dump-reference phar_builder` to dump the reference configuration.
-Place your own in the default Symfony places or wherever you're loading configuration from.
-
-## Usage
-
-* Configure at least output path and name
-* Dump the box configuration with `bin/console phar:dump:box`
-* Build the phar with `bin/console phar:build`
+Additional documentation lives at [phar-builder.efrane.com](https://phar-builder.efrane.com/).
