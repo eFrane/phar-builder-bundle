@@ -12,7 +12,6 @@ use EFrane\PharBuilder\Application\PharCommandLoader;
 use EFrane\PharBuilder\Bundle\PharBuilderBundle;
 use Nyholm\BundleTest\AppKernel;
 use Nyholm\BundleTest\BaseBundleTestCase;
-use Symfony\Bundle\TwigBundle\TwigBundle;
 
 class PharBuilderBundleTest extends BaseBundleTestCase
 {
@@ -34,7 +33,7 @@ class PharBuilderBundleTest extends BaseBundleTestCase
     private function getBootedKernel(string $config): AppKernel
     {
         $kernel = $this->createKernel();
-        
+
         $kernel->addConfigFile(dirname(__DIR__).DIRECTORY_SEPARATOR."assets/{$config}.yml");
 
         $kernel->boot();
