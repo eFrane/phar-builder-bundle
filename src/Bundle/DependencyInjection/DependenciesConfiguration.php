@@ -26,7 +26,7 @@ class DependenciesConfiguration implements ConfigurationInterface
         $children
             ->scalarNode('storage_dir')
             ->info('The location where depedencies like humbug/box are saved to')
-            ->defaultValue($_SERVER['HOME'].'/.phar-builder');
+            ->defaultValue('%kernel.project_dir%/var/phar_builder');
 
         $versions = $children
             ->arrayNode('versions')
