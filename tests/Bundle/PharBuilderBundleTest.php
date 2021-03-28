@@ -34,8 +34,7 @@ class PharBuilderBundleTest extends BaseBundleTestCase
     private function getBootedKernel(string $config): AppKernel
     {
         $kernel = $this->createKernel();
-
-        $kernel->addBundle(TwigBundle::class);
+        
         $kernel->addConfigFile(dirname(__DIR__).DIRECTORY_SEPARATOR."assets/{$config}.yml");
 
         $kernel->boot();
