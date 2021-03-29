@@ -50,18 +50,10 @@ class BoxConfigurator
         return $this->configPath;
     }
 
-    public function dumpConfiguration(): void
-    {
-        $configuration = $this->getDefaultConfiguration();
-        $configurationJson = json_encode($configuration, JSON_PRETTY_PRINT);
-
-        file_put_contents($this->configPath, $configurationJson);
-    }
-
     /**
      * @return array<string,mixed>
      */
-    public function getDefaultConfiguration(): array
+    public function getBaseConfiguration(): array
     {
         $basePath = $this->makePathRelative($this->basePath);
         $outputFilename = $this->makePathRelative($this->config->build()->getOutputPath($this->config->build()->getOutputFilename()));
@@ -101,18 +93,6 @@ class BoxConfigurator
         ];
     }
 
-    public function hasConfigurationDiverged(): bool
-    {
-        if (!file_exists($this->configPath)) {
-            return true;
-        }
-
-        $currentConfig = $this->loadConfig($this->configPath);
-        $compareArr = array_diff_key($this->getDefaultConfiguration(), $currentConfig);
-
-        return count($compareArr) === count($currentConfig);
-    }
-
     /**
      * Merge user and system configuration for runtime.
      */
@@ -120,10 +100,11 @@ class BoxConfigurator
     {
         $fs = new Filesystem();
 
-        $boxConfig = $this->loadConfig($this->configPath);
+        $boxConfig = $this->getBaseConfiguration();
+
         if ($fs->exists('box.json')) {
             $userBoxConfig = $this->loadConfig('box.json');
-            $boxConfig = array_merge($boxConfig, $userBoxConfig);
+            $boxConfig = array_merge_recursive($boxConfig, $userBoxConfig);
         }
 
         $json = json_encode($boxConfig, JSON_PRETTY_PRINT);

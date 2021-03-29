@@ -51,10 +51,6 @@ class PharBuilder
 
     public function buildPhar(OutputInterface $output, bool $debug): void
     {
-        if ($this->configurator->hasConfigurationDiverged()) {
-            $output->writeln('<warning>Box configuration has diverged from the recommended defaults, consider running phar:dump:box again.</warning>');
-        }
-
         $output->writeln('Dumping the stub');
 
         $this->stubGenerator->dump();

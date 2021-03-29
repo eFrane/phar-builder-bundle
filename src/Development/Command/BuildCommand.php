@@ -79,26 +79,11 @@ class BuildCommand extends DependenciesUpdatingCommand
 
         $output = new SymfonyStyle($input, $output);
 
-        if ($this->boxConfigurator->hasConfigurationDiverged()) {
-            if ($input->getOption('force')) {
-                $updateResult = $this->runBoxDump($output);
-
-                if (Command::SUCCESS !== $updateResult) {
-                    return Command::FAILURE;
-                }
-            } else {
-                $output->error('Missing box.json, try running `bin/console phar:dump:box`');
-                $output->writeln("Please make sure you're running bin/console from the repo root");
-
-                return Command::FAILURE;
-            }
-        }
-
         try {
             $this->pharBuilder->buildContainer($output);
 
             if (!$input->getOption('container-only')) {
-                $this->pharBuilder->buildPhar($output, (bool)$input->getOption('debug'));
+                $this->pharBuilder->buildPhar($output, (bool) $input->getOption('debug'));
             }
         } catch (Exception $e) {
             $output->writeln($e->getMessage());
