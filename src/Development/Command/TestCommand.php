@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace EFrane\PharBuilder\Development\Command;
 
+use EFrane\PharBuilder\Config\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
+use function getcwd;
 
 /**
  * Class TestCommand.
@@ -18,6 +20,17 @@ use Symfony\Component\Process\Process;
 class TestCommand extends Command
 {
     protected static $defaultName = 'phar:test';
+    /**
+     * @var Config
+     */
+    private $config;
+
+    public function __construct(Config $config, string $name = null)
+    {
+        parent::__construct($name);
+
+        $this->config = $config;
+    }
 
     public function configure(): void
     {
@@ -39,9 +52,9 @@ class TestCommand extends Command
             'run',
             '--rm',
             '-it',
-            sprintf('-v%s/build:/build', \getcwd()),
+            sprintf('-v%s/build:/build', getcwd()),
             sprintf('php:%s-cli-alpine', $phpVersion),
-            '/build/test.phar',
+            $this->config->build()->getOutputPath($this->config->build()->getOutputFilename()),
         ];
 
         $process = new Process($cmd);
