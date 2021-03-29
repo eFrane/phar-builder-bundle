@@ -32,6 +32,18 @@ final class StubGenerator
         $this->projectDir = $projectDir;
     }
 
+    public function dump(): void
+    {
+        $stubCode = $this->generate();
+
+        file_put_contents($this->getStubPath(), $stubCode);
+    }
+
+    public function getStubPath(): string
+    {
+        return $this->config->build()->getTempPath().'stub.php';
+    }
+
     public function generate(): string
     {
         $containerPath = $this->config->build()->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);

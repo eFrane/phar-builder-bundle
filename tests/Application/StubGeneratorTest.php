@@ -49,4 +49,6 @@ class StubGeneratorTest extends TestCase
 
         return $config;
     }
+
+
 }

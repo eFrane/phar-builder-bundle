@@ -29,12 +29,17 @@ class PharBuilder
      * @var BoxProcessProvider
      */
     private $boxProcessProvider;
+    /**
+     * @var StubGenerator
+     */
+    private $stubGenerator;
 
-    public function __construct(BoxConfigurator $configurator, BoxProcessProvider $boxProcessProvider, PharContainerBuilder $containerBuilder)
+    public function __construct(BoxConfigurator $configurator, BoxProcessProvider $boxProcessProvider, PharContainerBuilder $containerBuilder, StubGenerator $stubGenerator)
     {
         $this->configurator = $configurator;
         $this->boxProcessProvider = $boxProcessProvider;
         $this->containerBuilder = $containerBuilder;
+        $this->stubGenerator = $stubGenerator;
     }
 
     public function buildContainer(OutputInterface $output): void
@@ -49,6 +54,10 @@ class PharBuilder
         if ($this->configurator->hasConfigurationDiverged()) {
             $output->writeln('<warning>Box configuration has diverged from the recommended defaults, consider running phar:dump:box again.</warning>');
         }
+
+        $output->writeln('Dumping the stub');
+
+        $this->stubGenerator->dump();
 
         $output->writeln('Running box compile');
 

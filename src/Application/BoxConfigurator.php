@@ -54,8 +54,6 @@ class BoxConfigurator
         $configurationJson = json_encode($configuration, JSON_PRETTY_PRINT);
 
         file_put_contents($this->configPath, $configurationJson);
-
-        $this->dumpStub();
     }
 
     /**
@@ -68,7 +66,7 @@ class BoxConfigurator
             'base-path'   => $this->basePath,
             'output'      => $this->config->build()->getOutputPath($this->config->build()->getOutputFilename()),
             'compression' => 'GZ',
-            'stub'        => $this->config->build()->getTempPath('stub.php'),
+            'stub'        => $this->stubGenerator->getStubPath(),
             'finder'      => [
                 [
                     'exclude'        => [
@@ -133,18 +131,6 @@ class BoxConfigurator
         $fs->dumpFile($runtimeBoxJson, $json);
 
         return $runtimeBoxJson;
-    }
-
-    private function dumpStub(): void
-    {
-        $stubCode = $this->stubGenerator->generate();
-
-        file_put_contents($this->getStubPath(), $stubCode);
-    }
-
-    private function getStubPath(): string
-    {
-        return $this->config->build()->getTempPath().'stub.php';
     }
 
     /**
