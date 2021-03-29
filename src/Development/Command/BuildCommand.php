@@ -98,7 +98,7 @@ class BuildCommand extends DependenciesUpdatingCommand
             $this->pharBuilder->buildContainer($output);
 
             if (!$input->getOption('container-only')) {
-                $this->pharBuilder->buildPhar($output, $input->getOption('debug'));
+                $this->pharBuilder->buildPhar($output, (bool)$input->getOption('debug'));
             }
         } catch (Exception $e) {
             $output->writeln($e->getMessage());
