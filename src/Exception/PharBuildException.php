@@ -26,4 +26,9 @@ class PharBuildException extends RuntimeException
     {
         throw new self("Unknown process tool: {$name}.");
     }
+
+    public static function cannotDetermineRuntimeDir(): self
+    {
+        throw new self('Cannot determine runtime directory');
+    }
 }

@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Config\Config;
+use EFrane\PharBuilder\Exception\PharBuildException;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Webmozart\PathUtil\Path;
 
 class BoxConfigurator
 {
@@ -61,12 +63,16 @@ class BoxConfigurator
      */
     public function getDefaultConfiguration(): array
     {
+        $basePath = $this->makePathRelative($this->basePath);
+        $outputFilename = $this->makePathRelative($this->config->build()->getOutputPath($this->config->build()->getOutputFilename()));
+        $stubPath = $this->makePathRelative($this->stubGenerator->getStubPath());
+        $containerBuildPath = $this->makePathRelative($this->config->build()->getTempPath());
+
         return [
             'main'        => false,
-            'base-path'   => $this->basePath,
-            'output'      => $this->config->build()->getOutputPath($this->config->build()->getOutputFilename()),
-            'compression' => 'GZ',
-            'stub'        => $this->stubGenerator->getStubPath(),
+            'base-path'   => $basePath,
+            'output'      => $outputFilename,
+            'stub'        => $stubPath,
             'finder'      => [
                 [
                     'exclude'        => [
@@ -88,7 +94,7 @@ class BoxConfigurator
                     'followLinks'    => true,
                 ],
                 [
-                    'in' => $this->config->build()->getTempPath(),
+                    'in' => $containerBuildPath,
                 ],
             ],
             'chmod'       => '0750',
@@ -149,5 +155,23 @@ class BoxConfigurator
         }
 
         return json_decode($config, true);
+    }
+
+    private function makePathRelative(string $path): string
+    {
+        $cwd = getcwd();
+        if (!is_string($cwd)) {
+            throw PharBuildException::cannotDetermineRuntimeDir();
+        }
+
+        if (Path::isBasePath($cwd, $path)) {
+            $path = Path::makeRelative($path, $cwd);
+        }
+
+        if ('' === $path) {
+            $path = '.';
+        }
+
+        return $path;
     }
 }
