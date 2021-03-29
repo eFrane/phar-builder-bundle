@@ -10,6 +10,7 @@ namespace EFrane\PharBuilder\Application;
 
 use EFrane\PharBuilder\Development\Process\BoxProcessProvider;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Terminal;
 
 /**
  * Manages refreshing the phar container and building the phar.
@@ -44,7 +45,7 @@ class PharBuilder
         $this->containerBuilder->build();
     }
 
-    public function buildPhar(OutputInterface $output): void
+    public function buildPhar(OutputInterface $output, bool $debug): void
     {
         if ($this->configurator->hasConfigurationDiverged()) {
             $output->writeln('<warning>Box configuration has diverged from the recommended defaults, consider running phar:dump:box again.</warning>');
@@ -62,7 +63,10 @@ class PharBuilder
             ]
         );
 
-        $buildProcess->setTty(true);
+        if ($debug) {
+            $buildProcess->setTty(true);
+        }
+
         $buildProcess->mustRun();
 
         unlink($runtimeConfig);

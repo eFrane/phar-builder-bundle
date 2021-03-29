@@ -56,6 +56,13 @@ class BuildCommand extends DependenciesUpdatingCommand
         );
 
         $this->addOption(
+            'debug',
+            '',
+            InputOption::VALUE_NONE,
+            'Debug build, enables the output from box'
+        );
+
+        $this->addOption(
             'force',
             'f',
             InputOption::VALUE_NONE,
@@ -91,7 +98,7 @@ class BuildCommand extends DependenciesUpdatingCommand
             $this->pharBuilder->buildContainer($output);
 
             if (!$input->getOption('container-only')) {
-                $this->pharBuilder->buildPhar($output);
+                $this->pharBuilder->buildPhar($output, $input->getOption('debug'));
             }
         } catch (Exception $e) {
             $output->writeln($e->getMessage());
