@@ -59,6 +59,7 @@ declare(strict_types=1);
 # This stub was generated with efrane/phar-builder-bundle
 
 Phar::mapPhar();
+require 'phar://'.__FILE__.'/.box/bin/check-requirements.php';
 require 'phar://'.__FILE__.'/vendor/autoload.php';
 
 \$bin = new EFrane\PharBuilder\Application\BinProvider(
