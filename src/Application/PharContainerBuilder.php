@@ -101,6 +101,10 @@ class PharContainerBuilder
             $extensions[] = $extension->getAlias();
         }
 
+        $kernelBuildMethod = $kernelReflection->getMethod('build');
+        $kernelBuildMethod->setAccessible(true);
+        $kernelBuildMethod->invoke($kernel, $containerBuilder);
+
         $containerBuilder->getCompilerPassConfig()
             ->setMergePass(new MergeExtensionConfigurationPass($extensions));
 
