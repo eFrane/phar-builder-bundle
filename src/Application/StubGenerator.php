@@ -64,7 +64,7 @@ require 'phar://'.__FILE__.'/vendor/autoload.php';
 
 \$bin = new EFrane\PharBuilder\Application\BinProvider(
     '{$containerPath}',
-    {$this->config->getPharKernel()}::class,
+    {$this->config->getKernelClass()}::class,
     {$this->config->getApplicationClass()}::class
 );
 

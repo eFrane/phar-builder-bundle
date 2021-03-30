@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
             ->info('The application class');
         $children->append($applicationClassDefinition);
 
-        $pharKernelDefinition = (new ScalarNodeDefinition('phar_kernel'))
+        $pharKernelDefinition = (new ScalarNodeDefinition('kernel_class'))
             ->defaultValue(PharKernel::class)
             ->info('The kernel used by the phar application');
         $children->append($pharKernelDefinition);

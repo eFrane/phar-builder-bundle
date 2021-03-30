@@ -42,7 +42,7 @@ class StubGeneratorTest extends TestCase
         $config->setConfigFromArray(
             [
                 'application_class' => 'TestApp\ApplicationClass',
-                'phar_kernel'       => 'TestApp\PharKernel',
+                'kernel_class'       => 'TestApp\PharKernel',
                 'build'             => ['output_filename' => 'foo', 'output_path' => 'foo', 'temp_path' => 'foo'],
             ]
         );

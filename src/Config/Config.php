@@ -36,20 +36,20 @@ final class Config implements ConfigSectionInterface, ConfigSectionContainerInte
     /**
      * @var string
      */
-    private $pharKernel;
+    private $kernelClass;
 
     public function __construct()
     {
         $this->sections = [];
 
-        $this->pharKernel = '';
+        $this->kernelClass = '';
         $this->applicationClass = '';
     }
 
     public function setConfigFromArray(array $configArray): void
     {
         $this->applicationClass = $this->required($configArray, 'application_class');
-        $this->pharKernel = $this->required($configArray, 'phar_kernel');
+        $this->kernelClass = $this->required($configArray, 'kernel_class');
 
         $sectionConfig = array_filter($configArray, 'is_array');
 
@@ -75,9 +75,9 @@ final class Config implements ConfigSectionInterface, ConfigSectionContainerInte
         return 'root';
     }
 
-    public function getPharKernel(): string
+    public function getKernelClass(): string
     {
-        return $this->pharKernel;
+        return $this->kernelClass;
     }
 
     /**

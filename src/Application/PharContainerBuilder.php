@@ -49,7 +49,7 @@ class PharContainerBuilder
             throw PharBuildException::runningPhar();
         }
 
-        $kernelClass = $this->config->getPharKernel();
+        $kernelClass = $this->config->getKernelClass();
         $containerPath = $this->config->build()->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);
         /** @var PharKernelInterface $kernel */
         $kernel = new $kernelClass($containerPath, $this->config->build()->getEnvironment(), $this->debug);

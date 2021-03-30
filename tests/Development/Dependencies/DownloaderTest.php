@@ -24,7 +24,7 @@ class DownloaderTest extends TestCase
 
         $configData = [
             'application_class' => 'TestApp\ApplicationClass',
-            'phar_kernel'       => 'TestApp\PharKernel',
+            'kernel_class'       => 'TestApp\PharKernel',
             'dependencies'      => [
                 'storage_dir' => $tempDir,
                 'versions'    => [

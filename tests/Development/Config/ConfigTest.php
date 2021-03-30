@@ -26,7 +26,7 @@ class ConfigTest extends TestCase
         self::assertInstanceOf(Config::class, $config);
         self::assertCount(0, $this->getPropertyValue($config, 'sections'));
         self::assertEquals('root', $config->getSectionName());
-        self::assertEmpty($config->getPharKernel());
+        self::assertEmpty($config->getKernelClass());
         self::assertEmpty($config->getApplicationClass());
     }
 
@@ -37,7 +37,7 @@ class ConfigTest extends TestCase
         $config->setConfigFromArray($this->getBaseConfigData());
 
         self::assertEquals('Phar\Application', $config->getApplicationClass());
-        self::assertEquals('Kernel\Class', $config->getPharKernel());
+        self::assertEquals('Kernel\Class', $config->getKernelClass());
     }
 
     public function testRegistersSection(): void
@@ -155,7 +155,7 @@ class ConfigTest extends TestCase
     {
         return [
             'application_class' => 'Phar\Application',
-            'phar_kernel'       => 'Kernel\Class',
+            'kernel_class'       => 'Kernel\Class',
         ];
     }
 
