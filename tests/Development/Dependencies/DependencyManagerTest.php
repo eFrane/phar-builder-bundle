@@ -36,9 +36,9 @@ class DependencyManagerTest extends TestCase
         $this->tempDir = sys_get_temp_dir();
 
         $configData = [
-            'application_class' => 'TestApp\ApplicationClass',
+            'application_class'  => 'TestApp\ApplicationClass',
             'kernel_class'       => 'TestApp\PharKernel',
-            'dependencies'      => [
+            'dependencies'       => [
                 'storage_dir' => $this->tempDir,
                 'versions'    => [
                     'flarb' => [

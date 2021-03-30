@@ -154,7 +154,7 @@ class ConfigTest extends TestCase
     private function getBaseConfigData(): array
     {
         return [
-            'application_class' => 'Phar\Application',
+            'application_class'  => 'Phar\Application',
             'kernel_class'       => 'Kernel\Class',
         ];
     }
