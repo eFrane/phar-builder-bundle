@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Development\Command;
 
 use EFrane\PharBuilder\Config\Config;
+use function getcwd;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
-use function getcwd;
 
 /**
  * Class TestCommand.
