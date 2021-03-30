@@ -49,7 +49,7 @@ final class Build implements ConfigSectionInterface
     public function setConfigFromArray(array $configArray): void
     {
         $this->debug = $this->default($configArray, 'debug', false);
-        $this->dumpContainerDebugInfo = $this->default($configArray, 'dump_contaienr_debug_info', false);
+        $this->dumpContainerDebugInfo = $this->default($configArray, 'dump_container_debug_info', false);
         $this->environment = $this->default($configArray, 'environment', 'prod');
         $this->includeDebugCommands = $this->default($configArray, 'include_debug_commands', false);
         $this->outputPath = $this->required($configArray, 'output_path', 'build');
