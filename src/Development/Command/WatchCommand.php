@@ -41,7 +41,7 @@ use Yosymfony\ResourceWatcher\ResourceWatcher;
 
 \$finder = new Finder();
 \$finder->files()
-    ->name('*.php')
+    ->name(['*.php', '*.yaml', '*.yml')
     ->in('$cwd');
 
 \$hashContent = new Crc32ContentHash();
