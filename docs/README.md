@@ -5,6 +5,8 @@ built with the Symfony Framework. It internally uses [Box](https://github.com/bo
 the actual Phar stuff and is in effect not much more than a fancy Symfony integration for this 
 wonderful tool.
 
+_This Bundle supports **Symfony &geq; 5.1** and **PHP &geq; 7.3**_
+
 ::: warning
 Currently only CLI applications are supported. It is however planned to support both CLI and Web-facing
 applications once this bundle reaches v1.0.
@@ -97,7 +99,7 @@ is a build step and a run step. This bundle aims to make the transition from the
 we're used to as PHP Developers to this other style of working as smooth as possible. To that end
 the commands `phar:build` and `phar:watch` are provided. 
 
-### Developing with `phar:build`:
+### Developing with `phar:build`
 
 To build the Phar with the current configuration, simply run
 
@@ -112,7 +114,7 @@ the dependencies after the first run by using
 $ php bin/console phar:build --no-update-dependencies
 ```
 
-### Developing with `phar:watch`:
+### Developing with `phar:watch`
 
 ::: warning
 The watch command is a recent addition and may not work well yet in all circumstances.
@@ -133,21 +135,8 @@ You cannot start out with using `phar:watch` on a newly setup system as it runs
 the builds without updating the dependencies. Always run a normal `phar:build` first.
 :::
 
-## Behind the Scenes
+## Learn More
 
-::: warning
-_This section is far from finished._
-:::
-
-```mermaid
-sequenceDiagram
-  participant D as Dev
-  participant S as Application Console
-  participant P as Phar
-  participant G as GitHub
-
-  D->>S: php bin/console phar:build
-  S->>G: Check dependencies like box and the php-scoper
-  G->>S: Download external tools if necessary 
-```
-
+* [Customize the Application and Kernel](./kernel.md)
+* [Enable debugging features](./debugging.md)
+* [How does it work behind the scenes?](./behind-the-scenes.md)
