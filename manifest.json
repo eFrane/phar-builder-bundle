@@ -1,9 +1,0 @@
-{
-  "bundles": {
-    "EFrane\\PharBuilder\\Bundle\\PharBuilderBundle": ["all"]
-  },
-  "composer-scripts": {
-    "composer bin box install": "php-script",
-    "composer bin php-scoper install": "php-script"
-  }
-}
