@@ -1,5 +1,5 @@
-next
-====
+0.4.0 / 2021-03-31
+==================
 
 * **BC BREAK**: Renamed the configuration parameter `phar_kernel` to `kernel_class`
 * Fix debug outputs
