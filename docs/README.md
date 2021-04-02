@@ -114,6 +114,9 @@ the dependencies after the first run by using
 $ php bin/console phar:build --no-update-dependencies
 ```
 
+Remember that you need to rebuild the Phar after **every** change in the code if you want
+to test that change.
+
 ### Developing with `phar:watch`
 
 ::: warning
