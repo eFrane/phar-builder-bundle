@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EFrane\PharBuilder\Application;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -55,5 +56,12 @@ class PharApplication extends Application
         $commandLoader = $container->get(PharCommandLoader::class);
 
         $this->addCommands($commandLoader->getCommands());
+    }
+
+    public static function setupWorkingDirectory(): string
+    {
+        $input = new ArgvInput();
+
+        return (string) $input->getParameterOption(['--cwd', '-C'], getcwd(), true);
     }
 }

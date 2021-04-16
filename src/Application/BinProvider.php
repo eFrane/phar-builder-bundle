@@ -15,11 +15,11 @@ use Symfony\Component\Dotenv\Dotenv;
 final class BinProvider
 {
     /**
-     * @var string
+     * @var string|class-string|PharKernel
      */
     private $kernelClass;
     /**
-     * @var string
+     * @var string|class-string|PharApplication
      */
     private $applicationClass;
     /**
@@ -45,9 +45,7 @@ final class BinProvider
 
         set_time_limit(0);
 
-        $input = new ArgvInput();
-
-        $workingDirectory = (string) $input->getParameterOption(['--cwd', '-C'], getcwd(), true);
+        $workingDirectory = $this->applicationClass::setupWorkingDirectory();
 
         if (is_dir($workingDirectory)) {
             chdir($workingDirectory);
@@ -65,7 +63,7 @@ final class BinProvider
         $application = new $this->applicationClass($kernel);
 
         try {
-            return $application->run($input);
+            return $application->run(new ArgvInput());
         } catch (Exception $e) {
             return 1;
         }
