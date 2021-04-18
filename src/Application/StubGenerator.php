@@ -52,6 +52,8 @@ final class StubGenerator
             $containerPath = substr($containerPath, strlen($this->projectDir) + 1);
         }
 
+        $debug = $this->config->build()->isDebug() ? 'true' : 'false';
+
         return <<<STUB
 #!/usr/bin/env php
 <?php
@@ -65,7 +67,8 @@ require 'phar://'.__FILE__.'/vendor/autoload.php';
 \$bin = new EFrane\PharBuilder\Application\BinProvider(
     '{$containerPath}',
     {$this->config->getKernelClass()}::class,
-    {$this->config->getApplicationClass()}::class
+    {$this->config->getApplicationClass()}::class,
+    {$debug}
 );
 
 \$bin();
