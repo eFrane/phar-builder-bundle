@@ -1,3 +1,8 @@
+0.5 / 2021-04-22
+==================
+
+* Allow re-configuration of the working directory
+
 0.4.0 / 2021-03-31
 ==================
 
