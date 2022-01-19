@@ -1,6 +1,6 @@
 # Symfony PharBuilder Bundle
 
-The PharBuilder Bundle for [Symfony](https://symfony.com) can help you develop and maintain Phars
+The PharBuilder Bundle for [Symfony](https://symfony.com) can help you develop and maintain [Phars][phar-doc]
 built with the Symfony Framework. It internally uses [Box](https://github.com/box-project/box) to handle 
 the actual Phar stuff and is in effect not much more than a fancy Symfony integration for this 
 wonderful tool.
@@ -143,3 +143,5 @@ the builds without updating the dependencies. Always run a normal `phar:build` f
 * [Customize the Application and Kernel](./kernel.md)
 * [Enable debugging features](./debugging.md)
 * [How does it work behind the scenes?](./behind-the-scenes.md)
+
+[phar-doc]: https://www.php.net/manual/en/intro.phar.php
