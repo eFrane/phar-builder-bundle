@@ -26,12 +26,12 @@
         "ext-json": "*",
         "ext-spl": "*",
 
-        "symfony/console": "^5.1",
-        "symfony/dotenv": "^5.1",
-        "symfony/framework-bundle": "^5.1",
-        "symfony/http-kernel": "^5.1",
-        "symfony/process": "^5.1",
-        "symfony/http-client": "^5.1",
+        "symfony/console": "^5.0|^6.0",
+        "symfony/dotenv": "^5.0|^6.0",
+        "symfony/framework-bundle": "^5.0|^6.0",
+        "symfony/http-kernel": "^5.0|^6.0",
+        "symfony/process": "^5.0|^6.0",
+        "symfony/http-client": "^5.0|^6.0",
         "phar-io/version": "^3.0",
         "composer/semver": "^3.2",
         "webmozart/path-util": "^2.3",
@@ -42,6 +42,6 @@
         "phpunit/phpunit": "^9.4",
         "friendsofphp/php-cs-fixer": "^2.16",
         "matthiasnoback/symfony-dependency-injection-test": "^4.2",
-        "nyholm/symfony-bundle-test": "^1.6"
+        "nyholm/symfony-bundle-test": "1.8.1"
     }
 }

@@ -21,7 +21,7 @@ class PharBuilderBundle extends Bundle
             ->addTag('phar_builder.process_provider');
     }
 
-    protected function getContainerExtensionClass()
+    protected function getContainerExtensionClass(): string
     {
         return PharBuilderExtension::class;
     }
