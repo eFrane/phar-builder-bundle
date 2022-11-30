@@ -117,27 +117,6 @@ $ php bin/console phar:build --no-update-dependencies
 Remember that you need to rebuild the Phar after **every** change in the code if you want
 to test that change.
 
-### Developing with `phar:watch`
-
-::: warning
-The watch command is a recent addition and may not work well yet in all circumstances.
-:::
-
-As going through the motions of the above described manual development cycle can
-become quite tedious, a simpler alternative is offered:
-
-```bash
-$ php bin/console phar:watch
-```
-
-Will watch for changes in PHP and Yaml files and trigger a build if necessary.
-Note that, to save on resources, the change check is only done every ten seconds.
-
-::: tip
-You cannot start out with using `phar:watch` on a newly setup system as it runs
-the builds without updating the dependencies. Always run a normal `phar:build` first.
-:::
-
 ## Learn More
 
 * [Customize the Application and Kernel](./kernel.md)
