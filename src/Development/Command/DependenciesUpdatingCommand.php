@@ -25,23 +25,27 @@ abstract class DependenciesUpdatingCommand extends Command
      */
     private $dependencyManager;
 
-    public function __construct(DependencyManager $dependencyManager, string $name = null)
-    {
+    public function __construct(
+        DependencyManager $dependencyManager,
+        ?string $name = null,
+    ) {
         $this->dependencyManager = $dependencyManager;
 
         parent::__construct($name);
 
         $this->addOption(
-            '--no-update-dependencies',
-            '',
+            "--no-update-dependencies",
+            "",
             InputOption::VALUE_NONE,
-            'Disable the auto-update of external bundle dependencies'
+            "Disable the auto-update of external bundle dependencies",
         );
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        if (!$input->getOption('no-update-dependencies')) {
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output,
+    ): void {
+        if (!$input->getOption("no-update-dependencies")) {
             $this->dependencyManager->updateDependenciesIfNecessary($output);
         }
     }

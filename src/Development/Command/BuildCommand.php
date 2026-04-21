@@ -21,7 +21,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BuildCommand extends DependenciesUpdatingCommand
 {
-    protected static $defaultName = 'phar:build';
+    protected static $defaultName = "phar:build";
 
     /**
      * @var PharBuilder
@@ -36,7 +36,7 @@ class BuildCommand extends DependenciesUpdatingCommand
         BoxConfigurator $boxConfigurator,
         DependencyManager $dependencyManager,
         PharBuilder $pharBuilder,
-        string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($dependencyManager, $name);
 
@@ -46,34 +46,35 @@ class BuildCommand extends DependenciesUpdatingCommand
 
     public function configure(): void
     {
-        $this->setDescription('Build the phar');
+        $this->setDescription("Build the phar");
 
         $this->addOption(
-            'container-only',
-            'C',
+            "container-only",
+            "C",
             InputOption::VALUE_NONE,
-            'Only build the application container'
+            "Only build the application container",
         );
 
         $this->addOption(
-            'debug',
-            '',
+            "debug",
+            "",
             InputOption::VALUE_NONE,
-            'Debug build, enables the output from box'
+            "Debug build, enables the output from box",
         );
 
         $this->addOption(
-            'force',
-            'f',
+            "force",
+            "f",
             InputOption::VALUE_NONE,
-            'Force the build, i.e. force (re-)dumping the box config if required'
+            "Force the build, i.e. force (re-)dumping the box config if required",
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output,
+    ): int {
         $errorReporting = error_reporting();
-        error_reporting(E_ALL | E_STRICT);
 
         $retVal = Command::SUCCESS;
 
@@ -82,8 +83,11 @@ class BuildCommand extends DependenciesUpdatingCommand
         try {
             $this->pharBuilder->buildContainer($output);
 
-            if (!$input->getOption('container-only')) {
-                $this->pharBuilder->buildPhar($output, (bool) $input->getOption('debug'));
+            if (!$input->getOption("container-only")) {
+                $this->pharBuilder->buildPhar(
+                    $output,
+                    (bool) $input->getOption("debug"),
+                );
             }
         } catch (Exception $e) {
             $output->writeln($e->getMessage());
@@ -100,7 +104,7 @@ class BuildCommand extends DependenciesUpdatingCommand
     {
         $application = null;
         if (null !== $this->getApplication()) {
-            $dumpCommand = $this->getApplication()->get('phar:dump:box');
+            $dumpCommand = $this->getApplication()->get("phar:dump:box");
 
             return $dumpCommand->run(new ArgvInput([]), $output);
         }

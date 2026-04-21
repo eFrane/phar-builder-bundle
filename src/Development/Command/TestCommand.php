@@ -19,13 +19,13 @@ use Symfony\Component\Process\Process;
  */
 class TestCommand extends Command
 {
-    protected static $defaultName = 'phar:test';
+    protected static $defaultName = "phar:test";
     /**
      * @var Config
      */
     private $config;
 
-    public function __construct(Config $config, string $name = null)
+    public function __construct(Config $config, ?string $name = null)
     {
         parent::__construct($name);
 
@@ -34,27 +34,29 @@ class TestCommand extends Command
 
     public function configure(): void
     {
-        $this->setDescription('Test run wrapper for different PHP Versions');
+        $this->setDescription("Test run wrapper for different PHP Versions");
 
         $this->addArgument(
-            'php_version',
+            "php_version",
             InputArgument::REQUIRED,
-            'The PHP Version to test with'
+            "The PHP Version to test with",
         );
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $phpVersion = strval($input->getArgument('php_version'));
+        $phpVersion = strval($input->getArgument("php_version"));
 
         $cmd = [
-            'docker',
-            'run',
-            '--rm',
-            '-it',
-            sprintf('-v%s/build:/build', getcwd()),
-            sprintf('php:%s-cli-alpine', $phpVersion),
-            $this->config->build()->getOutputPath($this->config->build()->getOutputFilename()),
+            "docker",
+            "run",
+            "--rm",
+            "-it",
+            sprintf("-v%s/build:/build", getcwd()),
+            sprintf("php:%s-cli-alpine", $phpVersion),
+            $this->config
+                ->build()
+                ->getOutputPath($this->config->build()->getOutputFilename()),
         ];
 
         $process = new Process($cmd);
@@ -63,6 +65,8 @@ class TestCommand extends Command
 
         $process->run();
 
-        return is_int($process->getExitCode()) ? $process->getExitCode() : self::FAILURE;
+        return is_int($process->getExitCode())
+            ? $process->getExitCode()
+            : self::FAILURE;
     }
 }

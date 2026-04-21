@@ -50,9 +50,15 @@ class PharContainerBuilder
         }
 
         $kernelClass = $this->config->getKernelClass();
-        $containerPath = $this->config->build()->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);
+        $containerPath = $this->config
+            ->build()
+            ->getTempPath(PharKernel::PHAR_CONTAINER_CACHE_DIR);
         /** @var PharKernelInterface $kernel */
-        $kernel = new $kernelClass($containerPath, $this->config->build()->getEnvironment(), $this->debug);
+        $kernel = new $kernelClass(
+            $containerPath,
+            $this->config->build()->getEnvironment(),
+            $this->debug,
+        );
         $kernel->setInBuild(true);
         $kernel->boot();
 
@@ -64,8 +70,9 @@ class PharContainerBuilder
         $this->dumpContainer($containerBuilder, $configCache);
     }
 
-    private function buildContainer(PharKernelInterface $kernel): ContainerBuilder
-    {
+    private function buildContainer(
+        PharKernelInterface $kernel,
+    ): ContainerBuilder {
         $containerBuilder = new ContainerBuilder();
 
         $containerBuilder->addObjectResource($kernel);
@@ -73,13 +80,15 @@ class PharContainerBuilder
         // I know, dirty, some kernel methods really should be public methinks
         $kernelReflection = new \ReflectionClass($kernel);
 
-        $parametersMethod = $kernelReflection->getMethod('getKernelParameters');
+        $parametersMethod = $kernelReflection->getMethod("getKernelParameters");
         $parametersMethod->setAccessible(true);
         $kernelParameters = $parametersMethod->invoke($kernel);
 
         // Inside the phar, the project dir is the root dir of the phar, which, in relative terms,
         // is the current directory, since the bootstrap script determines the root
-        $kernelParameters['kernel.project_dir'] = '.';
+        $kernelParameters["kernel.project_dir"] = ".";
+
+        $containerBuilder->setParameter("container.runtime_mode", "web=0");
         $containerBuilder->getParameterBag()->add($kernelParameters);
 
         foreach ($kernel->getBundles() as $bundle) {
@@ -101,49 +110,57 @@ class PharContainerBuilder
             $extensions[] = $extension->getAlias();
         }
 
-        $kernelBuildMethod = $kernelReflection->getMethod('build');
+        $kernelBuildMethod = $kernelReflection->getMethod("build");
         $kernelBuildMethod->setAccessible(true);
         $kernelBuildMethod->invoke($kernel, $containerBuilder);
 
-        $containerBuilder->getCompilerPassConfig()
+        $containerBuilder
+            ->getCompilerPassConfig()
             ->setMergePass(new MergeExtensionConfigurationPass($extensions));
 
-        $containerLoaderMethod = $kernelReflection->getMethod('getContainerLoader');
+        $containerLoaderMethod = $kernelReflection->getMethod(
+            "getContainerLoader",
+        );
         $containerLoaderMethod->setAccessible(true);
-        $containerLoader = $containerLoaderMethod->invoke($kernel, $containerBuilder);
+        $containerLoader = $containerLoaderMethod->invoke(
+            $kernel,
+            $containerBuilder,
+        );
 
         $kernel->registerContainerConfiguration($containerLoader);
 
         $containerBuilder->addCompilerPass(
             new HideDefaultConsoleCommandsFromPharPass(),
-            PassConfig::TYPE_BEFORE_OPTIMIZATION
+            PassConfig::TYPE_BEFORE_OPTIMIZATION,
         );
 
-        $containerBuilder->registerForAutoconfiguration(PharCommandInterface::class)
-            ->addTag('phar.command');
+        $containerBuilder
+            ->registerForAutoconfiguration(PharCommandInterface::class)
+            ->addTag("phar.command");
 
         /* @var Kernel $kernel */
-        $containerBuilder->addCompilerPass(new AddAnnotatedClassesToCachePass($kernel));
+        $containerBuilder->addCompilerPass(
+            new AddAnnotatedClassesToCachePass($kernel),
+        );
 
         $containerBuilder->compile(true);
 
         return $containerBuilder;
     }
 
-    private function dumpContainer(ContainerBuilder $containerBuilder, ConfigCache $cache): void
-    {
+    private function dumpContainer(
+        ContainerBuilder $containerBuilder,
+        ConfigCache $cache,
+    ): void {
         $dumper = new MultiDumper($containerBuilder);
 
-        $dumper
-            ->add(PhpDumper::class, [
-                'as_files' => true,
-                'debug'    => $this->debug,
-            ]);
+        $dumper->add(PhpDumper::class, [
+            "as_files" => true,
+            "debug" => $this->debug,
+        ]);
 
         if ($this->config->build()->dumpContainerDebugInfo()) {
-            $dumper
-                ->add(GraphvizDumper::class)
-                ->add(YamlDumper::class);
+            $dumper->add(GraphvizDumper::class)->add(YamlDumper::class);
         }
 
         $compiledContainer = $dumper->dump();
@@ -153,7 +170,7 @@ class PharContainerBuilder
         /** @var array<string,string> $phpDump */
         $phpDump = $compiledContainer[PhpDumper::class];
         foreach ($phpDump as $filename => $content) {
-            $fs->dumpFile($cache->getPath().$filename, $content);
+            $fs->dumpFile($cache->getPath() . $filename, $content);
         }
 
         if ($this->config->build()->dumpContainerDebugInfo()) {
@@ -162,8 +179,8 @@ class PharContainerBuilder
             /** @var string $yamlDump */
             $yamlDump = $compiledContainer[YamlDumper::class];
 
-            $fs->dumpFile($cache->getPath().'container.dot', $graphVizDump);
-            $fs->dumpFile($cache->getPath().'container.yml', $yamlDump);
+            $fs->dumpFile($cache->getPath() . "container.dot", $graphVizDump);
+            $fs->dumpFile($cache->getPath() . "container.yml", $yamlDump);
         }
     }
 
@@ -177,7 +194,7 @@ class PharContainerBuilder
     {
         $fs = new Filesystem();
 
-        $oldContainers = glob($configCache->getPath().'Container*');
+        $oldContainers = glob($configCache->getPath() . "Container*");
         if (!is_array($oldContainers)) {
             $oldContainers = [];
         }
